@@ -10,22 +10,22 @@
         $confirmation_pw = $_POST['confirmation_pw'];
 
         if (empty($mail) and empty($mot_de_passe)){
-            echo "<script> alert('Vous ne pouvez pas vous inscrire sans information 😡') </script>";
+            $_SESSION['error_message'] = "Vous ne pouvez pas vous inscrire sans information 😡";
         } 
         elseif (empty($mail) or empty($mot_de_passe)){
-            echo "Il manque un ou plusieurs élement(s) nécessaires à l'inscription. <br>";
+            $_SESSION['error_message'] = "Il manque un ou plusieurs élement(s) nécessaires à l'inscription.";
         }
 
 
         if (!preg_match("/^.{8,}$/", $mot_de_passe)){
-            echo "Le mot de passe doit faire au minimum 8 caractères. <br>";
+            $_SESSION['error_message'] = "Le mot de passe doit faire au minimum 8 caractères. <br>";
         }
         elseif (!preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*\W)(?=.*[0-9]).{8,}$/", $mot_de_passe)) {
-            echo "Le mot de passe doit contenir au moins une majuscule, une minuscule, un caractère spécial, et un chiffre en + 8 caractères. (ça fait beaucoup) <br>";
+            $_SESSION['error_message'] = "Le mot de passe doit contenir au moins une majuscule, une minuscule, un caractère spécial, et un chiffre en + 8 caractères. (ça fait beaucoup) <br>";
         }
 
         elseif (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-            echo "L'e-mail est invalide. <br>";
+            $_SESSION['error_message'] = "L'e-mail est invalide. <br>";
         }
         
         $servername = "localhost"; // Nom du serveur où se trouve la base de données
@@ -50,8 +50,23 @@
             
         $_SESSION['id_utilisateur'] = $id_utilisateur;
 
+        // Envoi de l'e-mail de validation
+        $to = $mail;
+        $subject = "Validation de votre inscription sur LeSuperCoin";
+        $message = "Bonjour " . $pseudo . ",\n\nMerci de vous être inscrit sur LeSuperCoin !\n\n" . $id_utilisateur . "&hash=" . md5($mail) . "\n\nCordialement,\nL'équipe de LeSuperCoin";
+        $headers = "From: Gorimfanboy2002@gmail.com" . "\r\n" .
+                "Reply-To: noreply@example.com" . "\r\n" .
+                "X-Mailer: PHP/" . phpversion();
+
+        //vérification si tout est bon
+        if (mail($to, $subject, $message, $headers)) {
+            echo "Un e-mail de validation a été envoyé à votre adresse e-mail. Veuillez cliquer sur le lien de validation pour activer votre compte.";
+        } else {
+            echo "Erreur lors de l'envoi de l'e-mail de validation.";
+        }
+
         header('Location: ./Captcha.php');
-            exit; 
+         exit; 
         
     }  
     

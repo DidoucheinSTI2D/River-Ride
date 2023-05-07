@@ -1,36 +1,28 @@
 <?php
+
+    // Démarrage de la session
+    session_start();
     $servername = "localhost"; // Nom du serveur où se trouve la base de données
     $username = "root"; // Nom d'utilisateur pour accéder à la base de données
     $password = ""; // Mot de passe pour accéder à la base de données
     $dbname = "mastertheweb"; // Nom de la base de données
 
-    
     // Crée une connexion
     $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-      die("Erreur de connexion à la base de données : " . $conn->connect_error);
-    }
 
+    $email = $_POST['e-mail'];
+    $passworduser = $_POST['Mot_de_passe'];
+    $sql = "SELECT `Droits` FROM `utilisateur` WHERE `e-mail` = '$email' AND `Mot_de_passe` = '$passworduser'    ";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    $droits = $row['Droits'];
 
-
-    // Démarrer la session
-    session_start();
-
-    
-    function checkAdminAccess() {
-      // Vérifier si l'utilisateur est connecté
-      if (!isset($_SESSION['id_Utilisateur'])) {
-        header("Location: ../connect.php");
-        exit();
-      }
-      
-      // Vérifier si l'utilisateur a le droit admin
-      if ($_SESSION['Droits'] !== 'admin') {
-        header("Location: ./reject.php");
-        exit();
-      } else {
-        header("Location: ./backoffice.php");
-        exit();
-      }
+    // Vérifier si l'utilisateur a le droit admin
+    if ($droits == 'admin') {
+      header("Location: ./backoffice.php");
+      exit();
+    } else {
+      header("Location: ./reject.php");
+      exit();
     }
 ?>

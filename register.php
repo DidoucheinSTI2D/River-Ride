@@ -42,6 +42,9 @@
             <div class="form-outline mb-4 text-center">
             <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary"> Confirmer votre inscription </button>
             </div>
+            <?php if (isset($_SESSION['error_message'])) { ?>
+            <div class="alert alert-danger"><?php echo $_SESSION['error_message']; ?></div>
+            <?php } ?>
             </form>
         </div>
     </div>

@@ -33,12 +33,18 @@
         <input type="password" name="Mot_de_passe" class="form-control" placeholder="Mot de passe" />
       </div>
 
+
+
+      <!-- 2 column grid layout -->
       <div class="row mb-4">
         <div class="col-md-6 d-flex justify-content-center">
+          <!-- Checkbox -->
           <div class="form-check mb-3 mb-md-0">
           <a href="./forgotpw.php">Mot de passe oublié</a>
           </div>
         </div>
+
+
         <div class="col-md-6 d-flex justify-content-center">
           <a href="./register.php">S'inscrire !</a>
         </div>
@@ -47,7 +53,6 @@
       <!-- Submit button -->
       <button type="submit" class="btn btn-primary btn-block mb-4">Se connecter</button>
     </form>
-    
   </div>
 </div>
   </main>
@@ -55,6 +60,6 @@
     <footer>
         <?php include "./component/footer.php"; ?>
     </footer>
-    
+
 </body>
 </html>
