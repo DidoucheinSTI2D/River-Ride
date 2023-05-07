@@ -50,7 +50,7 @@
             
         $_SESSION['id_utilisateur'] = $id_utilisateur;
 
-        header('Location: ./index.php');
+        header('Location: ./Captcha.php');
             exit; 
         
     }  

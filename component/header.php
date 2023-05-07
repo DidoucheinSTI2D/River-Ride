@@ -34,7 +34,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
             
                 <ul class="nav col-md-6 justify-content-end list-unstyled d-flex align-items-center">
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-dark"> LeSuPerisien </a>
+                        <a href="./LeSuPerisien.php" class="nav-link text-dark"> LeSuPerisien </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link text-dark"> Blog </a>
