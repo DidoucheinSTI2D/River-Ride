@@ -69,7 +69,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Journal` (
   `id_Journal` INT NOT NULL AUTO_INCREMENT,
   `Titre` VARCHAR(100) NOT NULL,
-  `date_création` INT NOT NULL,
+  `date_création` DATE NOT NULL,
   `Contenu` TEXT(2500) NOT NULL,
   `Catégorie` VARCHAR(45) NOT NULL,
   `Utilisateur_id_Utilisateur` INT NOT NULL,
