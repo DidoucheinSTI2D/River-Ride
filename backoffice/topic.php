@@ -66,7 +66,9 @@
                 <li><a href="./settings.php">Paramètres</a></li>
             </ul>
         </div>
+        <h3>Topics</h3>
         <?php
+            
             function modifier_topic($id_topic, $nouveau_titre, $nouveau_contenu) {
                 global $conn;
 
@@ -100,19 +102,41 @@
                 }                
             }
         ?>
-        <h3>Topics</h3>
-        <p>Contenu de l'onglet Topics.</p>
+
+        <?php
+            // Affichage des topics
+            $sql = "SELECT * FROM `topic`";
+
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+            // Récupération des données de l'utilisateur
+            $user = $result->fetch_assoc();
+            echo '<p>Gestion des topics :</p>';
+            echo '<table class="table table-condensed table-striped">';
+            echo '<tr> <th> Id </th> <th> Id Créateur </th> <th> Date de création </th> </tr>';
+            // Affichage des informations de l'utilisateur
+            while ($row = $result->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td>' .$row["id_Topic"]. '</td>';
+                echo "<td>" .$row["Id_créateur"]. "</td>";
+                echo "<td>" .$row["Date_création"]. "</td>";
+                echo "<td> <a class='badge badge-danger' href='delete.php?id=" . $row["id_Utilisateur"] . "'>Supprimer</a> </td>";
+                echo '</tr>';
+            }
+            } else {
+            echo "Aucun topic trouvé.";
+            }
+
+            $conn->close();
+        ?>
         <form method="POST">
-            <label for="id">ID du topic à modifier:</label>
-            <input type="text" name="id" required>
-            <br>
-            <label for="title">Titre:</label>
-            <input type="text" name="title">
-            <br>
-            <label for="content">Contenu:</label>
-            <textarea name="content"></textarea>
-            <br>
-            <button type="submit" name="updateTopic">Modifier</button>
+            <label for="iduser">Id topic:</label> <input type="text" name="idtopic" required>
+            <label for="username">Id créateur:</label> <input type="text" name="idcréateur" required>
+            <label for="password">Date de création:</label> <input type="date" name="créationdate" required>
+            <button type="submit" name="addUser">Ajouter</button>
+            <button type="submit" name="exp">Modifier</button>
+            <button type="submit" name="deleteUser">Supprimer</button>
         </form>
     </div>
 </body>

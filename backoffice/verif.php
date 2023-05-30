@@ -12,7 +12,7 @@
 
     $email = $_POST['e-mail'];
     $passworduser = $_POST['Mot_de_passe'];
-    $sql = "SELECT `Droits` FROM `utilisateur` WHERE `e-mail` = '$email' AND `Mot_de_passe` = '$passworduser'    ";
+    $sql = "SELECT `Droits` FROM `utilisateur` WHERE `e-mail` = '$email' AND `Mot_de_passe` = '$passworduser'	";
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
     $droits = $row['Droits'];

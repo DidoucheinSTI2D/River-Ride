@@ -47,7 +47,7 @@
             <h3>le nombre d'utilisateurs</h3>
             <p>
                 <?php
-                $sql = "SELECT COUNT(*) AS nb FROM utilisateur";
+                $sql = "SELECT COUNT(*) AS nb FROM `utilisateur`";
                 $result = $conn->query($sql);
                 $row = $result->fetch_assoc();
                 echo $row['nb'];

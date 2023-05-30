@@ -66,74 +66,83 @@
                 <li><a href="./settings.php">Paramètres</a></li>
             </ul>
         </div>
-        <div>
-        <h3>Utilisateurs</h3>
-        <?php
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addUser"])) {
-            $iduser = $_POST["id_Utilisateur"];
-            $username = $_POST["Pseudo"];
-            $password = $_POST["mot_de_passe"];
-            $droits = $_POST["Droits"];
-            $email = $_POST["e-mail"];
-            $birthdate = $_POST["date_de_naissance"];
-            $sql = "INSERT INTO `utilisateur` (`Id_utilisateur`, `Pseudo`, `Droits`, `e-mail`, `mot_de_passe`, `date_de_naissance`) VALUES ($iduser, $username, $droits, $email, $password, $birthdate);";        
-            $conn = new mysqli("$servername", "$username", "$password", "$dbname");
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-            if ($conn->query($sql) === TRUE) {
-                echo "Utilisateur ajouté avec succès.";
-            } else {
-                echo "Erreur lors de l'ajout de l'utilisateur: " . $conn->error;
-            }
-            $conn->close();
-            }
-        ?>
+        <div class="main-content">
+            <h3>Utilisateurs</h3>
+            <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addUser"])) {
+                $servername = "localhost"; // Nom du serveur où se trouve la base de données
+                $name = "root"; // Nom d'utilisateur pour accéder à la base de données
+                $password = ""; // Mot de passe pour accéder à la base de données
+                $dbname = "mastertheweb"; // Nom de la base de données
+                $pseudo = $_POST["pseudo"];
+                $userpassword = $_POST["mot_de_passe"];
+                $droits = $_POST["droits"];
+                $email = $_POST["email"];
+                $birthdate = $_POST["date_de_naissance"];
+                $sql = "INSERT INTO `utilisateur` (`Pseudo`, `Droits`, `e-mail`, `mot_de_passe`, `date_de_naissance`) VALUES '$iduser', '$pseudo', '$droits', '$email', '$userpassword', '$birthdate')";
+                if ($conn->query($sql) === TRUE) {
+                    echo "Utilisateur ajouté avec succès.";
+                } else {
+                    echo "Erreur lors de l'ajout de l'utilisateur: " . $conn->error;
+                }
+                }
+            ?>
 
-        <?php
-            // Requête SQL pour récupérer les informations de l'utilisateur
-            $sql = "SELECT * FROM `utilisateur`";
+            <?php
+                // Requête SQL pour récupérer les informations de l'utilisateur
+                $sql = "SELECT * FROM `utilisateur` ORDER BY `id_Utilisateur` ASC";
+                $result = $conn->query($sql);
 
-            $result = $conn->query($sql);
+                if (isset($_GET['delete'])) {
+                    $delete = $_GET['delete'];
+                    $sql = "DELETE FROM `utilisateur` WHERE `id_Utilisateur` = $delete";
+                    $result = $conn->query($sql);
+                }
 
-            if ($result->num_rows > 0) {
-            // Récupération des données de l'utilisateur
-            $user = $result->fetch_assoc();
-            echo '<p>Gestion des utilisateurs :</p>';
-            echo '<table class="table table-condensed table-striped">';
-            echo '<tr> <th> Id </th> <th> Pseudo </th> <th> Email </th> <th> Date de naissance </th> <th> Droits </th> <th> Supprimer </th> </tr>';
-            // Affichage des informations de l'utilisateur
-            while ($row = $result->fetch_assoc()) {
-                echo '<tr>';
-                echo '<td>' .$row["id_Utilisateur"]. '</td>';
-                echo "<td>" .$row["Pseudo"]. "</td>";
-                echo "<td>" .$row["e-mail"]. "</td>";
-                echo "<td> " . $row["date_de_naissance"] . "</td>";
-                echo "<td>" .$row["Droits"]. "</td>";
-                echo "<td> <a class='badge badge-danger' href='delete.php?id=" . $row["id_Utilisateur"] . "'>Supprimer</a> </td>";
-                echo '</tr>';
-            }
-            } else {
-            echo "Aucun utilisateur trouvé.";
-            }
+		if (isset($_GET['isban'])) {
+		    $isban = $_GET['isban'];
+		    $sql = "UPDATE `utilisateur` SET `isban` = 'true' WHERE `id_Utilisateur` = $isban";
+		    $result = $conn->query($sql);
+		}
 
-            $conn->close();
-        ?>
-        <form method="POST">
-            <label for="iduser">Id:</label> <input type="text" name="username" required>
-            <label for="username">Pseudo:</label> <input type="text" name="username" required>
-            <label for="password">Mot de passe:</label> <input type="password" name="password" required>
-            <label for="email">Email:</label> <input type="email" name="email" required>
-            <label for="birthdate">Date de naissance:</label> <input type="date" name="birthdate" required>
-            <label for="droits">Droits:</label>
-            <select name="droits" id="droits">
-            <option value="admin">Admin</option>
-            <option value="user">Users</option>
-            </select>
-            <button type="submit" name="addUser">Ajouter</button>
-            <button type="submit" name="exp">Modifier</button>
-            <button type="submit" name="deleteUser">Supprimer</button>
-        </form>
+                if ($result->num_rows > 0) {
+                // Récupération des données de l'utilisateur
+                $user = $result->fetch_assoc();
+                echo '<p>Gestion des utilisateurs :</p>';
+                echo '<table class="table table-condensed table-striped">';
+                echo '<tr> <th> Id </th> <th> Pseudo </th> <th> Email </th> <th> Date de naissance </th> <th> Droits </th> <th> Banni? </th> <th> Supprimer </th> <th> Bannir </th> </tr>';
+                // Affichage des informations de l'utilisateur
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>';
+                    echo '<td>' .$row["id_Utilisateur"]. '</td>';
+                    echo "<td>" .$row["Pseudo"]. "</td>";
+                    echo "<td>" .$row["e-mail"]. "</td>";
+                    echo "<td> " . $row["date_de_naissance"] . "</td>";
+                    echo "<td>" .$row["Droits"]. "</td>";
+		    echo "<td>" .$row["Isban]. "</td>";
+                    echo "<td> <a class='badge badge-danger' href='?delete='" . $row["id_Utilisateur"] . "'>Supprimer</a> </td>";
+		    echo "<td> <a class='badge badge-warning' href='?isban='" . $row["id_Utilisateur"] . "'>Bannir</a> </td>";
+                    echo '</tr>';
+                }
+                } else {
+                echo "Aucun utilisateur trouvé.";
+                }
+
+                $conn->close();
+            ?>
+            <form method="POST">
+                <label for="pseudo">Pseudo:</label> <input type="text" name="pseudo" required>
+                <label for="mot_de_passe">Mot de passe:</label> <input type="password" name="mot_de_passe" required>
+                <label for="email">Email:</label> <input type="email" name="email" required>
+                <label for="date_de_naissance">Date de naissance:</label> <input type="date" name="date_de_naissance" required>
+                <label for="droits">Droits:</label>
+                <select name="droits" id="droits">
+                <option value="admin">Admin</option>
+                <option value="user">Users</option>
+                </select>
+                <button type="submit" name="addUser">Ajouter</button>
+                <button type="submit" name="exp">Modifier</button>
+            </form>
         </div>
     </div>
   </body>
