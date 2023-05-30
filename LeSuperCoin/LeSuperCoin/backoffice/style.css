@@ -1,0 +1,162 @@
+img {
+  max-width: 100%;
+  height: auto;
+}
+#logo {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  display: block;
+}
+#pp {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  display: block;
+}
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.header {
+  justify-content: space-between;
+  align-items: center;
+  background-color: yellow;
+  padding: 10px;
+  display: flex;
+}
+.column-left {
+  flex: 0 0 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+}
+#left {
+  position: fixed;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  width: 200px;
+  background-color: rgb(150, 150, 150);
+  border-right: 5px solid rgb(50, 50, 50);
+  padding: 10px;
+}
+.main-content {
+  flex: 1;
+  max-width: 800px;
+  padding: 20px;
+}
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+.tab button:hover {
+  background-color: #ddd;
+}
+.tab button.active {
+  background-color: #ccc;
+}
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+}
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.logout-button {
+  background-color: orange;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.logout-button:hover {
+  background-color: #ff8c00;
+}
+.user-info span {
+  font-weight: bold;
+}
+.user-info span:first-child {
+  margin-right: 10px;
+}
+.user-info span:last-child {
+  margin-left: 10px;
+}
+.user-info span:nth-child(2) {
+  color: blue;
+}
+@media only screen and (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+  .column-left {
+    flex: 0 0 200px;
+    position: relative;
+    overflow-y: auto;
+  }
+  .main-content {
+    flex: 1;
+    max-width: 800px;
+    padding: 20px;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .container {
+    flex-direction: row;
+  }
+  .column-left {
+    flex: 0 0 200px;
+    position: relative;
+    overflow-y: auto;
+  }
+  .main-content {
+    flex: 1;
+    max-width: 800px;
+    padding: 20px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .container {
+    flex-direction: row;
+  }
+  .column-left {
+    flex: 0 0 200px;
+    position: relative;
+    overflow-y: auto;
+  }
+  .main-content {
+    flex: 1;
+    max-width: 800px;
+    padding: 20px;
+  }
+}
