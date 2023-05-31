@@ -79,7 +79,7 @@
                 $droits = $_POST["droits"];
                 $email = $_POST["email"];
                 $birthdate = $_POST["date_de_naissance"];
-                $sql = "INSERT INTO `utilisateur` (`Pseudo`, `Droits`, `e-mail`, `mot_de_passe`, `date_de_naissance`) VALUES '$iduser', '$pseudo', '$droits', '$email', '$userpassword', '$birthdate')";
+                $sql = "INSERT INTO `utilisateur` (`Pseudo`, `Droits`, `e-mail`, `mot_de_passe`, `date_de_naissance`) VALUES ('$pseudo', '$droits', '$email', '$userpassword', '$birthdate')";
                 if ($conn->query($sql) === TRUE) {
                     echo "Utilisateur ajouté avec succès.";
                 } else {
@@ -119,9 +119,9 @@
                     echo "<td>" .$row["e-mail"]. "</td>";
                     echo "<td> " . $row["date_de_naissance"] . "</td>";
                     echo "<td>" .$row["Droits"]. "</td>";
-		    echo "<td>" .$row["Isban]. "</td>";
+		            echo "<td>" .$row["Isban"]. "</td>";
                     echo "<td> <a class='badge badge-danger' href='?delete='" . $row["id_Utilisateur"] . "'>Supprimer</a> </td>";
-		    echo "<td> <a class='badge badge-warning' href='?isban='" . $row["id_Utilisateur"] . "'>Bannir</a> </td>";
+		            echo "<td> <a class='badge badge-warning' href='?isban='" . $row["id_Utilisateur"] . "'>Bannir</a> </td>";
                     echo '</tr>';
                 }
                 } else {
