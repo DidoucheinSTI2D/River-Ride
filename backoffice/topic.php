@@ -14,7 +14,6 @@
     $password = ""; // Mot de passe pour accéder à la base de données
     $dbname = "mastertheweb"; // Nom de la base de données
     
-    // Crée une connexion
     $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
       die("Erreur de connexion à la base de données : " . $conn->connect_error);
@@ -66,78 +65,94 @@
                 <li><a href="./settings.php">Paramètres</a></li>
             </ul>
         </div>
-        <h3>Topics</h3>
-        <?php
-            
-            function modifier_topic($id_topic, $nouveau_titre, $nouveau_contenu) {
+        <div class="main-content">
+            <h3>Topics</h3>
+            <?php
+            function ajouter_topic($id_topic, $date_creation, $contenu, $createur) {
                 global $conn;
-
-                $stmt = $conn->prepare("UPDATE Topic SET titre = ?, contenu = ? WHERE id_topic = ?");
+                $stmt = $conn->prepare("INSERT INTO topic (id_Topic, Date_création, Contenu, Utilisateur_id_Utilisateur) VALUES (?, ?, ?, ?)");
 
                 if (!$stmt) {
                     die("Erreur de préparation de la requête : " . $conn->error);
                 }
-
-                $stmt->bind_param("ssi", $nouveau_titre, $nouveau_contenu, $id_topic);
+                $stmt->bind_param("isss", $id_topic, $date_creation, $contenu, $createur);
 
                 if (!$stmt->execute()) {
                     die("Erreur d'exécution de la requête : " . $stmt->error);
                 }
-
                 $stmt->close();
-
-                if (isset($_POST['updateTopic'])) {
-                $id_topic = $_POST['id_Topic'];
-                $id_createur = $_POST['Id_créateur'];
-                $createdate = $_POST['Date_création'];
-                $useriduser = $_POST['Utilisateur_id_Utilisateur'];
-                $commentidcomment = $_POST['Commentaires_id_Commentaires'];
-                $sql = "UPDATE `topics` SET `Id_Topic` = '$id', `Id_créateur` = '$title', `Date_création` = '$date', `Utilisateur_id_Utilisateur` = '$useriduser', `Commentaires_id_Commentaires` = '$commentidcomment' WHERE `topics`.`Id_Topic` = $id;";
-
-                if ($conn->query($sql) === TRUE) {
-                    echo "Super Topic modifié avec succès !";
-                } else {
-                    echo "Erreur lors de la modification du SuperTopic: " . $conn->error;
-                }
-                }                
             }
-        ?>
 
-        <?php
+            function supprimer_topic($id_topic) {
+                global $conn;
+                $stmt = $conn->prepare("DELETE FROM topic WHERE id_Topic = ?");
+
+                if (!$stmt) {
+                    die("Erreur de préparation de la requête : " . $conn->error);
+                }
+                $stmt->bind_param("i", $id_topic);
+
+                if (!$stmt->execute()) {
+                    die("Erreur d'exécution de la requête : " . $stmt->error);
+                }
+                $stmt->close();
+            }
+
+            if (isset($_POST['addTopic'])) {
+                $id_topic = $_POST['id_topic'];
+                $date_creation = $_POST['date_creation'];
+                $contenu = $_POST['contenu'];
+                $createur = $_POST['createur'];
+                ajouter_topic($id_topic, $date_creation, $contenu, $createur);
+                echo "Topic ajouté avec succès !";
+            }            
+
+            if (isset($_POST['deleteTopic'])) {
+                $id_topic = $_POST['id_topic'];
+                supprimer_topic($id_topic);
+                echo "Topic supprimé avec succès !";
+            }
+            ?>
+            <?php
             // Affichage des topics
-            $sql = "SELECT * FROM `topic`";
+            $sql = "SELECT * FROM topic";
 
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
-            // Récupération des données de l'utilisateur
-            $user = $result->fetch_assoc();
-            echo '<p>Gestion des topics :</p>';
-            echo '<table class="table table-condensed table-striped">';
-            echo '<tr> <th> Id </th> <th> Id Créateur </th> <th> Date de création </th> </tr>';
-            // Affichage des informations de l'utilisateur
-            while ($row = $result->fetch_assoc()) {
-                echo '<tr>';
-                echo '<td>' .$row["id_Topic"]. '</td>';
-                echo "<td>" .$row["Id_créateur"]. "</td>";
-                echo "<td>" .$row["Date_création"]. "</td>";
-                echo "<td> <a class='badge badge-danger' href='delete.php?id=" . $row["id_Utilisateur"] . "'>Supprimer</a> </td>";
-                echo '</tr>';
-            }
+                echo '<p>Gestion des topics :</p>';
+                echo '<table class="table table-condensed table-striped">';
+                echo '<tr> <th> Id </th> <th> Date de création </th> <th> Contenu </th> <th> Utilisateur </th> <th> Modifier </th> <th> Supprimer </th> </tr>';
+                // Affichage des informations des topics
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>';
+                    echo '<td>' .$row["id_Topic"]. '</td>';
+                    echo "<td>" .$row["Date_création"]. "</td>";
+                    echo "<td>" .$row["Contenu"]. "</td>";
+                    echo "<td>" .$row["Utilisateur_id_Utilisateur"]. "</td>";
+                    echo "<td> <a class='badge badge-warning' href='update.php?id=" . $row["id_Topic"] . "'>Modifier</a> </td>";
+                    echo "<td> <a class='badge badge-danger' href='delete.php?id=" . $row["id_Topic"] . "'>Supprimer</a> </td>";
+                    echo '</tr>';
+                }
+                echo '</table>';
             } else {
-            echo "Aucun topic trouvé.";
+                echo "Aucun topic trouvé.";
             }
 
             $conn->close();
-        ?>
-        <form method="POST">
-            <label for="iduser">Id topic:</label> <input type="text" name="idtopic" required>
-            <label for="username">Id créateur:</label> <input type="text" name="idcréateur" required>
-            <label for="password">Date de création:</label> <input type="date" name="créationdate" required>
-            <button type="submit" name="addUser">Ajouter</button>
-            <button type="submit" name="exp">Modifier</button>
-            <button type="submit" name="deleteUser">Supprimer</button>
-        </form>
+            ?>
+            <form method="POST">
+                <label for="id_topic">ID du topic:</label> <input type="text" name="id_topic" required>
+                <label for="date_creation">Date de création:</label> <input type="date" name="date_creation" required>
+                <label for="contenu">Contenu:</label> <input type="text" name="contenu" required>     
+                <label for="createur">Id Créateur:</label> <input type="text" name="createur" required>
+                <button type="submit" name="addTopic">Ajouter Topic</button>
+            </form>
+            <form method="POST">
+                <label for="id_topic">ID du Topic:</label> <input type="text" name="id_topic" required>
+                <button type="submit" name="deleteTopic">Supprimer Topic</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

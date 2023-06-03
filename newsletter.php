@@ -13,7 +13,6 @@
         require './phpmailer.php';    
         ?>
     </header>
-    <!---->
     <main class="container">
     <h2>Inscription à la newsletter</h2>
     <form action="./register.php" method="post">
@@ -26,7 +25,6 @@
         <input type="submit" value="S'inscrire">
     </form>
     </main>
-    <!---->
     <footer>
         <?php include "./component/footer.php"; ?>
     </footer>

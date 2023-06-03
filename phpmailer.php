@@ -7,14 +7,14 @@ $mail = new PHPMailer(true);
 
 try {
     $mail->isSMTP();
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Remplacez 2 par SMTP::DEBUG_SERVER pour un débogage plus détaillé
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     $mail->Host = 'smtp.gmail.com';
     $mail->Port = 587;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->SMTPAuth = true;
-    $mail->Username = 'your_email@gmail.com'; // Remplacez par votre adresse e-mail Gmail
-    $mail->Password = 'your_password'; // Remplacez par votre mot de passe Gmail
-    $mail->setFrom('support@lesupercoin.com', 'Le SuperCoin');
+    $mail->Username = 'help.lesupercoin@gmail.com';
+    $mail->Password = 'T1K1t@k@';
+    $mail->setFrom('help.lesupercoin@gmail.com', 'Le SuperCoin');
     $mail->addAddress($usermail, 'Le SuperCoin');
     $mail->Subject = 'Merci pour votre inscription à la Super newsletter !';
     $mail->Body = 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet';
