@@ -1,9 +1,4 @@
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////// NE PAS TOUCHER A CE CODE LE TEMPS JE RESOUS LE PROBLEME ///////////////////////////////////////////////////////
-//////////////////////////////////////////////// - Mehdi ///////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,12 +20,11 @@
 
 
 <div class="tab-content">
-  <div class="tab-pane fade show active">
   <form method="POST" action="./component/register_rules.php">
+  <div class="tab-pane fade show active">
       <div class="text-center mb-3">
       <div id="email">
-  <p>Merci de nous communiquer votre adresse email :</p>
-  <form method="POST" action="./component/register_rules.php">
+    <p>Merci de nous communiquer votre adresse email :</p>
     <div class="form-outline mb-4">
       <input type="email" name="email" class="form-control" placeholder="Votre adresse email" required />
     </div>
@@ -72,7 +66,7 @@
           <!-- Checkbox -->
           <div class="form-check mb-3 mb-md-0">
             <input class="form-check-input" type="checkbox" value="" id="loginCheck" checked />
-            <label class="form-check-label" for="loginCheck"> Remember me </label>
+            <label class="form-check-label" for="loginCheck"> J'accepte les Conditions d'Utilisations</label>
           </div>
         </div>
 
