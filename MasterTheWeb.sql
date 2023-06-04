@@ -50,8 +50,9 @@ CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Utilisateur` (
   `Pseudo` VARCHAR(30) NOT NULL,
   `Droits` VARCHAR(5) NOT NULL,
   `e-mail` VARCHAR(45) NOT NULL,
-  `Mot_de_passe` VARCHAR(45) NOT NULL,
+  `Mot_de_passe` VARCHAR(60) NOT NULL,
   `date_de_naissance` DATE NOT NULL,
+  `last_login` DATE NOT NULL,
   PRIMARY KEY (`id_Utilisateur`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -62,8 +63,9 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Topic` (
   `id_Topic` INT(11) NOT NULL AUTO_INCREMENT,
-  `Date_création` DATE NOT NULL,
-  `Contenu` TEXT NOT NULL,
+  `titre` VARCHAR(60) NOT NULL,
+  `date_création` DATE NOT NULL,
+  `contenu` TEXT NOT NULL,
   `Utilisateur_id_Utilisateur` INT(11) NOT NULL,
   PRIMARY KEY (`id_Topic`),
   INDEX `fk_Topic_Utilisateur1_idx` (`Utilisateur_id_Utilisateur` ASC) ,
