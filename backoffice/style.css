@@ -160,3 +160,8 @@ body {
     padding: 20px;
   }
 }
+.droppable {
+  border: 2px dashed #aaa;
+  padding: 10px;
+  text-align: center;
+}
