@@ -79,7 +79,7 @@
                 $droits = $_POST["droits"];
                 $email = $_POST["email"];
                 $birthdate = $_POST["date_de_naissance"];
-                $sql = "INSERT INTO `utilisateur` (`Pseudo`, `Droits`, `e-mail`, `mot_de_passe`, `date_de_naissance`) VALUES ('$pseudo', '$droits', '$email', '$userpassword', '$birthdate')";
+                $sql = "INSERT INTO `utilisateur` (`Pseudo`, `Droits`, `e-mail`, `mot_de_passe`, `date_de_naissance`) VALUES '$iduser', '$pseudo', '$droits', '$email', '$userpassword', '$birthdate')";
                 if ($conn->query($sql) === TRUE) {
                     echo "Utilisateur ajouté avec succès.";
                 } else {
@@ -87,6 +87,7 @@
                 }
                 }
             ?>
+
             <?php
                 // Requête SQL pour récupérer les informations de l'utilisateur
                 $sql = "SELECT * FROM `utilisateur` ORDER BY `id_Utilisateur` ASC";
@@ -94,67 +95,37 @@
 
                 if (isset($_GET['delete'])) {
                     $delete = $_GET['delete'];
-                    // Vérifier si l'utilisateur existe avant de supprimer
-                    $checkUserSql = "SELECT * FROM `utilisateur` WHERE `id_Utilisateur` = ?";
-                    $stmt = $conn->prepare($checkUserSql);
-                    $stmt->bind_param("i", $delete);
-                    $stmt->execute();
-                    $stmt->store_result();
-                    if ($stmt->num_rows > 0) {
-                        // Afficher une confirmation de suppression
-                        echo "<script>
-                                var result = confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur?');
-                                if (result) {
-                                    window.location.href = '?delete_confirmed=' + $delete;
-                                }
-                            </script>";
-                    } else {
-                        echo "Utilisateur introuvable.";
-                    }
-                    $stmt->close();
-                }
-            
-                if (isset($_GET['delete_confirmed'])) {
-                    $deleteConfirmed = $_GET['delete_confirmed'];
-                    $sql = "DELETE FROM `utilisateur` WHERE `id_Utilisateur` = ?";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("i", $deleteConfirmed);
-                    $stmt->execute();
-                    $stmt->close();
-                    // Rediriger vers la page principale après suppression
-                    header("Location: ./user.php");
-                    exit();
+                    $sql = "DELETE FROM `utilisateur` WHERE `id_Utilisateur` = $delete";
+                    $result = $conn->query($sql);
                 }
 
-                if (isset($_GET['isban'])) {
-                    $isban = $_GET['isban'];
-                    $sql = "UPDATE `utilisateur` SET `isban` = 'true' WHERE `id_Utilisateur` = ?";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("i", $isban);
-                    $stmt->execute();
-                    $stmt->close();
-                }
+		if (isset($_GET['isban'])) {
+		    $isban = $_GET['isban'];
+		    $sql = "UPDATE `utilisateur` SET `isban` = 'true' WHERE `id_Utilisateur` = $isban";
+		    $result = $conn->query($sql);
+		}
 
                 if ($result->num_rows > 0) {
-                    // Récupération des données de l'utilisateur
-                    echo '<p>Gestion des utilisateurs :</p>';
-                    echo '<table class="table table-condensed table-striped">';
-                    echo '<tr> <th> Id </th> <th> Pseudo </th> <th> Email </th> <th> Date de naissance </th> <th> Droits </th> <th> Banni? </th> <th> Supprimer </th> <th> Bannir </th> </tr>';
-                    // Affichage des informations de l'utilisateur
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<tr>';
-                        echo '<td>' .$row["id_Utilisateur"]. '</td>';
-                        echo "<td>" .$row["Pseudo"]. "</td>";
-                        echo "<td>" .$row["e-mail"]. "</td>";
-                        echo "<td> " . $row["date_de_naissance"] . "</td>";
-                        echo "<td>" .$row["Droits"]. "</td>";
-                        echo "<td>" .$row["Isban"]. "</td>";
-                        echo "<td> <a class='badge badge-danger' href='?delete=" . $row["id_Utilisateur"] . "'>Supprimer</a> </td>";
-                        echo "<td> <a class='badge badge-warning' href='?isban=" . $row["id_Utilisateur"] . "'>Bannir</a> </td>";
-                        echo '</tr>';
-                    }
+                // Récupération des données de l'utilisateur
+                $user = $result->fetch_assoc();
+                echo '<p>Gestion des utilisateurs :</p>';
+                echo '<table class="table table-condensed table-striped">';
+                echo '<tr> <th> Id </th> <th> Pseudo </th> <th> Email </th> <th> Date de naissance </th> <th> Droits </th> <th> Banni? </th> <th> Supprimer </th> <th> Bannir </th> </tr>';
+                // Affichage des informations de l'utilisateur
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>';
+                    echo '<td>' .$row["id_Utilisateur"]. '</td>';
+                    echo "<td>" .$row["Pseudo"]. "</td>";
+                    echo "<td>" .$row["e-mail"]. "</td>";
+                    echo "<td> " . $row["date_de_naissance"] . "</td>";
+                    echo "<td>" .$row["Droits"]. "</td>";
+		    echo "<td>" .$row["Isban]. "</td>";
+                    echo "<td> <a class='badge badge-danger' href='?delete='" . $row["id_Utilisateur"] . "'>Supprimer</a> </td>";
+		    echo "<td> <a class='badge badge-warning' href='?isban='" . $row["id_Utilisateur"] . "'>Bannir</a> </td>";
+                    echo '</tr>';
+                }
                 } else {
-                    echo "Aucun utilisateur trouvé.";
+                echo "Aucun utilisateur trouvé.";
                 }
 
                 $conn->close();

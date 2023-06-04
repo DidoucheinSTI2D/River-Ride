@@ -8,6 +8,32 @@
     <title>SuperBackOffice</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <?php
+    $servername = "localhost"; // Nom du serveur où se trouve la base de données
+    $username = "root"; // Nom d'utilisateur pour accéder à la base de données
+    $password = ""; // Mot de passe pour accéder à la base de données
+    $dbname = "mastertheweb"; // Nom de la base de données
+    
+    // Crée une connexion
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+      die("Erreur de connexion à la base de données : " . $conn->connect_error);
+    }
+
+    function checkAdminAccess() {
+      // Vérifier si l'utilisateur est connecté
+      if (!isset($_SESSION['id_Utilisateur'])) {
+        header("Location: ../connect.php");
+        exit();
+      }
+      
+      // Vérifier si l'utilisateur a le droit admin
+      if ($_SESSION['Droits'] !== 'admin') {
+        header("Location: reject.php");
+        exit();
+      }
+    }
+    ?>
 </head>
 <body>
     <div class="header d-flex">
@@ -40,56 +66,50 @@
                 <li><a href="./settings.php">Paramètres</a></li>
             </ul>
         </div>
-
         <div class="main-content">
-            <h1>SuperBackOffice 1.0</h1>
-            <h2>le back office</h2>
-            <h3>le nombre d'utilisateurs</h3>
-            <p>
-                <?php
-                $sql = "SELECT COUNT(*) AS nb FROM utilisateur";
-                $result = $conn->query($sql);
-                $row = $result->fetch_assoc();
-                echo $row['nb'];
-                ?>
-            </p>
-            <h3>le nombre de topics</h3>
-            <p>
-                <?php
-                $sql = "SELECT COUNT(*) AS nb FROM topic";
-                $result = $conn->query($sql);
-                $row = $result->fetch_assoc();
-                echo $row['nb'];
-                ?>
-            </p>
-            <h3>le nombre de commentaires</h3>
-            <p>
-                <?php
-                $sql = "SELECT COUNT(*) AS nb FROM commentaire";
-                $result = $conn->query($sql);
-                $row = $result->fetch_assoc();
-                echo $row['nb'];
-                ?>
-            </p>
-            <h3>le nombre de signalements</h3>
-            <p>
-                <?php
-                $sql = "SELECT COUNT(*) AS nb FROM signalement";
-                $result = $conn->query($sql);
-                $row = $result->fetch_assoc();
-                echo $row['nb'];
-                ?>
-            </p>
-            <h3>le nombre de messages</h3>
-            <p>
-                <?php
-                $sql = "SELECT COUNT(*) AS nb FROM message";
-                $result = $conn->query($sql);
-                $row = $result->fetch_assoc();
-                echo $row['nb'];
-                ?>
-            </p>
-        </div>
+        <h1>SuperBackOffice 1.0</h1>
+        <h2>le back office</h2>
+        <h3>le nombre d'utilisateurs</h3>
+        <p>
+            <?php
+            $sql = "SELECT COUNT(*) AS nb FROM `utilisateur`";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            echo $row['nb'];
+            ?>
+        </p>
+        <h3>le nombre de topics</h3>
+        <p>
+            <?php
+            $sql = "SELECT COUNT(*) AS nb FROM topic";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            echo $row['nb'];
+            ?>
+        </p>
+        <h3>le nombre de commentaires</h3>
+        <p>
+            <?php
+            $sql = "SELECT COUNT(*) AS nb FROM commentaires";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            echo $row['nb'];
+            ?>
+        </p>
+        <h3>le nombre de signalements</h3>
+        <p>
+              EN COURS DE DEVELOPPEMENT
+        </p>
+        <h3>le nombre de messages</h3>
+        <p>
+            <?php
+            $sql = "SELECT COUNT(*) AS nb FROM messages";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            echo $row['nb'];
+            ?>
+        </p>
     </div>
+</div>
 </body>
 </html>

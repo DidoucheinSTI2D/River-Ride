@@ -50,7 +50,7 @@
                     <div class="h-100 p-5 bg-body-tertiary border rounded-3">
                       <h2>🚧L̷e̷a̷r̷n̷2̷w̷i̷n̷🚧</h2>
                       <p>Actuellement en travaux, vous pourrez bientôt participer à notre e-learning en ligne, et pouvoir gagner le token "LeSuperCoin"! Inscrivez-vous à notre newsletter pour avoir les dernières informations de notre équipe de dev.</p>
-                      <button class="btn btn-outline-secondary" type="button"><a href="./newsletter.php">Inscrivez-vous à notre newsletter</a></button>
+                      <button class="btn btn-outline-secondary" type="button">Inscrivez-vous à notre newsletter</button>
                     </div>
                   </div>
                 </div>

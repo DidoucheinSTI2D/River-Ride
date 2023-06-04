@@ -11,39 +11,35 @@
         <?php include "./component/header.php"; ?>
     </header>
     <main class="container">
-    <!-- // Connexion à la base de données
-$bdd = new PDO('mysql:host=localhost;dbname=nom_de_la_base_de_donnees', 'nom_d_utilisateur', 'mot_de_passe');
+    <?php
+    require_once('./connect_bdd.php');
+    require_once('LeSuPerisien/fonctions.php');
 
-    // Fermeture de la requête
-    $requete->closeCursor();
-}
-
-// Fermeture de la connexion à la base de données
-$bdd = null;
--->
+    $journals = getJournals();
+    ?>
+    
     <div class="container py-4">
-        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-            <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Titre de l'article recup via requete SQL</h1>
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+        <?php foreach(array_slice($journals, 0, 1) as $journal): ?>
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold"> <?=$journal->Titre ?></h1>
             <p>Eventuellement court résumé/description</p>
-            <a href="./journal.php"><button class="btn btn-outline-secondary" type="button">Cliquez ici pour lire l'article !</button></a>
+            <a href="journal.php?id_Journal=<?= $journal->id_Journal ?>"><button class="btn btn-outline-secondary" type="button">Cliquez ici pour lire l'article !</button></a>
         </div>
+        <?php endforeach ?>
     </div>
     <div class="row align-items-md-stretch">
-    <div class="col-md-6">
-        <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-            <h2>Titre de l'article recup via requete SQL</h2>
-                <a href="./journal.php"><button class="btn btn-outline-secondary" type="button">Cliquez ici pour lire l'article !</button></a>
+        <?php foreach(array_slice($journals, 1) as $journal): ?>
+        <div class="col-md-6">
+            <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                <h2><?=$journal->Titre ?></h2>
+                <a href="journal.php?id_Journal=<?= $journal->id_Journal ?>"><button class="btn btn-outline-secondary" type="button">Cliquez ici pour lire l'article !</button></a>
+            </div>
         </div>
+        <?php endforeach ?>
     </div>
-    <div class="col-md-6">
-        <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-            <h2>Titre de l'article recup via requete SQL</h2>
-                <a href="./journal.php"><button class="btn btn-outline-secondary" type="button">Cliquez ici pour lire l'article !</button></a>
-        </div>
-    </div>
-    </div>
-    </div>
+</div>
+
     </main>
     <footer>
         <?php include "./component/footer.php"; ?>
