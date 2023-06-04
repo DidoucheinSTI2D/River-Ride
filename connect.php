@@ -40,7 +40,7 @@ session_start();
                                         </div>
                                     </div>
                                     <div class="col-md-6 d-flex justify-content-center">
-                                        <a href="./register.php">S'inscrire !</a>
+                                        <a href="./ariane_register.php">S'inscrire !</a>
                                     </div>
                                 </div>
                                 <!-- Submit button -->

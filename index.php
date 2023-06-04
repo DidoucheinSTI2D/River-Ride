@@ -6,14 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeSuperCoin - Acceuil</title>
 </head>
+<?php
+        session_start(); ?>
+
 <body>
     <header>
         <?php include "./component/header.php"; ?>
     </header>
     <!---->
+   
     <main class="container">
         <br>
-            <h1 id="bvn"> Bienvenue Voyageur ! </h1>
+        <h1 id="bvn">  
+      <?php
+        if (isset($_SESSION['pseudo'])) {
+            $message = "Bienvenue " . $_SESSION['pseudo'] ;
+        } else {
+            $message = "Bienvenue voyageur" ;
+        }
+        echo $message;
+        ?>
+        </h1>
         <br>
         <!--Gros bloc-->
         <div class="align-content-end border-dark border-bottom container py-4">
