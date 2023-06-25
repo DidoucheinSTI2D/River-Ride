@@ -2,7 +2,7 @@
 //Fonction pour récupèrer tous les journaux
 function getJournals()
 {
-    require('./connect_bdd.php');
+    require('./config.php');
     $req = $bdd->prepare('SELECT id_Journal, Titre, date_création FROM journal ORDER BY date_création DESC');
     $req->execute();
     $data = $req->fetchAll(PDO::FETCH_OBJ);
@@ -12,7 +12,7 @@ function getJournals()
 //Fonction pour récupèrer un journal
 function getJournal($id_Journal)
 {
-    require('./connect_bdd.php');
+    require('./config.php');
     $req = $bdd->prepare('SELECT * FROM journal WHERE id_Journal = ?');
     $req->execute(array($id_Journal));
     if($req->rowCount() == 1)
@@ -24,7 +24,7 @@ function getJournal($id_Journal)
 //Fonction pour ajouter un commentaire à la base de données
 function addComment($id_Journal, $author, $comment)
 {
-    require ('./connect_bdd.php');
+    require ('./config.php');
     $req = $bdd->prepare('INSERT INTO commentaires (Journal_id_Journal,Pseudo,Contenu, Date) VALUES (?, ?, ?, NOW())');
     $req->execute(array($id_Journal, $author, $comment));    
     $req->closeCursor();
@@ -32,7 +32,7 @@ function addComment($id_Journal, $author, $comment)
 //Fonction pour récupèrer les commentaires d'un article
 function getComments($id_Journal)
 {
-    require('./connect_bdd.php');
+    require('./config.php');
     $req = $bdd->prepare('SELECT * FROM commentaires WHERE Journal_id_Journal = ?');
     $req->execute(array($id_Journal));
     $data = $req->fetchAll(PDO::FETCH_OBJ);
@@ -42,7 +42,7 @@ function getComments($id_Journal)
 
 function getTopics()
 {
-    require('./connect_bdd.php');
+    require('./config.php');
     $req = $bdd->prepare('SELECT id_Topic, titre, date_création FROM topic ORDER BY date_création DESC');
     $req->execute();
     $data = $req->fetchAll(PDO::FETCH_OBJ);
@@ -53,7 +53,7 @@ function getTopics()
 //Fonction pour récupèrer un topic
 function getTopic($id_Topic)
 {
-    require('./connect_bdd.php');
+    require('./config.php');
     $req = $bdd->prepare('SELECT * FROM topic WHERE id_Topic = ?');
     $req->execute(array($id_Topic));
     if($req->rowCount() == 1)
@@ -65,7 +65,7 @@ function getTopic($id_Topic)
 
 function addCommentTopic($id_Topic, $author, $comment)
 {
-    require ('./connect_bdd.php');
+    require ('./config.php');
     $req = $bdd->prepare('INSERT INTO commentaires (Topic_id_Topic,Pseudo,Contenu, Date) VALUES (?, ?, ?, NOW())');
     $req->execute(array($id_Topic, $author, $comment));    
     $req->closeCursor();
@@ -74,7 +74,7 @@ function addCommentTopic($id_Topic, $author, $comment)
 //Fonction pour récupèrer les commentaires d'un topic
 function getCommentsTopic($id_Topic)
 {
-    require('./connect_bdd.php');
+    require('./config.php');
     $req = $bdd->prepare('SELECT * FROM commentaires WHERE Topic_id_Topic = ?');
     $req->execute(array($id_Topic));
     $data = $req->fetchAll(PDO::FETCH_OBJ);
@@ -84,7 +84,7 @@ function getCommentsTopic($id_Topic)
 
 function deleteComment($commentId) 
 {
-    require('./connect_bdd.php');
+    require('./config.php');
     try {
         $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

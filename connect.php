@@ -27,14 +27,11 @@ session_start();
                                 <div class="form-outline mb-4">
                                     <input type="email" name="e-mail" class="form-control" placeholder="Votre email" required/>
                                 </div>
-                                <!-- Password input -->
                                 <div class="form-outline mb-4">
                                     <input type="password" name="Mot_de_passe" class="form-control" placeholder="Mot de passe" required/>
                                 </div>
-                                <!-- 2 column grid layout -->
                                 <div class="row mb-4">
                                     <div class="col-md-6 d-flex justify-content-center">
-                                        <!-- Checkbox -->
                                         <div class="form-check mb-3 mb-md-0">
                                             <a href="./forgotpw.php">Mot de passe oublié</a>
                                         </div>

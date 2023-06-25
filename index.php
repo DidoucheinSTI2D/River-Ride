@@ -34,7 +34,7 @@
                 <div class="container-fluid py-5">
                 <h1 class="display-4 fw-bold text-white"><br>Titre de l'article</h1>
                 <p class="lead my-3 fw-semibold">Découvrez les meilleures articles dans le Domaine Crypto !</p>
-                <p class="lead mb-0"><a href="./register.php" class="text-white fw-bold">Je m'inscris !</a></p>
+                <p class="lead mb-0"><a href="BDD/register.php" class="text-white fw-bold">Je m'inscris !</a></p>
                 </div>
             </div>
         </div>

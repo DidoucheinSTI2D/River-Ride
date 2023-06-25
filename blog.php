@@ -15,7 +15,7 @@
     </header>
     <main class="container">
     <?php
-    require_once('./connect_bdd.php');
+    require_once('./config.php');
     require_once('LeSuPerisien/fonctions.php');
 
     $Topics = getTopics();

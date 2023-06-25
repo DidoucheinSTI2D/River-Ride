@@ -15,7 +15,7 @@
     </header>
     <main class="container">
     <h2>Inscription à la newsletter</h2>
-    <form action="./register.php" method="post">
+    <form action="BDD/register.php" method="post">
         <label for="nom">Nom :</label>
         <input type="text" id="nom" name="nom" required><br><br>
 
