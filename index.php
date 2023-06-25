@@ -1,3 +1,28 @@
+<?php
+    session_start();
+    require "./BDD/config.php";
+
+    if (isset($_SESSION['id_Utilisateur'])) {
+        header("Location: LeSuperisien.php");
+        exit();
+    }
+
+    if (isset($_POST['connect'])){
+
+        if (empty($erreur)){
+            $_SESSION['id_Utilisateur'] = $resultUser['id_Utilisateur'];
+            $_SESSION['Pseudo'] = $resultUser['Pseudo'];
+            $_SESSION['Email'] = $resultUser['e-mail'];
+            $_SESSION['droits'] = $resultUser['Droits'];
+            if ($_SESSION['droits'] == 'user'){
+                header("Location: index.php?id=" .  $_SESSION['id']);
+            } elseif ($_SESSION['droits'] == 'admin'){
+                header("Location: ./admin/backoffice.php?id=" . $_SESSION['id']);
+            }
+            exit();
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
