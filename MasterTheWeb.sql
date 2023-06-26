@@ -54,6 +54,10 @@ CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Utilisateur` (
   `date_de_naissance` DATE NOT NULL,
   `last_login` DATE NOT NULL,
   `isban` BOOLEAN DEFAULT FALSE,
+  `rond`  VARCHAR(50) NOT NULL,
+  `yeux`  VARCHAR(50) NOT NULL,
+  `nez`  VARCHAR(50) NOT NULL,
+  `sourire`  VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id_Utilisateur`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
