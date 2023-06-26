@@ -57,7 +57,7 @@
                   <div class="container-fluid py-5">
                     <h1 class="display-5 fw-bold">Les Coins du Moment</h1>
                     <p class="col-md-8 fs-4">10, 20, 50, 100 ou encore 1000% ! découvrez les tokens du moment en voyant les plus perdants et les plus gagnants et prévoyez votre prochaine moove!</p>
-                    <a href="#"><button class="btn btn-primary btn-lg" type="button">Découvrez-les ici !</button></a>
+                    <a href="connect.php"><button class="btn btn-primary btn-lg" type="button">Découvrez-les ici !</button></a>
                   </div>
                 </div>
             
@@ -68,7 +68,7 @@
                       <br>
                       <p>Découvrez les derniers topics et participer à la création d'une communauté!</p>
                       <br>
-                      <button class="btn btn-outline-light" type="button">Je veux rejoindre le blog !</button>
+                      <a href="connect.php"><button class="btn btn-outline-light" type="button">Je veux rejoindre le blog !</button></a>
                     </div>
                   </div>
                   <div class="col-md-6">

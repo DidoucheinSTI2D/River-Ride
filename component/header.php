@@ -8,19 +8,6 @@
     <link href="./style.css" rel="stylesheet">
 </head>
 
-<?php 
-$servername = "localhost"; // Nom du serveur où se trouve la base de données
-$username = "root"; // Nom d'utilisateur pour accéder à la base de données
-$password = ""; // Mot de passe pour accéder à la base de données
-$dbname = "mastertheweb"; // Nom de la base de données
-
-// Crée une connexion
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-
-
-?>
-
 <body>
     <header>
             <div class="container">

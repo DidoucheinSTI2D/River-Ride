@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_destroy();
     session_start();
     $_SESSION['registrationSuccess'] = true;
-    header("Location: ../connect.php");
+    header("Location: ../connect.php?success=register");
     exit();
 }
 
