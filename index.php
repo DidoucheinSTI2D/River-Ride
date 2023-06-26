@@ -39,6 +39,13 @@
     <main class="container">
         <br>
             <h1 id="bvn"> Bienvenue Voyageur ! </h1>
+            <h1 style="color: green;" id="bvn">
+                <?php
+                if(isset($_GET['disconnect']) && $_GET['disconnect'] = "success"){
+                    echo "Merci de votre visite ! à bientôt ! ❤";
+                }
+                ?>
+            </h1>
         <br>
         <!--Gros bloc-->
         <div class="align-content-end border-dark border-bottom container py-4">

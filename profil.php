@@ -42,6 +42,7 @@
                         <h5> <?php echo "Votre Email : " . $_SESSION['Email']?></h5>
                         <button class="btn btn-primary btn-block"> Modifier les informations </button>
                         <a href="avatar.php"><button class="btn btn-primary btn-block"> Modifier l'avatar </button></a>
+                        <a href="disconnect.php"><button class="btn btn-danger btn-block">Se déconnecter</button></a>
                     </div>
                 </div>
             </div>
