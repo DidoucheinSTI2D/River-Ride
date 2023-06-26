@@ -10,12 +10,11 @@
     <header>
         <?php 
         include "./component/header.php";
-        require './phpmailer.php';    
         ?>
     </header>
     <main class="container">
     <h2>Inscription à la newsletter</h2>
-    <form action="BDD/register.php" method="post">
+    <form action="./php_mail_send/index.php" method="post">
         <label for="nom">Nom :</label>
         <input type="text" id="nom" name="nom" required><br><br>
 
