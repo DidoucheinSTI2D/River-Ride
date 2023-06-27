@@ -9,19 +9,21 @@
 
 <?php
 require "./BDD/config.php";
+session_start();
+if (!isset($_SESSION['pseudo']) && empty($_SESSION['pseudo'])) {
+    header("Location: ariane_register.php");
+    exit();
+}
 
 if (isset($_POST['captcha'])){
-    session_start();
+
     $email = $_SESSION['email'];
     $pseudo = $_SESSION['pseudo'];
     $date_naissance = $_SESSION['date_naissance'];
     $password = $_POST['password'];
     $pwval = $_POST['confirmation_pw'];
 
-    if (empty($email) || empty($pseudo) || empty($date_naissance)) {
-        header("Location: ariane_register.php");
-        exit();
-    }
+
 
     if (!preg_match("/^.{8,}$/", $password)) $erreurpw = "Le mot de passe doit faire au minimum 8 caractères.";
     if (!preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*\W)(?=.*[0-9]).{8,}$/", $password)) $erreurpw = "Le mot de passe doit contenir au moins une majuscule, une minuscule, un caractère spécial et un chiffre, avec au moins 8 caractères. (ça fait beaucoup)";

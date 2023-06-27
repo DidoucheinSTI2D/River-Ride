@@ -1,16 +1,19 @@
 <?php
 require "./BDD/config.php";
+session_start();
+if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
+    header("Location: ariane_register.php");
+    exit();
+}
+
 
 if (isset($_POST['pseudo_date'])){
-    session_start();
+
     $email = $_SESSION['email'];
     $pseudo = $_POST['pseudo'];
     $date_naissance = $_POST['date'];
 
-    if (empty($email)) {
-        header("Location: ariane_register.php");
-        exit();
-    }
+
 
 
     $askPseudo = $bdd->prepare("SELECT * FROM Utilisateur WHERE Pseudo = ?");

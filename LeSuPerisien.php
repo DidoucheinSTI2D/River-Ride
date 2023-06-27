@@ -1,3 +1,15 @@
+<?php
+    session_start();
+    require "./BDD/config.php";
+    require "./LeSuPerisien/fonctions.php";
+
+    if(!isset($_SESSION['id_Utilisateur'])){
+        header("location: ./connect.php?error=notconnected");
+        exit;
+    }
+
+    $journals = getJournals();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

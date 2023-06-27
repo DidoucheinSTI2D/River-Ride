@@ -2,6 +2,11 @@
 session_start();
 require "./BDD/config.php";
 
+if (isset($_SESSION['id_Utilisateur'])){
+    header('location: profil.php');
+    exit;
+}
+
 if (isset($_POST['connect'])) {
     $Email = $_POST['email'];
     $Password = $_POST['password'];
@@ -28,7 +33,7 @@ if (isset($_POST['connect'])) {
         $_SESSION['Email'] = $resultUser['e-mail'];
         $_SESSION['droits'] = $resultUser['Droits'];
         if ($_SESSION['droits'] == 'user') {
-            header("Location: index.php?id=" . $_SESSION['id_Utilisateur']);
+            header("Location: leSuPerisien.php?id=" . $_SESSION['id_Utilisateur']);
             exit; // Terminer l'exécution du script après la redirection
         } elseif ($_SESSION['droits'] == 'admin') {
             header("Location: ./admin/backoffice.php?id=" . $_SESSION['id_Utilisateur']);
@@ -55,18 +60,25 @@ if (isset($_POST['connect'])) {
 
 <main style="margin-top: 7rem;">
     <div class="container">
-        <h2 style="color : red;">
-            <?php
-            if (isset($_GET['error']) && $_GET['error'] == "notconnected") {
-                echo "Veuillez vous connecter pour accéder à cette page.";
-            }
-            ?>
-        </h2>
         <div class="row justify-content-center p-3 mb-2 bg-light text-dark rounded mx-auto">
             <div class="tab-content">
                 <div class="tab-pane fade show active">
                     <form method="POST">
                         <div class="text-center mb-3">
+                            <h2 style="color : red;">
+                                <?php
+                                if (isset($_GET['error']) && $_GET['error'] == "notconnected") {
+                                    echo "Veuillez vous connecter pour accéder à cette page.";
+                                }
+                                ?>
+                            </h2>
+                            <h2 style="color: green;">
+                                <?php
+                                if (isset($_GET['success']) && $_GET['success'] == "register"){
+                                echo "Vous êtes inscrit sur le SuperCoin !";
+                                }
+                                ?>
+                            </h2>
                             <p>Se connecter :</p>
                             <!-- Email pour se connecter -->
                             <div class="form-outline mb-4">

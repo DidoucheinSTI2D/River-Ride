@@ -17,3 +17,9 @@ body{
     width: 100px;
 }
 
+#disconnect{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
