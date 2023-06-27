@@ -7,8 +7,6 @@ $traitementContent = file_get_contents("./component/traitement.php"); // Récup�
 $disconnectContent = file_get_contents("./disconnect.php"); // Récupère le contenu de disconnect.php
 
 $logMessage = ""; //Création de la variable qui contiendra le message de log
-$traitementMessage = "Comparez cet extrait de component/traitement.php :\n"; //Création de la variable qui contiendra le message de traitement.php
-$disconnectMessage = "Comparez cet extrait de component/disconnect.php :\n"; //Création de la variable qui contiendra le message de disconnect.php
 $traitementMessage .= $traitementContent; //Ajout du contenu de traitement.php à la variable
 $disconnectMessage .= $disconnectContent; //Ajout du contenu de disconnect.php à la variable
 $logMessage .= date('Y-m-d H:i:s') . " | "; //Ajout de la date et de l'heure au message de log

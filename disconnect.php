@@ -1,22 +1,3 @@
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
-Comparez cet extrait de component/disconnect.php :
 <?php
     session_start();
     session_destroy();
