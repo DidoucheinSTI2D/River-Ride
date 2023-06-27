@@ -16,7 +16,7 @@
             <img src="../img/picture/pp.png" alt="Photo de profil" class="profile-picture" id="pp"/>
             <div class="username mt-2 col-md-3 ">
             </div>
-            <button class="logout-button">Déconnexion</button>
+            <a href="../disconnect.php"><button id="logout" class="logout-button">Déconnexion</button></a>
         </div>
     </div>
     <div class="container">

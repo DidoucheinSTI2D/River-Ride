@@ -48,7 +48,7 @@
             echo $_SESSION['Pseudo'];
             ?>
             </div>
-            <button class="logout-button">Déconnexion</button>
+            <a href="../disconnect.php"><button id="logout" class="logout-button">Déconnexion</button></a>
         </div>
     </div>
     <div class="container">

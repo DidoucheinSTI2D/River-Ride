@@ -36,7 +36,7 @@ if (isset($_POST['connect'])) {
             header("Location: leSuPerisien.php?id=" . $_SESSION['id_Utilisateur']);
             exit; // Terminer l'exécution du script après la redirection
         } elseif ($_SESSION['droits'] == 'admin') {
-            header("Location: ./admin/backoffice.php?id=" . $_SESSION['id_Utilisateur']);
+            header("Location: ./backoffice/backoffice.php?id=" . $_SESSION['id_Utilisateur']);
             exit; // Terminer l'exécution du script après la redirection
         }
     }
