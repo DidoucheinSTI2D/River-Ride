@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (!isset($_GET['id_Journal']) OR !is_numeric($_GET['id_Journal'])) 
     header('Location: index.php');
 else
@@ -54,9 +55,11 @@ else
         <div class="container py-4">
             <div class="p-5 mb-4 bg-body-tertiary rounded-3">
                 <h1><?= $journal->Titre ?></h1>
+                <div class="content">
                 <p><?= $journal->Contenu ?></p>
                 <hr />
                 <time> <?= $journal->date_création ?> </time>
+                </div>
             </div>
         </div>
 
@@ -70,13 +73,6 @@ else
             <p><?= $error ?></p>
             <?php endforeach; ?>
         <?php endif; ?>
-        <form action="journal.php?id_Journal=<?= $journal->id_Journal ?>" method ="post">
-            <p> <label for="author">Pseudo :</label><br/>
-            <input type="text" name="author" id="author" value="<?php if(isset($author)) echo $author ?>" /></p>
-            <p> <label for="comment"> Commentaire : </label> </br>
-            <textarea name ="comment" id="comment" cols="30" rows="4" > <?php if(isset($comment)) echo $comment ?></textarea></p>
-            <button type="submit">Envoyer</button>
-        </form>
 
         <div class="container py-4">
         <h2> Commentaire(s) : </h2>
@@ -90,9 +86,29 @@ else
                 <?php endforeach; ?>
             </div>
         </div>
+
+        <?php
+        if(!isset($_SESSION['id_Utilisateur'])){
+        ?>
+        <p> Connectez vous pour écrire un commentaire ! </p>
+        <?php
+        } else {
+        ?>
+        <form action="journal.php?id_Journal=<?= $journal->id_Journal ?>" method ="post">
+            <p> <label for="author">Pseudo :</label><br/>
+            <input type="text" name="author" id="author" value="<?php if(isset($author)) echo $author ?>" /></p>
+            <p> <label for="comment"> Commentaire : </label> </br>
+            <textarea name="comment" id="comment" cols="30" rows="4"><?php if(isset($comment)) echo $comment->Contenu; ?></textarea></p>
+            <button type="submit">Envoyer</button>
+        </form>
+        <?php
+        }
+        ?>
+        
     </main>
     <footer>
         <?php include "./component/footer.php"; ?>
     </footer>
 </body>
 </html>
+

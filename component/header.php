@@ -24,7 +24,7 @@
                         <a href="./LeSuPerisien.php" class="nav-link text-dark"> LeSuPerisien </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-dark"> Blog </a>
+                        <a href="./blog.php" class="nav-link text-dark"> Blog </a>
                     </li>
                     <li class="nav-item ">
                         <a href="#" class="nav-link text-dark"> Coin du Moment </a>

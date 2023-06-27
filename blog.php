@@ -22,14 +22,12 @@
     ?>
     <h1> Bienvenue sur l'espage Blog de la communauté ! </h1>
     <?php 
-
         if (isset($_SESSION['id_Utilisateur'])){
     ?>
-    
+    <a href="création_topic.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Créer mon topic</a>
     <?php
         }
     ?>
-    <a href="création_topic.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Créer mon topic</a>
     <div class="container py-4">
     <div class="p-5 mb-4 bg-body-tertiary rounded-3">
         <?php foreach(($Topics) as $Topic): ?>

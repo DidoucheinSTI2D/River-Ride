@@ -3,11 +3,6 @@
     require "./BDD/config.php";
     require "./LeSuPerisien/fonctions.php";
 
-    if(!isset($_SESSION['id_Utilisateur'])){
-        header("location: ./connect.php?error=notconnected");
-        exit;
-    }
-
     $journals = getJournals();
 ?>
 <!DOCTYPE html>
@@ -23,12 +18,7 @@
         <?php include "./component/header.php"; ?>
     </header>
     <main class="container">
-    <?php
-    require_once('BDD/config.php');
-    require_once('LeSuPerisien/fonctions.php');
 
-    $journals = getJournals();
-    ?>
     
     <div class="container py-4">
     <div class="p-5 mb-4 bg-body-tertiary rounded-3">
