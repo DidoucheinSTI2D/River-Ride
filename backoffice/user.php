@@ -49,7 +49,7 @@
             echo $_SESSION['Pseudo'];
             ?>
             </div>
-            <button class="logout-button">Déconnexion</button>
+            <a href="../disconnect.php"><button id="logout" class="logout-button">Déconnexion</button></a>
         </div>
     </div>
     <div class="container">
@@ -148,7 +148,7 @@
                         echo "<td>" .$row["e-mail"]. "</td>";
                         echo "<td> " . $row["date_de_naissance"] . "</td>";
                         echo "<td>" .$row["Droits"]. "</td>";
-                        echo "<td>" .$row["Isban"]. "</td>";
+                        echo "<td>" .$row["isban"]. "</td>";
                         echo "<td> <a class='badge badge-danger' href='?delete=" . $row["id_Utilisateur"] . "'>Supprimer</a> </td>";
                         echo "<td> <a class='badge badge-warning' href='?isban=" . $row["id_Utilisateur"] . "'>Bannir</a> </td>";
                         echo '</tr>';
@@ -166,8 +166,8 @@
                 <label for="date_de_naissance">Date de naissance:</label> <input type="date" name="date_de_naissance" required>
                 <label for="droits">Droits:</label>
                 <select name="droits" id="droits">
-                <option value="admin">Admin</option>
-                <option value="user">Users</option>
+                <option value="admin">admin</option>
+                <option value="user">user</option>
                 </select>
                 <button type="submit" name="addUser">Ajouter</button>
                 <button type="submit" name="exp">Modifier</button>

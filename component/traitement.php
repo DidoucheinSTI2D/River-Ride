@@ -14,10 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newuser->execute(array($email, $pseudo, $date_naissance, $password, 'user'));
 
     // Destruction de la session
-    session_destroy();
-    session_start();
     $_SESSION['registrationSuccess'] = true;
-    header("Location: ../connect.php?success=register");
+    header("Location: ./remerciements.php");
     exit();
 }
 
