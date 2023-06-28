@@ -23,6 +23,7 @@
 
 <header>
     <?php include "./component/header.php"; ?>
+    <?php include "./logs.php"; ?>
 </header>
 
 <main style="margin-top: 7rem;">
