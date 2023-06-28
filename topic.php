@@ -10,10 +10,11 @@ else
 
     if (isset($_SESSION['id_Utilisateur'])) {
         $isUserLoggedIn = true;
+        $pseudo = getPseudo();
+        $idUser = $_SESSION['id_Utilisateur'];
     }
     
-    $pseudo = getPseudo();
-    $idUser = $_SESSION['id_Utilisateur'];
+
     extract($_GET);
     $id_Topic = strip_tags($id_Topic);
 
@@ -95,9 +96,9 @@ elseif (isset($_POST['edit_topic'])) {
             </div>
             </div>
         </div>
-    
-        <a href="modification_topic.php?id_Topic=<?= $Topic->id_Topic ?>" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Modifer mon topic</a>
-    
+        <?php if ($isUserLoggedIn && $Topic->Utilisateur_id_Utilisateur == $_SESSION['id_Utilisateur']): ?>
+            <a href="modification_topic.php?id_Topic=<?= $Topic->id_Topic ?>" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Modifer mon topic</a>
+        <?php endif; ?>
         <?php 
         if(isset($success))
             echo $success;
