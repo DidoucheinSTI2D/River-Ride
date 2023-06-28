@@ -54,8 +54,8 @@ else
     <main class="container">
         <div class="container py-4">
             <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-                <h1><?= $journal->Titre ?></h1>
-                <div class="content">
+            <div class="content text-center">
+            <h1><?= $journal->Titre ?></h1>
                 <p><?= $journal->Contenu ?></p>
                 <hr />
                 <time> <?= $journal->date_création ?> </time>
@@ -98,7 +98,7 @@ else
             <p> <label for="author">Pseudo :</label><br/>
             <input type="text" name="author" id="author" value="<?php if(isset($author)) echo $author ?>" /></p>
             <p> <label for="comment"> Commentaire : </label> </br>
-            <textarea name="comment" id="comment" cols="30" rows="4"><?php if(isset($comment)) echo $comment->Contenu; ?></textarea></p>
+            <textarea name="comment" id="comment" cols="30" rows="4"></textarea></p>
             <button type="submit">Envoyer</button>
         </form>
         <?php

@@ -17,9 +17,7 @@
     <header>
         <?php include "./component/header.php"; ?>
     </header>
-    <main class="container">
-
-    
+    <main class="container">    
     <div class="container py-4">
     <div class="p-5 mb-4 bg-body-tertiary rounded-3">
         <?php foreach(array_slice($journals, 0, 1) as $journal): ?>

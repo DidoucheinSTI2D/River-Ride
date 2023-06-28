@@ -25,6 +25,7 @@ function getJournal($id_Journal)
 function addComment($id_Journal, $author, $comment)
 {
     require ('BDD/config.php');
+    $req = $bdd->prepare('SELECT Pseudo FROM utilisateur WHERE id_Utilisateur = ?');
     $req = $bdd->prepare('INSERT INTO commentaires (Journal_id_Journal,Pseudo,Contenu, Date) VALUES (?, ?, ?, NOW())');
     $req->execute(array($id_Journal, $author, $comment));    
     $req->closeCursor();
@@ -54,7 +55,7 @@ function getTopics()
 function getTopic($id_Topic)
 {
     require('BDD/config.php');
-    $req = $bdd->prepare('SELECT * FROM topic WHERE id_Topic = ?');
+    $req = $bdd->prepare('SELECT * FROM topic WHERE id_Topic = ? ');
     $req->execute(array($id_Topic));
     if($req->rowCount() == 1)
     {
@@ -63,14 +64,14 @@ function getTopic($id_Topic)
     }
 }
 
-function addCommentTopic($id_Topic, $author, $comment)
+function addCommentTopic($id_Topic, $pseudo, $comment,$idUser)
 {
     require ('BDD/config.php');
-    $req = $bdd->prepare('INSERT INTO commentaires (Topic_id_Topic,Pseudo,Contenu, Date) VALUES (?, ?, ?, NOW())');
-    $req->execute(array($id_Topic, $author, $comment));    
+    $req = $bdd->prepare('INSERT INTO commentaires (Topic_id_Topic,Pseudo,Contenu, Date, Utilisateur_id_Utilisateur) VALUES (?, ?, ?, NOW(), ?)');
+    $req->execute(array($id_Topic, $pseudo, $comment, $idUser));  
     $req->closeCursor();
 }
-
+    
 //Fonction pour récupèrer les commentaires d'un topic
 function getCommentsTopic($id_Topic)
 {
@@ -85,26 +86,46 @@ function getCommentsTopic($id_Topic)
 function deleteComment($commentId) 
 {
     require('BDD/config.php');
-    try {
-        $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Préparez la requête de suppression
+    $req = $bdd->prepare('DELETE FROM commentaires WHERE id_Commentaires = ? ');
+    $req->execute(array($commentId));
+    $req->closeCursor(); 
         
-        // Préparez la requête de suppression
-        $query = "DELETE FROM commentaires WHERE id_commentaire = :commentId";
-        $stmt = $db->prepare($query);
-        
-        // Liez les paramètres
-        $stmt->bindParam(':commentId', $commentId, PDO::PARAM_INT);
-        
-        // Exécutez la requête
-        $stmt->execute();
-        
-        // Fermez la connexion à la base de données
-        $db = null;
-    } catch (PDOException $e) {
-        // Gérez les erreurs de la base de données
-        // Par exemple, vous pouvez afficher un message d'erreur ou enregistrer les détails de l'erreur dans un fichier de journal
-        echo "Erreur de la base de données : " . $e->getMessage();
-        exit;
+}
+
+
+function getPseudo () {
+
+    require('BDD/config.php');
+    if (isset($_SESSION['id_Utilisateur'])) {
+        $idUtilisateur = $_SESSION['id_Utilisateur'];
+
+        $req = $bdd->prepare('SELECT Pseudo FROM utilisateur WHERE id_Utilisateur = ?');
+        $req->execute([$idUtilisateur]);
+        $resultat = $req->fetch();
+
+        if ($resultat) {
+            return $resultat['Pseudo'];
+        }
     }
+
+    return null;
+}
+
+function updateTopic ($id_Topic, $new_title, $new_content){
+    require('BDD/config.php');
+    $req = $bdd->prepare('UPDATE topic SET titre = ? , contenu = ? WHERE id_Topic = ?');
+    $req->execute(array($new_title, $new_content, $id_Topic));
+    $req->closeCursor();
+}
+
+function createTopic($title, $content, $idUser){
+    require('BDD/config.php');
+    $req = $bdd->prepare('INSERT INTO topic (titre, contenu, Utilisateur_id_Utilisateur, date_création) VALUES ( ?, ?, ?, NOW() )');
+    $req->execute(array($title, $content, $idUser));
+    $id_Topic = $bdd->lastInsertId();
+    $req->closeCursor();
+
+    return $id_Topic;
+
 }
