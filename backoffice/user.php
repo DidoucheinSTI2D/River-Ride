@@ -9,29 +9,17 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <?php
-    $servername = "localhost"; // Nom du serveur où se trouve la base de données
-    $username = "root"; // Nom d'utilisateur pour accéder à la base de données
-    $password = ""; // Mot de passe pour accéder à la base de données
-    $dbname = "mastertheweb"; // Nom de la base de données
-    
-    // Crée une connexion
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-      die("Erreur de connexion à la base de données : " . $conn->connect_error);
+    require_once "../BDD/config.php";
+    session_start();
+
+    if (!isset($_SESSION['id_Utilisateur'])){
+       header("location: ../connect.php?error=notconnected");
+       exit;
     }
 
-    function checkAdminAccess() {
-      // Vérifier si l'utilisateur est connecté
-      if (!isset($_SESSION['id_Utilisateur'])) {
-        header("Location: ../connect.php");
+      if ($_SESSION['droits'] !== 'admin') {
+        header("Location: ../profil.php?error=notadmin");
         exit();
-      }
-      
-      // Vérifier si l'utilisateur a le droit admin
-      if ($_SESSION['Droits'] !== 'admin') {
-        header("Location: reject.php");
-        exit();
-      }
     }
     ?>
 </head>
@@ -42,7 +30,6 @@
             <img src="../img/picture/pp.png" alt="Photo de profil" class="profile-picture" id="pp"/>
             <div class="username mt-2 col-md-3 ">
             <?php 
-            session_start();
             if (!isset($_SESSION['Pseudo'])) {
                 $_SESSION['Pseudo'] = "root";
             }
@@ -70,33 +57,29 @@
             <h3>Utilisateurs</h3>
             <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addUser"])) {
-                $servername = "localhost"; // Nom du serveur où se trouve la base de données
-                $name = "root"; // Nom d'utilisateur pour accéder à la base de données
-                $password = ""; // Mot de passe pour accéder à la base de données
-                $dbname = "mastertheweb"; // Nom de la base de données
                 $pseudo = $_POST["pseudo"];
                 $userpassword = $_POST["mot_de_passe"];
                 $droits = $_POST["droits"];
                 $email = $_POST["email"];
                 $birthdate = $_POST["date_de_naissance"];
                 $sql = "INSERT INTO `utilisateur` (`Pseudo`, `Droits`, `e-mail`, `mot_de_passe`, `date_de_naissance`) VALUES ('$pseudo', '$droits', '$email', '$userpassword', '$birthdate')";
-                if ($conn->query($sql) === TRUE) {
+                if ($bdd->query($sql)) {
                     echo "Utilisateur ajouté avec succès.";
                 } else {
-                    echo "Erreur lors de l'ajout de l'utilisateur: " . $conn->error;
+                    echo "Erreur lors de l'ajout de l'utilisateur: " . $bdd->error;
                 }
                 }
             ?>
             <?php
                 // Requête SQL pour récupérer les informations de l'utilisateur
                 $sql = "SELECT * FROM `utilisateur` ORDER BY `id_Utilisateur` ASC";
-                $result = $conn->query($sql);
+                $result = $bdd->query($sql);
 
                 if (isset($_GET['delete'])) {
                     $delete = $_GET['delete'];
                     // Vérifier si l'utilisateur existe avant de supprimer
                     $checkUserSql = "SELECT * FROM `utilisateur` WHERE `id_Utilisateur` = ?";
-                    $stmt = $conn->prepare($checkUserSql);
+                    $stmt = $bdd->prepare($checkUserSql);
                     $stmt->bind_param("i", $delete);
                     $stmt->execute();
                     $stmt->store_result();
@@ -117,7 +100,7 @@
                 if (isset($_GET['delete_confirmed'])) {
                     $deleteConfirmed = $_GET['delete_confirmed'];
                     $sql = "DELETE FROM `utilisateur` WHERE `id_Utilisateur` = ?";
-                    $stmt = $conn->prepare($sql);
+                    $stmt = $bdd->prepare($sql);
                     $stmt->bind_param("i", $deleteConfirmed);
                     $stmt->execute();
                     $stmt->close();
@@ -129,19 +112,19 @@
                 if (isset($_GET['isban'])) {
                     $isban = $_GET['isban'];
                     $sql = "UPDATE `utilisateur` SET `isban` = 'true' WHERE `id_Utilisateur` = ?";
-                    $stmt = $conn->prepare($sql);
+                    $stmt = $bdd->prepare($sql);
                     $stmt->bind_param("i", $isban);
                     $stmt->execute();
                     $stmt->close();
                 }
 
-                if ($result->num_rows > 0) {
+                if ($result->rowCount() > 0) {
                     // Récupération des données de l'utilisateur
                     echo '<p>Gestion des utilisateurs :</p>';
                     echo '<table class="table table-condensed table-striped">';
                     echo '<tr> <th> Id </th> <th> Pseudo </th> <th> Email </th> <th> Date de naissance </th> <th> Droits </th> <th> Banni? </th> <th> Supprimer </th> <th> Bannir </th> </tr>';
                     // Affichage des informations de l'utilisateur
-                    while ($row = $result->fetch_assoc()) {
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                         echo '<tr>';
                         echo '<td>' .$row["id_Utilisateur"]. '</td>';
                         echo "<td>" .$row["Pseudo"]. "</td>";
@@ -157,7 +140,7 @@
                     echo "Aucun utilisateur trouvé.";
                 }
 
-                $conn->close();
+                $bdd = null;
             ?>
             <form method="POST">
                 <label for="pseudo">Pseudo:</label> <input type="text" name="pseudo" required>

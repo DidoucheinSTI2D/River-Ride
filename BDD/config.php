@@ -1,9 +1,15 @@
 <?php
-// Connexion à la base de donnée, il faut bien penser à changer le username et le password pour le VPS :)
-    try{
-        $bdd = new PDO('mysql:host=localhost;dbname=MasterTheWeb', 'root', '');
-    }  catch(Exception $e)
-    {
-        die('Erreur de bdd:' . $e->getMessage());
-    }
+// Informations de connexion à la base de données
+$host = 'localhost';
+$db = 'MasterTheWeb';
+$user = 'root';
+$password = '';
+
+try {
+    // Connexion à la base de données avec PDO
+    $bdd = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $password);
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die('Erreur de bdd: ' . $e->getMessage());
+}
 ?>
