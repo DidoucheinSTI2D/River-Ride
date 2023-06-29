@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <?php
-    require "../BDD/config.php";
+    require_once "../BDD/config.php";
     session_start();
 
     if (!isset($_SESSION['id_Utilisateur'])){
@@ -60,8 +60,8 @@
         <p>
             <?php
             $sql = "SELECT COUNT(*) AS nb FROM `utilisateur`";
-            $result = $conn->query($sql);
-            $row = $result->fetch_assoc();
+            $stmt = $bdd->query($sql);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             echo $row['nb'];
             ?>
         </p>
@@ -69,8 +69,8 @@
         <p>
             <?php
             $sql = "SELECT COUNT(*) AS nb FROM topic";
-            $result = $conn->query($sql);
-            $row = $result->fetch_assoc();
+            $stmt = $bdd->query($sql);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             echo $row['nb'];
             ?>
         </p>
@@ -78,8 +78,8 @@
         <p>
             <?php
             $sql = "SELECT COUNT(*) AS nb FROM commentaires";
-            $result = $conn->query($sql);
-            $row = $result->fetch_assoc();
+            $stmt = $bdd->query($sql);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             echo $row['nb'];
             ?>
         </p>
@@ -91,8 +91,8 @@
         <p>
             <?php
             $sql = "SELECT COUNT(*) AS nb FROM messages";
-            $result = $conn->query($sql);
-            $row = $result->fetch_assoc();
+            $stmt = $bdd->query($sql);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             echo $row['nb'];
             ?>
         </p>

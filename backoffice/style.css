@@ -165,3 +165,10 @@ body {
   padding: 10px;
   text-align: center;
 }
+.banned {
+  background-color: red;
+  color: white;
+}
+.banned:hover {
+  background-color: #610000;
+}
