@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Commentaires` (
   CONSTRAINT `fk_Commentaires_Topic1`
     FOREIGN KEY (`Topic_id_Topic`)
     REFERENCES `MasterTheWeb`.`Topic` (`id_Topic`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

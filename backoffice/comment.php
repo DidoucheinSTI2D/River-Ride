@@ -1,3 +1,13 @@
+<?php
+session_start();
+require "../BDD/config.php";
+require "../LeSuPerisien/fonctions.php";
+// Vérifier si l'utilisateur est connecté
+if (!isset($_SESSION['id_Utilisateur'])) {
+    header("Location: ../connect.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="fr-FR">
 <head>
@@ -38,7 +48,44 @@
             <h1>SuperBackOffice 1.0</h1>
             <h2>Les commentaires</h2>
             <h3>Les commentaires et leur contenus</h3>
-            <p>En travaux 🚧</p>
+            <?php
+
+            // Récupérer les commentaires avec les informations du journal ou du topic
+            $query = $bdd->prepare('SELECT c.*, j.titre AS journal_titre, t.titre AS topic_titre
+                                   FROM commentaires c
+                                   LEFT JOIN journal j ON c.Journal_id_Journal = j.id_Journal
+                                   LEFT JOIN topic t ON c.Topic_id_Topic = t.id_Topic');
+            
+            $query->execute();
+            $comments = $query->fetchAll(PDO::FETCH_ASSOC);
+            $query->closeCursor();
+
+            if (!empty($comments)) {
+                echo '<p>Gestion des commentaires :</p>';
+                echo '<table class="table table-condensed table-striped">';
+                echo '<tr> <th> Contenu </th> <th> Pseudo </th> <th> Journal/Topic </th> <th> Supprimer </th> </tr>';
+                // Affichage des informations des commentaires
+                foreach ($comments as $comment) {
+                    echo '<tr>';
+                    echo '<td>' . $comment["Contenu"] . '</td>';
+                    echo '<td>' . $comment["Pseudo"] . '</td>';
+                    echo '<td>';
+                    if (!empty($comment["journal_titre"])) {
+                        echo 'Journal: ' . $comment["journal_titre"];
+                    } elseif (!empty($comment["topic_titre"])) {
+                        echo 'Topic: ' . $comment["topic_titre"];
+                    } else {
+                        echo 'N/A';
+                    }
+                    echo '</td>';
+                    echo "<td> <a class='badge badge-danger' href='./topic/supprimer.php?id_Commentaires=" . $comment["id_Commentaires"] . "'>Supprimer</a> </td>";
+                    echo '</tr>';
+                }
+                echo '</table>';
+            } else {
+                echo "Aucun commentaire trouvé.";
+            }
+            ?>
         </div>
     </div>
 </body>

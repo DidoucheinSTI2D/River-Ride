@@ -37,8 +37,8 @@ function getComments($id_Journal)
     $req = $bdd->prepare('SELECT * FROM commentaires WHERE Journal_id_Journal = ?');
     $req->execute(array($id_Journal));
     $data = $req->fetchAll(PDO::FETCH_OBJ);
+    $req -> closeCursor();
     return $data;
-    $req->closeCursor();
 }
 
 function getTopics()
@@ -47,8 +47,8 @@ function getTopics()
     $req = $bdd->prepare('SELECT id_Topic, titre, date_création FROM topic ORDER BY date_création DESC');
     $req->execute();
     $data = $req->fetchAll(PDO::FETCH_OBJ);
-    return $data;
     $req -> closeCursor();
+    return $data;
 }
 
 //Fonction pour récupèrer un topic
@@ -128,4 +128,14 @@ function createTopic($title, $content, $idUser){
 
     return $id_Topic;
 
+}
+
+
+
+function modificateTopic($id_Topic, $new_title)
+{
+    require('../../BDD/config.php');
+    $req = $bdd->prepare('UPDATE topic SET titre = ? WHERE id_Topic = ?');
+    $req->execute(array($new_title, $id_Topic));
+    $req->closeCursor();
 }

@@ -1,13 +1,23 @@
 <?php
 session_start();
+require_once('LeSuPerisien/fonctions.php');
 if (!isset($_GET['id_Journal']) OR !is_numeric($_GET['id_Journal'])) 
     header('Location: index.php');
 else
 {
+    // Vérifier si l'utilisateur est connecté
+    $isUserLoggedIn = false; // Supposons que l'utilisateur n'est pas connecté par défaut
+
+    if (isset($_SESSION['id_Utilisateur'])) {
+        $isUserLoggedIn = true;
+        $author = getPseudo();
+        $idUser = $_SESSION['id_Utilisateur'];
+    }
+      
     extract($_GET);
     $id_Journal = strip_tags($id_Journal);
 
-    require_once('LeSuPerisien/fonctions.php');
+
     if (!empty($_POST))
     {
         extract($_POST);
@@ -95,8 +105,6 @@ else
         } else {
         ?>
         <form action="journal.php?id_Journal=<?= $journal->id_Journal ?>" method ="post">
-            <p> <label for="author">Pseudo :</label><br/>
-            <input type="text" name="author" id="author" value="<?php if(isset($author)) echo $author ?>" /></p>
             <p> <label for="comment"> Commentaire : </label> </br>
             <textarea name="comment" id="comment" cols="30" rows="4"></textarea></p>
             <button type="submit">Envoyer</button>
