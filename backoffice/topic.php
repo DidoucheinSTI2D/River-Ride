@@ -9,7 +9,6 @@
     <title>SuperBackOffice</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<<<<<<< HEAD
 
     <?php
     session_start();
@@ -19,19 +18,6 @@
     // Vérifier si l'utilisateur est connecté
     if (!isset($_SESSION['id_Utilisateur'])) {
         header("Location: ../connect.php");
-=======
-    <?php
-    require_once "../BDD/config.php";
-    session_start();
-
-    if (!isset($_SESSION['id_Utilisateur'])){
-       header("location: ../connect.php?error=notconnected");
-       exit;
-    }
-
-      if ($_SESSION['droits'] !== 'admin') {
-        header("Location: ../profil.php?error=notadmin");
->>>>>>> 2ff2b293f270cbed8f533cd051e272b3f2dd2b26
         exit();
     }
 

@@ -20,10 +20,18 @@ if (isset($_GET['id_Topic']) && is_numeric($_GET['id_Topic'])) {
     $req->execute(array($id_Commentaires));
     $req->closeCursor();
 
-    // Redirection vers la page principale ou une autre page appropriée après la suppression
     header("Location: ../comment.php");
     exit;
-}else {
+} elseif (isset($_GET['id_Journal']) && is_numeric($_GET['id_Journal'])) {
+    $id_Journal = $_GET['id_Journal'];
+
+    $req = $bdd->prepare('DELETE FROM journal WHERE id_Journal = ? ');
+    $req->execute(array($id_Journal));
+    $req->closeCursor();
+
+    header("Location: ../LeSuPerisien.php");
+    exit;
+} else {
     // Redirection vers la page principale ou une autre page appropriée si l'ID du topic n'est pas spécifié ou n'est pas valide
     header("Location: ../../index.php");
     exit;

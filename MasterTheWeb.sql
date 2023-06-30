@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Commentaires` (
   CONSTRAINT `fk_Commentaires_Journal1`
     FOREIGN KEY (`Journal_id_Journal`)
     REFERENCES `MasterTheWeb`.`Journal` (`id_Journal`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE,
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Commentaires_Utilisateur1`
     FOREIGN KEY (`Utilisateur_id_Utilisateur`)

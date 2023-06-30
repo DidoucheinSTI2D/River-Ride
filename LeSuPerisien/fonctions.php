@@ -139,3 +139,23 @@ function modificateTopic($id_Topic, $new_title)
     $req->execute(array($new_title, $id_Topic));
     $req->closeCursor();
 }
+
+function modificateJournal($id_Journal, $new_title, $new_content)
+{
+    require('../../BDD/config.php');
+    $req = $bdd->prepare('UPDATE journal SET Titre = ?, Contenu = ? WHERE id_Journal = ?');
+    $req->execute(array($new_title, $new_content, $id_Journal));
+    $req->closeCursor();
+}
+
+
+function createJournal($title, $content, $author){
+    require('../BDD/config.php');
+    $req = $bdd->prepare('INSERT INTO journal (Titre, Contenu, Rédacteur, date_création) VALUES ( ?, ?, ?, NOW() )');
+    $req->execute(array($title, $content, $author));
+    $id_Journal = $bdd->lastInsertId();
+    $req->closeCursor();
+
+    return $id_Journal;
+
+}
