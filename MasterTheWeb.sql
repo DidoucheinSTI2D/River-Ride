@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Journal` (
   `Titre` VARCHAR(100) NOT NULL,
   `date_création` DATE NOT NULL,
   `Contenu` TEXT NOT NULL,
+  `Rédacteur` VARCHAR(60) NOT NULL,
   PRIMARY KEY (`id_Journal`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
