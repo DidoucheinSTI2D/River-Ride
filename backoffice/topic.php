@@ -45,21 +45,12 @@
         <div class="user-info">
             <img src="../img/picture/pp.png" alt="Photo de profil" class="profile-picture" id="pp" />
             <div class="username mt-2 col-md-3 ">
-<<<<<<< HEAD
                 <?php
                 if (!isset($_SESSION['Pseudo'])) {
                     $_SESSION['Pseudo'] = "root";
                 }
                 echo $_SESSION['Pseudo'];
                 ?>
-=======
-            <?php 
-            if (!isset($_SESSION['Pseudo'])) {
-                $_SESSION['Pseudo'] = "root";
-            }
-            echo $_SESSION['Pseudo'];
-            ?>
->>>>>>> 2ff2b293f270cbed8f533cd051e272b3f2dd2b26
             </div>
             <a href="../disconnect.php"><button id="logout" class="logout-button">Déconnexion</button></a>
         </div>
@@ -85,7 +76,6 @@
         <div class="main-content">
             <h3>Topics</h3>
             <?php
-<<<<<<< HEAD
 
             // Récupérer les topics
             $req = $bdd->prepare('SELECT * FROM topic');
@@ -94,69 +84,11 @@
             $req->closeCursor();
 
             if (!empty($topics)) {
-=======
-            function ajouter_topic($id_topic, $date_creation, $contenu, $createur) {
-                global $bdd;
-                $stmt = $bdd->prepare("INSERT INTO topic (id_Topic, Date_création, Contenu, Utilisateur_id_Utilisateur) VALUES (?, ?, ?, ?)");
-
-                if (!$stmt) {
-                    die("Erreur de préparation de la requête : " . $bdd->error);
-                }
-                $stmt->bind_param("isss", $id_topic, $date_creation, $contenu, $createur);
-
-                if (!$stmt->execute()) {
-                    die("Erreur d'exécution de la requête : " . $stmt->error);
-                }
-                $stmt->close();
-            }
-
-            function supprimer_topic($id_topic) {
-                global $bdd;
-                $stmt = $bdd->prepare("DELETE FROM topic WHERE id_Topic = ?");
-
-                if (!$stmt) {
-                    die("Erreur de préparation de la requête : " . $bdd->error);
-                }
-                $stmt->bind_param("i", $id_topic);
-
-                if (!$stmt->execute()) {
-                    die("Erreur d'exécution de la requête : " . $stmt->error);
-                }
-                $stmt->close();
-            }
-
-            if (isset($_POST['addTopic'])) {
-                $id_topic = $_POST['id_topic'];
-                $date_creation = $_POST['date_creation'];
-                $contenu = $_POST['contenu'];
-                $createur = $_POST['createur'];
-                ajouter_topic($id_topic, $date_creation, $contenu, $createur);
-                echo "Topic ajouté avec succès !";
-            }            
-
-            if (isset($_POST['deleteTopic'])) {
-                $id_topic = $_POST['id_topic'];
-                supprimer_topic($id_topic);
-                echo "Topic supprimé avec succès !";
-            }
-            ?>
-            <?php
-            // Affichage des topics
-            $sql = "SELECT * FROM topic";
-
-            $result = $bdd->query($sql);
-
-            if ($result->rowCount() > 0) {
->>>>>>> 2ff2b293f270cbed8f533cd051e272b3f2dd2b26
                 echo '<p>Gestion des topics :</p>';
                 echo '<table class="table table-condensed table-striped">';
                 echo '<tr> <th> Titre </th> <th> Date de création </th> <th> Contenu </th> <th> Id_Créateur </th> <th> Modifier titre </th> <th> Supprimer </th> </tr>';
                 // Affichage des informations des topics
-<<<<<<< HEAD
                 foreach ($topics as $topic) {
-=======
-                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
->>>>>>> 2ff2b293f270cbed8f533cd051e272b3f2dd2b26
                     echo '<tr>';
                     echo '<td>' . $topic["titre"] . '</td>';
                     echo '<td>' . $topic["date_création"] . '</td>';
@@ -170,11 +102,6 @@
             } else {
                 echo "Aucun topic trouvé.";
             }
-<<<<<<< HEAD
-=======
-
-            $bdd = null;
->>>>>>> 2ff2b293f270cbed8f533cd051e272b3f2dd2b26
             ?>
         </div>
     </div>
