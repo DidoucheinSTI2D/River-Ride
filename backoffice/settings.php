@@ -43,9 +43,10 @@
         <div class="column-left" id="left">
             <h2>Menu</h2>
             <ul>
-                <li><a href="../connect.php">Accueil</a></li>
+            <li><a href="../connect.php">Accueil</a></li>
                 <li><a href="./backoffice.php">BackOffice</a></li>
                 <li><a href="./user.php">Utilisateurs</a></li>
+                <li><a href="./LeSuPerisien.php">LeSuPerisien</a></li>
                 <li><a href="./topic.php">Topics</a></li>
                 <li><a href="./comment.php">Commentaires</a></li>
                 <li><a href="./alarm.php">Signalements</a></li>

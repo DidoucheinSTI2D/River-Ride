@@ -44,9 +44,9 @@
         <div class="column-left" id="left">
             <h2>Menu</h2>
             <ul>
-                <li><a href="../connect.php">Accueil</a></li>
-                <li><a href="./backoffice.php">BackOffice</a></li>
+            <li><a href="./backoffice.php">BackOffice</a></li>
                 <li><a href="./user.php">Utilisateurs</a></li>
+                <li><a href="./LeSuPerisien.php">LeSuPerisien</a></li>
                 <li><a href="./topic.php">Topics</a></li>
                 <li><a href="./comment.php">Commentaires</a></li>
                 <li><a href="./alarm.php">Signalements</a></li>
@@ -67,13 +67,7 @@
                 $req->closeCursor();
             }
 
-            function modificateTopic($id_Topic, $new_title)
-            {
-                require('../BDD/config.php');
-                $req = $bdd->prepare('UPDATE topic SET titre = ? WHERE id_Topic = ?');
-                $req->execute(array($new_title, $id_Topic));
-                $req->closeCursor();
-            }
+        
 
             if (isset($_POST['addTopic'])) {
                 $id_topic = $_POST['id_topic'];
