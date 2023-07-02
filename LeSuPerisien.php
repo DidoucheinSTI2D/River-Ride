@@ -16,6 +16,7 @@
 <body>
     <header>
         <?php include "./component/header.php"; ?>
+        <?php include "./logs.php"; ?>
     </header>
     <main class="container">    
     <div class="container py-4">

@@ -84,6 +84,7 @@ elseif (isset($_POST['edit_topic'])) {
 <body>
     <header>
         <?php include "./component/header.php"; ?>
+        <?php include "./logs.php"; ?>
     </header>
     <main class="container">
         <div class="container py-4">

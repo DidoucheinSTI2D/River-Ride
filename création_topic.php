@@ -59,6 +59,7 @@
         <?php  
             include "./component/header.php"; 
         ?>
+        <?php include "./logs.php"; ?>
     </header>
     <main class="container">
     <h1> Bienvenue sur la page de création de Blog !</h1>
