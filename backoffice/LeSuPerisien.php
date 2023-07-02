@@ -1,3 +1,24 @@
+<?php
+    session_start();
+    require "../BDD/config.php";
+    require "../LeSuPerisien/fonctions.php";
+
+    // Vérifier si l'utilisateur est connecté
+    if (!isset($_SESSION['id_Utilisateur'])) {
+        header("Location: ../connect.php");
+        exit();
+    }
+
+
+    if (isset($_POST['create_journal'])) {
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+        $author = $_POST['author'];
+        createJournal($title, $content, $author);
+        echo "Journal ajouté avec succès !";
+    }
+
+    ?>
 <!DOCTYPE html>
 <html lang="fr-FR">
 
@@ -10,18 +31,7 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <?php
-    session_start();
-    require "../BDD/config.php";
-    require "../LeSuPerisien/fonctions.php";
-
-    // Vérifier si l'utilisateur est connecté
-    if (!isset($_SESSION['id_Utilisateur'])) {
-        header("Location: ../connect.php");
-        exit();
-    }
-
-    ?>
+    
 </head>
 
 <body>
@@ -44,9 +54,10 @@
         <div class="column-left" id="left">
             <h2>Menu</h2>
             <ul>
-                <li><a href="../connect.php">Accueil</a></li>
+            <li><a href="../connect.php">Accueil</a></li>
                 <li><a href="./backoffice.php">BackOffice</a></li>
                 <li><a href="./user.php">Utilisateurs</a></li>
+                <li><a href="./LeSuPerisien.php">LeSuPerisien</a></li>
                 <li><a href="./topic.php">Topics</a></li>
                 <li><a href="./comment.php">Commentaires</a></li>
                 <li><a href="./alarm.php">Signalements</a></li>
@@ -55,62 +66,28 @@
             </ul>
         </div>
         <div class="main-content">
-            <h3>Topics</h3>
-            <?php
-
-            function deleteTopic($id_Topic)
-            {
-                require('../BDD/config.php');
-                // Préparez la requête de suppression
-                $req = $bdd->prepare('DELETE FROM topic WHERE id_Topic = ? ');
-                $req->execute(array($id_Topic));
-                $req->closeCursor();
-            }
-
-            function modificateTopic($id_Topic, $new_title)
-            {
-                require('../BDD/config.php');
-                $req = $bdd->prepare('UPDATE topic SET titre = ? WHERE id_Topic = ?');
-                $req->execute(array($new_title, $id_Topic));
-                $req->closeCursor();
-            }
-
-            if (isset($_POST['addTopic'])) {
-                $id_topic = $_POST['id_topic'];
-                $date_creation = $_POST['date_creation'];
-                $contenu = $_POST['contenu'];
-                $createur = $_POST['createur'];
-                ajouter_topic($id_topic, $date_creation, $contenu, $createur);
-                echo "Topic ajouté avec succès !";
-            }
-
-            if (isset($_POST['deleteTopic'])) {
-                $id_topic = $_POST['id_topic'];
-                supprimer_topic($id_topic);
-                echo "Topic supprimé avec succès !";
-            }
-            ?>
+            <h3>Journaux :</h3>
 
             <?php
-            // Récupérer les topics
-            $req = $bdd->prepare('SELECT * FROM topic');
+            // Récupérer les journaux
+            $req = $bdd->prepare('SELECT * FROM journal');
             $req->execute();
-            $topics = $req->fetchAll(PDO::FETCH_ASSOC);
+            $journals = $req->fetchAll(PDO::FETCH_ASSOC);
             $req->closeCursor();
 
-            if (!empty($topics)) {
-                echo '<p>Gestion des topics :</p>';
+            if (!empty($journals)) {
+                echo '<p>Gestion des journaux :</p>';
                 echo '<table class="table table-condensed table-striped">';
-                echo '<tr> <th> Id </th> <th> Date de création </th> <th> Contenu </th> <th> Utilisateur </th> <th> Modifier </th> <th> Supprimer </th> </tr>';
+                echo '<tr> <th> Titre </th> <th> Contenu </th> <th> Date de création </th> <th> Rédacteur </th> <th> Modifier </th> <th> Supprimer </th> </tr>';
                 // Affichage des informations des topics
-                foreach ($topics as $topic) {
+                foreach ($journals as $journal) {
                     echo '<tr>';
-                    echo '<td>' . $topic["id_Topic"] . '</td>';
-                    echo '<td>' . $topic["Date_création"] . '</td>';
-                    echo '<td>' . $topic["Contenu"] . '</td>';
-                    echo '<td>' . $topic["Utilisateur_id_Utilisateur"] . '</td>';
-                    echo "<td> <a class='badge badge-warning' href='update.php?id=" . $topic["id_Topic"] . "'>Modifier</a> </td>";
-                    echo "<td> <a class='badge badge-danger' href='delete.php?id=" . $topic["id_Topic"] . "'>Supprimer</a> </td>";
+                    echo '<td>' . $journal["Titre"] . '</td>';
+                    echo '<td>' . $journal["Contenu"] . '</td>';
+                    echo '<td>' . $journal["date_création"] . '</td>';
+                    echo '<td>' . $journal["Rédacteur"] . '</td>';
+                    echo "<td> <a class='badge badge-warning' href='./LeSuPerisien/modifier_LeSuPerisien.php?id_Journal=" . $journal["id_Journal"] . "'>Modifier</a> </td>";
+                    echo "<td> <a class='badge badge-danger' href='./topic/supprimer.php?id_Journal=" . $journal["id_Journal"] . "'>Supprimer</a> </td>";
                     echo '</tr>';
                 }
                 echo '</table>';
@@ -118,18 +95,22 @@
                 echo "Aucun topic trouvé.";
             }
             ?>
-
-            <form method="POST">
-                <label for="id_topic">ID du topic:</label> <input type="text" name="id_topic" required>
-                <label for="date_creation">Date de création:</label> <input type="date" name="date_creation" required>
-                <label for="contenu">Contenu:</label> <input type="text" name="contenu" required>
-                <label for="createur">Id Créateur:</label> <input type="text" name="createur" required>
-                <button type="submit" name="addTopic">Ajouter Topic</button>
-            </form>
-            <form method="POST">
-                <label for="id_topic">ID du Topic:</label> <input type="text" name="id_topic" required>
-                <button type="submit" name="deleteTopic">Supprimer Topic</button>
-            </form>
+            <h3> Création de Journal : </h3>
+            <form action="" method="post">
+                <p>
+                    <label for="title">Titre :</label><br>
+                    <input type="text" name="title" id="title" value="<?= isset($_POST['title']) ? $_POST['title'] : '' ?>">
+                </p>
+                <p>
+                    <label for="content">Contenu :</label><br>
+                    <textarea name="content" id="content" cols="30" rows="4"><?= isset($_POST['content']) ? $_POST['content'] : '' ?></textarea>
+                </p>
+                <p>
+                    <label for="author">Auteur :</label><br>
+                    <input type="text" name="author" id="author" value="<?= isset($_POST['author']) ? $_POST['author'] : '' ?>">
+                </p>
+                <button type="submit" name="create_journal">Créer !</button>
+            
         </div>
     </div>
 </body>

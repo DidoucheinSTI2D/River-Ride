@@ -71,5 +71,32 @@ function enregistrerAvatar() {
         });
 }
 
-// On genere une premiere previsualisation automatique de l'avatar
-genererAvatar()
+async function previewAvatar(rond, yeux, nez, sourire) {
+    var avatarResult = document.getElementById("avatar-result");
+    var avatarPreview = avatarResult.querySelector(".avatar-preview");
+    avatarPreview.innerHTML = "";
+
+    try {
+        var [imgRond, imgYeux, imgNez, imgSourire] = await Promise.all([
+            loadImage(rond),
+            loadImage(yeux),
+            loadImage(nez),
+            loadImage(sourire),
+        ]);
+
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        canvas.width = 100;
+        canvas.height = 100;
+
+        context.drawImage(imgRond, 0, 0, 100, 100);
+        context.drawImage(imgYeux, 30, 10, 40, 20);
+        context.drawImage(imgNez, 40, 40, 20, 20);
+        context.drawImage(imgSourire, 35, 60, 30, 30);
+
+
+        avatarPreview.appendChild(canvas);
+    } catch (error) {
+        console.error(error);
+    }
+}

@@ -32,6 +32,10 @@ if (isset($_POST['connect'])) {
         $_SESSION['Pseudo'] = $resultUser['Pseudo'];
         $_SESSION['Email'] = $resultUser['e-mail'];
         $_SESSION['droits'] = $resultUser['Droits'];
+
+        $updateLastLogin = $bdd->prepare('UPDATE Utilisateur SET last_login = NOW() WHERE id_Utilisateur = ?');
+        $updateLastLogin->execute(array($_SESSION['id_Utilisateur']));
+
         if ($_SESSION['droits'] == 'user') {
             header("Location: leSuPerisien.php?id=" . $_SESSION['id_Utilisateur']);
             exit; // Terminer l'exécution du script après la redirection
@@ -42,6 +46,7 @@ if (isset($_POST['connect'])) {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr-FR">
