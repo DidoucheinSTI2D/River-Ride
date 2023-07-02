@@ -88,7 +88,7 @@
     const switchThemeBtn = document.querySelector('.changeTheme button');
     const body = document.body;
     let isDarkMode = false;
-</script>
+
 <script src="./component/avatar/avatar.js"></script>
 <script>
     previewAvatar('<?php echo $avatar["rond"] ?>','<?php echo $avatar["yeux"] ?>','<?php echo $avatar["nez"] ?>','<?php echo $avatar["sourire"] ?>');
