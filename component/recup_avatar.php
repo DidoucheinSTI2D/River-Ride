@@ -1,4 +1,5 @@
 <?php
+require "../BDD/config.php";
 $pseudo = $_SESSION['Pseudo'];
 
 // Requête pour récupérer les choix de l'utilisateur

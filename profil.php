@@ -5,6 +5,8 @@
         exit;
     }
     $pseudo = $_SESSION['Pseudo'];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -15,15 +17,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeSuperCoin - Profil</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="./component/avatar.css">
 </head>
+<style>
+    #avatar-result {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .avatar-preview {
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        border: 1px solid #ccc;
+        margin-right: 20px;
+    }
+
+    .avatar-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
 
 <body>
 
 <header>
     <?php include "./component/header.php"; ?>
     <?php include "./logs.php"; ?>
+    <?php include "./component/avatar/recuperer_avatar.php"; ?>
 </header>
 
 <main style="margin-top: 7rem;">
@@ -39,12 +63,16 @@
                 </p>
                 <div class="tab-pane fade show active">
                     <div class="text-center mb-3">
+                        <div id="avatar-result">
+                            <div class="avatar-preview">
+
+                            </div>
+                        </div>
                         <h3> <?php echo $_SESSION['Pseudo']?></h3>
                         <h5> <?php echo "Votre Email : " . $_SESSION['Email']?></h5>
-                        <button class="btn btn-primary btn-block"> Modifier les informations </button>
-                        <a href="avatar.php"><button class="btn btn-primary btn-block"> Modifier l'avatar </button></a>
+                        <a href="./component/avatar/avatar.php"><button class="btn btn-primary btn-block"> Modifier l'avatar </button></a>
                         <a href="disconnect.php"><button class="btn btn-danger btn-block">Se déconnecter</button></a>
-                        <div class="changeTheme"><button class="btn btn-dark btn-block">Basculer le mode sombre</button></div>
+                        <a href="./component/exportpdf.php"><button class="btn btn-primary btn-block">Profil en PDF</button></a>
                     </div>
                 </div>
             </div>
@@ -61,15 +89,9 @@
     const body = document.body;
     let isDarkMode = false;
 
-    switchThemeBtn.addEventListener('click', () => {
-        isDarkMode = !isDarkMode;
-        if (isDarkMode) {
-            body.classList.add('dark');
-        } else {
-            body.classList.remove('dark');
-        }
-    });
+<script src="./component/avatar/avatar.js"></script>
+<script>
+    previewAvatar('<?php echo $avatar["rond"] ?>','<?php echo $avatar["yeux"] ?>','<?php echo $avatar["nez"] ?>','<?php echo $avatar["sourire"] ?>');
 </script>
 
 </body>
-</html>
