@@ -3,7 +3,7 @@
 function getJournals()
 {
     require('BDD/config.php');
-    $req = $bdd->prepare('SELECT id_Journal, Titre, date_création FROM journal ORDER BY date_création DESC');
+    $req = $bdd->prepare('SELECT id_Journal, Titre, date_création, Rédacteur FROM journal ORDER BY date_création DESC');
     $req->execute();
     $data = $req->fetchAll(PDO::FETCH_OBJ);
     return $data;
@@ -44,7 +44,7 @@ function getComments($id_Journal)
 function getTopics()
 {
     require('BDD/config.php');
-    $req = $bdd->prepare('SELECT id_Topic, titre, date_création FROM topic ORDER BY date_création DESC');
+    $req = $bdd->prepare('SELECT * FROM topic ORDER BY date_création DESC');
     $req->execute();
     $data = $req->fetchAll(PDO::FETCH_OBJ);
     $req -> closeCursor();
