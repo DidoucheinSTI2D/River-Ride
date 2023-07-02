@@ -1,13 +1,13 @@
 <?php
 session_start();
-require "./BDD/config.php";
-require "./component/recup_avatar.php";
+require "../../BDD/config.php";
+require "recuperer_avatar.php";
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Générateur d'avatar</title>
+    <title>LeSuperCoin - Avatar</title>
     <style>
         body {
             text-align: center;
@@ -98,7 +98,7 @@ require "./component/recup_avatar.php";
         <label for="nez">Sourire:</label>
         <select id="nez">
             <option value="img/nez1.png" <?php if ($avatar['sourire'] === 'img/nez1.png') echo 'selected'; ?>>Nez 1</option>
-            <option value="img/nez2.png" <?php if ($avatar['sourire'] === 'img/nez1.png') echo 'selected'; ?>>Nez 1</option>
+            <option value="img/nez2.png" <?php if ($avatar['sourire'] === 'img/nez1.png') echo 'selected'; ?>>Nez 2</option>
         </select>
     </div>
     <div class="avatar-section">
@@ -116,8 +116,12 @@ require "./component/recup_avatar.php";
 
 <button onclick="genererAvatar()">Générer la preview</button>
 <button onclick="enregistrerAvatar()" class="button-save">Enregistrer l'avatar</button>
-
+<a href="../../profil.php"><button> Retourner sur votre profil </button></a>
 <script src="avatar.js"></script>
+<script>
+    // On genere une premiere previsualisation automatique de l'avatar
+    genererAvatar()
+</script>
 
 </body>
 </html>
