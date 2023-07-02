@@ -56,6 +56,7 @@ $Topic = getTopic($id_Topic);
             require_once('BDD/config.php');
             require_once('LeSuPerisien/fonctions.php');
         ?>
+        <?php include "./logs.php"; ?>
     </header>
     <main class="container">
     <h1> Bienvenue sur l'espage de modification de Topic !</h1>

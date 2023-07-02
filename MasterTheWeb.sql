@@ -1,5 +1,3 @@
-
-
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
@@ -86,14 +84,13 @@ CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Commentaires` (
   `Journal_id_Journal` INT(11) NULL,
   `Topic_id_Topic` INT(11) NULL,
   PRIMARY KEY (`id_Commentaires`),
-  INDEX `fk_Commentaires_Utilisateur1_idx` (`Utilisateur_id_Utilisateur` ASC) ,
-  INDEX `fk_Commentaires_Journal1_idx` (`Journal_id_Journal` ASC) ,
-  INDEX `fk_Commentaires_Topic1_idx` (`Topic_id_Topic` ASC) ,
+  INDEX `fk_Commentaires_Utilisateur1_idx` (`Utilisateur_id_Utilisateur` ASC),
+  INDEX `fk_Commentaires_Journal1_idx` (`Journal_id_Journal` ASC),
+  INDEX `fk_Commentaires_Topic1_idx` (`Topic_id_Topic` ASC),
   CONSTRAINT `fk_Commentaires_Journal1`
     FOREIGN KEY (`Journal_id_Journal`)
     REFERENCES `MasterTheWeb`.`Journal` (`id_Journal`)
     ON DELETE CASCADE,
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Commentaires_Utilisateur1`
     FOREIGN KEY (`Utilisateur_id_Utilisateur`)
     REFERENCES `MasterTheWeb`.`Utilisateur` (`id_Utilisateur`)
@@ -103,7 +100,8 @@ CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Commentaires` (
     FOREIGN KEY (`Topic_id_Topic`)
     REFERENCES `MasterTheWeb`.`Topic` (`id_Topic`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -265,10 +263,9 @@ CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`coindumoment` (
   `potentiel` CHAR(8) NOT NULL,
   `commentaire` TEXT,
   `lien` VARCHAR(255),
-  'date' DATETIME NOT NULL,
-  PRIMARY KEY (`id_Coin`)) 
-ENGINE = InnoDB 
-DEFAULT CHARACTER SET = utf8;
+  `date` DATETIME NOT NULL,
+  PRIMARY KEY (`id_Coin`)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

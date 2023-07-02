@@ -11,6 +11,7 @@
         <?php 
         include "./component/header.php";
         ?>
+        <?php include "./logs.php"; ?>
     </header>
     <main class="container">
     <h2>Inscription à la newsletter</h2>

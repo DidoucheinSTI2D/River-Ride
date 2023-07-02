@@ -12,6 +12,7 @@
             session_start(); 
             include "./component/header.php"; 
         ?>
+        <?php include "./logs.php"; ?>
     </header>
     <main class="container">
     <?php

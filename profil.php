@@ -55,11 +55,11 @@
         <div class="row justify-content-center p-3 mb-2 bg-light text-dark rounded mx-auto">
             <div class="tab-content">
                 <p style="color: red;">
-                <?php
-                if(isset($_GET['error']) && $_GET['error'] ==  "notadmin"){
-                    echo "Vous n'avez pas les permissions requises pour accéder à cette page 😡";
-                }
-                ?>
+                    <?php
+                    if(isset($_GET['error']) && $_GET['error'] ==  "notadmin"){
+                        echo "Vous n'avez pas les permissions requises pour accéder à cette page 😡";
+                    }
+                    ?>
                 </p>
                 <div class="tab-pane fade show active">
                     <div class="text-center mb-3">
@@ -84,6 +84,10 @@
     <?php include "./component/footer.php"; ?>
 </footer>
 
+<script>
+    const switchThemeBtn = document.querySelector('.changeTheme button');
+    const body = document.body;
+    let isDarkMode = false;
 
 <script src="./component/avatar/avatar.js"></script>
 <script>
