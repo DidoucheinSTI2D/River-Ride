@@ -31,7 +31,7 @@ if (isset($_POST['chat_creation'])) {
     $chat_privacy = $_POST['privacy'];
     $id_redacteur = $_SESSION['id_Utilisateur'];
 
-    $query = $bdd->prepare("INSERT INTO chat (id_rédacteur, `privé/publique`) VALUES (:id_redacteur, 'privé')");
+    $query = $bdd->prepare("INSERT INTO chat (id_rédacteur, `privé/publique`) VALUES (:id_redacteur, :prive)");
     $query->bindParam(':id_redacteur', $id_redacteur);
 
     if ($chat_privacy == 'public') {
