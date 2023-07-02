@@ -78,8 +78,9 @@ if (isset($_POST['modifier'])) {
                 <li><a href="../../connect.php">Accueil</a></li>
                 <li><a href="../backoffice.php">BackOffice</a></li>
                 <li><a href="../user.php">Utilisateurs</a></li>
+                <li><a href="../LeSuPerisien.php">LeSuPerisien</a></li>
                 <li><a href="../topic.php">Topics</a></li>
-                <li><a href="../LeSuPerisien.php">Topics</a></li>
+                <li><a href="../coindumoment.php">Coin du moment</a></li>
                 <li><a href="../comment.php">Commentaires</a></li>
                 <li><a href="../alarm.php">Signalements</a></li>
                 <li><a href="../contact.php">Contact</a></li>

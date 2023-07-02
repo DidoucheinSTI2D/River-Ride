@@ -1,19 +1,9 @@
--- MySQL Workbench Forward Engineering
+
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema MasterTheWeb
--- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema MasterTheWeb
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `MasterTheWeb` DEFAULT CHARACTER SET utf8 ;
 USE `MasterTheWeb` ;
 
@@ -264,6 +254,20 @@ CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`Utilisateur_has_Token` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+CREATE TABLE IF NOT EXISTS `MasterTheWeb`.`coindumoment` (
+  `id_Coin` INT(11) NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(60) NOT NULL,
+  `prix` FLOAT NOT NULL,
+  `potentiel` CHAR(8) NOT NULL,
+  `commentaire` TEXT,
+  `lien` VARCHAR(255),
+  'date' DATETIME NOT NULL,
+  PRIMARY KEY (`id_Coin`)) 
+ENGINE = InnoDB 
 DEFAULT CHARACTER SET = utf8;
 
 

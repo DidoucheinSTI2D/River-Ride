@@ -10,12 +10,14 @@
     }
 
 
-    if (isset($_POST['create_journal'])) {
-        $title = $_POST['title'];
-        $content = $_POST['content'];
-        $author = $_POST['author'];
-        createJournal($title, $content, $author);
-        echo "Journal ajouté avec succès !";
+    if (isset($_POST['add_coin'])) {
+        $name = $_POST['name'];
+        $price = $_POST['price'];
+        $potential = $_POST['potential'];
+        $comment = $_POST['comment'];
+        $link = $_POST['link'];
+        addCoin($name, $price, $potential, $comment, $link);
+        echo "Coin ajouté avec succès !";
     }
 
     ?>
@@ -67,28 +69,30 @@
             </ul>
         </div>
         <div class="main-content">
-            <h3>Journaux :</h3>
+            <h3>Coins :</h3>
 
             <?php
-            // Récupérer les journaux
-            $req = $bdd->prepare('SELECT * FROM journal');
+            // Récupérer les coins
+            $req = $bdd->prepare('SELECT * FROM coindumoment');
             $req->execute();
-            $journals = $req->fetchAll(PDO::FETCH_ASSOC);
+            $coins = $req->fetchAll(PDO::FETCH_ASSOC);
             $req->closeCursor();
 
-            if (!empty($journals)) {
-                echo '<p>Gestion des journaux :</p>';
+            if (!empty($coins)) {
+                echo '<p>Gestion des Coins :</p>';
                 echo '<table class="table table-condensed table-striped">';
-                echo '<tr> <th> Titre </th> <th> Contenu </th> <th> Date de création </th> <th> Rédacteur </th> <th> Modifier </th> <th> Supprimer </th> </tr>';
+                echo '<tr> <th> Nom </th> <th> Prix </th> <th> Potentiel </th> <th> Commentaire </th> <th> Lien </th> <th> Date </th> <th> Modifier </th> <th> Supprimer </th> </tr>';
                 // Affichage des informations des topics
-                foreach ($journals as $journal) {
+                foreach ($coins as $coin) {
                     echo '<tr>';
-                    echo '<td>' . $journal["Titre"] . '</td>';
-                    echo '<td>' . $journal["Contenu"] . '</td>';
-                    echo '<td>' . $journal["date_création"] . '</td>';
-                    echo '<td>' . $journal["Rédacteur"] . '</td>';
-                    echo "<td> <a class='badge badge-warning' href='./LeSuPerisien/modifier_LeSuPerisien.php?id_Journal=" . $journal["id_Journal"] . "'>Modifier</a> </td>";
-                    echo "<td> <a class='badge badge-danger' href='./topic/supprimer.php?id_Journal=" . $journal["id_Journal"] . "'>Supprimer</a> </td>";
+                    echo '<td>' . $coin["nom"] . '</td>';
+                    echo '<td>' . $coin["prix"] . '</td>';
+                    echo '<td>' . $coin["potentiel"] . '</td>';
+                    echo '<td>' . $coin["commentaire"] . '</td>';
+                    echo '<td>' . $coin["lien"] . '</td>';
+                    echo '<td>' . $coin["date"] . '</td>';
+                    echo "<td> <a class='badge badge-warning' href='./coindumoment/modifier_coin.php?id_Coin=" . $coin["id_Coin"] . "'>Modifier</a> </td>";
+                    echo "<td> <a class='badge badge-danger' href='./topic/supprimer.php?id_Coin=" . $coin["id_Coin"] . "'>Supprimer</a> </td>";
                     echo '</tr>';
                 }
                 echo '</table>';
@@ -96,21 +100,29 @@
                 echo "Aucun topic trouvé.";
             }
             ?>
-            <h3> Création de Journal : </h3>
+            <h3> Ajout de Coin : </h3>
             <form action="" method="post">
                 <p>
-                    <label for="title">Titre :</label><br>
-                    <input type="text" name="title" id="title" value="<?= isset($_POST['title']) ? $_POST['title'] : '' ?>">
+                    <label for="name">Nom :</label><br>
+                    <input type="text" name="name" id="name" value="<?= isset($_POST['name']) ? $_POST['name'] : '' ?>">
                 </p>
                 <p>
-                    <label for="content">Contenu :</label><br>
-                    <textarea name="content" id="content" cols="30" rows="4"><?= isset($_POST['content']) ? $_POST['content'] : '' ?></textarea>
+                    <label for="price">Prix :</label><br>
+                    <input type="text" name="price" id="price" value="<?= isset($_POST['price']) ? $_POST['price'] : '' ?>">
                 </p>
                 <p>
-                    <label for="author">Auteur :</label><br>
-                    <input type="text" name="author" id="author" value="<?= isset($_POST['author']) ? $_POST['author'] : '' ?>">
+                    <label for="potential">Potentiel :</label><br>
+                    <input type="text" name="potential" id="potential" value="<?= isset($_POST['potential']) ? $_POST['potential'] : '' ?>">
                 </p>
-                <button type="submit" name="create_journal">Créer !</button>
+                <p>
+                    <label for="comment">Commentaire :</label><br>
+                    <textarea name="comment" id="comment" cols="30" rows="4"><?= isset($_POST['comment']) ? $_POST['comment'] : '' ?></textarea>
+                </p>
+                <p>
+                    <label for="link">Lien :</label><br>
+                    <input type="text" name="link" id="link" value="<?= isset($_POST['link']) ? $_POST['link'] : '' ?>">
+                </p>
+                <button type="submit" name="add_coin">Ajouter !</button>
             
         </div>
     </div>

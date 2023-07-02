@@ -159,3 +159,33 @@ function createJournal($title, $content, $author){
     return $id_Journal;
 
 }
+
+function getCoins()
+{
+    require('BDD/config.php');
+    $req = $bdd->prepare('SELECT * FROM coindumoment ORDER BY id_Coin DESC');
+    $req->execute();
+    $data = $req->fetchAll(PDO::FETCH_OBJ);
+    return $data;
+    $req -> closeCursor();
+}
+
+function addCoin($name, $price, $potential, $comment, $link){
+    require('../BDD/config.php');
+    $req = $bdd->prepare('INSERT INTO coindumoment (nom, prix, potentiel, commentaire, lien, date) VALUES ( ?, ?, ?, ?, ?, NOW() )');
+    $req->execute(array($name, $price, $potential, $comment, $link));
+    $id_coin = $bdd->lastInsertId();
+    $req->closeCursor();
+
+    return $id_Coin;
+
+}
+
+
+function modificateCoin ($new_name, $new_price, $new_potential, $new_comment, $new_link, $id_Coin)
+{
+    require('../../BDD/config.php');
+    $req = $bdd->prepare('UPDATE coindumoment SET nom = ?, prix = ?, potentiel = ?, commentaire = ?, lien = ?, date = NOW() WHERE id_Coin = ?');
+    $req->execute(array($new_name, $new_price, $new_potential, $new_comment, $new_link, $id_Coin));
+    $req->closeCursor();
+}
