@@ -54,6 +54,7 @@
                 <li><a href="./contact.php">Contact</a></li>
                 <li><a href="./settings.php">Paramètres</a></li>
                 <li><a href="./configure_learn2win.php">Learn2win</a></li>
+                <li><a href="./captcha.php">Captcha</a></li>
             </ul>
         </div>
         <div class="main-content">
