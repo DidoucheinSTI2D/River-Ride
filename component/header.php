@@ -30,7 +30,7 @@
                         <a href="./coin_du_moment.php" class="nav-link text-dark"> Coin du Moment </a>
                     </li>
                     <li class="nav-item disabled">
-                        <a href="#" class="nav-link disabled">   🚧L̷e̷a̷r̷n̷2̷w̷i̷n̷🚧</a>
+                        <a href="learn2win.php" class="nav-link text-dark"> Learn2Win </a>
                     </li>
                     <li  class="ms-3" id="search">
                         <div class="input-group rounded">
