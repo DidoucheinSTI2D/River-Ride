@@ -23,7 +23,7 @@ if (isset($_POST['chat_id'])) {
     }
 }
 
-if (isset($_GET['erreur']) && $_GET['erreur'] == 'notauthorized') {
+if (isset($_GET['error']) && $_GET['error'] == 'notauthorized') {
     $error = "Vous n'êtes pas autorisé à accéder à ce chat privé.";
 }
 

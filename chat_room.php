@@ -1,7 +1,8 @@
 <?php
 require './BDD/config.php';
 session_start();
-if (!isset($_SESSION['id_Utilisateur'])){
+
+if (!isset($_SESSION['id_Utilisateur'])) {
     header('location: connect.php?error=notconnected');
     exit;
 }
@@ -12,29 +13,39 @@ if (isset($_GET['chat_id'])) {
     $_SESSION['current_chat_id'] = $_GET['chat_id'];
     $chat_id = $_SESSION['current_chat_id'];
 
-    $query = $bdd->prepare("SELECT Utilisateur_id_Utilisateur, Contenu, Date_du_message FROM messages WHERE Chat_id_Chat = :chat_id");
-    $query->bindParam(':chat_id', $chat_id);
-    $query->execute();
-    $messages = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    // Vérifier si le chat est privé
+    // Vérifier si le chat est public ou privé
     $chat_query = $bdd->prepare("SELECT `privé/publique` FROM chat WHERE id_Chat = :chat_id");
     $chat_query->bindParam(':chat_id', $chat_id);
     $chat_query->execute();
     $chat = $chat_query->fetch(PDO::FETCH_ASSOC);
 
-    if ($chat['privé/publique'] == 1) {
+    if ($chat['privé/publique'] == 'public') {
+        // Chat public, l'utilisateur a accès au code
+        $query = $bdd->prepare("SELECT Utilisateur_id_Utilisateur, Contenu, Date_du_message FROM messages WHERE Chat_id_Chat = :chat_id");
+        $query->bindParam(':chat_id', $chat_id);
+        $query->execute();
+        $messages = $query->fetchAll(PDO::FETCH_ASSOC);
+    } elseif ($chat['privé/publique'] == 'privé') {
         $user_id = $_SESSION['id_Utilisateur'];
 
-        $user_chat_query = $bdd->prepare("SELECT Utilisateur_id_Utilisateur, Utilisateur_id_Utilisateur1 FROM utilisateur_chat_utilisateur WHERE contenu = :chat_id");
+        $user_chat_query = $bdd->prepare("SELECT Utilisateur_id_Utilisateur, Utilisateur_id_Utilisateur1 FROM utilisateur_chat_utilisateur WHERE contenu = :chat_id AND (Utilisateur_id_Utilisateur = :user_id OR Utilisateur_id_Utilisateur1 = :user_id)");
         $user_chat_query->bindParam(':chat_id', $chat_id);
+        $user_chat_query->bindParam(':user_id', $user_id);
         $user_chat_query->execute();
         $user_chat = $user_chat_query->fetch(PDO::FETCH_ASSOC);
 
-        if ($user_id != $user_chat['Utilisateur_id_Utilisateur'] && $user_id != $user_chat['Utilisateur_id_Utilisateur1']) {
+        if (!$user_chat) {
             header("Location: chat.php?error=notauthorized");
             exit();
         }
+
+        $query = $bdd->prepare("SELECT Utilisateur_id_Utilisateur, Contenu, Date_du_message FROM messages WHERE Chat_id_Chat = :chat_id");
+        $query->bindParam(':chat_id', $chat_id);
+        $query->execute();
+        $messages = $query->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        header("Location: chat.php?error=notauthorized");
+        exit();
     }
 } else {
     header("Location: chat.php");
