@@ -6,18 +6,23 @@ $pseudo = $_SESSION['Pseudo'];
 $email = $_SESSION['Email'];
 $droits = $_SESSION['droits'];
 
-$content = "Info\n\n";
-$content .= "ID: $id\n";
-$content .= "Pseudo: $pseudo\n";
-$content .= "Email: $email\n";
-$content .= "Droits: $droits\n";
+require('../component/fdpf/fpdf.php');
 
-header('Content-Type: application/pdf');
-header('Content-Disposition: attachment; filename="Info.pdf"');
+$pdf = new FPDF();
+$pdf->AddPage();
 
-echo $content;
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(0, 10, 'Info', 0, 1);
+$pdf->SetFont('Arial', '', 12);
+$pdf->Cell(0, 10, "ID: $id", 0, 1);
+$pdf->Cell(0, 10, "Pseudo: $pseudo", 0, 1);
+$pdf->Cell(0, 10, "Email: $email", 0, 1);
+$pdf->Cell(0, 10, "Droits: $droits", 0, 1);
 
-ob_end_flush(); // Sert à envoyer un tampon de sortie
+$pdf->Output('Info' . $pseudo . '.pdf', 'D');
+
+ob_end_flush();
 
 header('Location: ../profil.php');
 exit();
+?>
