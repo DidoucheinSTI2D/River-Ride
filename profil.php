@@ -73,21 +73,11 @@
                         <a href="./component/avatar/avatar.php"><button class="btn btn-primary btn-block"> Modifier l'avatar </button></a>
                         <a href="disconnect.php"><button class="btn btn-danger btn-block">Se déconnecter</button></a>
                         <a href="./component/exportpdf.php"><button class="btn btn-primary btn-block">Profil en PDF</button></a>
-                        <div class="dark"></div><button class="btn btn-dark btn-block">Mode Sombre</button>
+                        <button id="dark" class="btn btn-dark btn-block">Activer le mode sombre</button>
                         <script>
-                            const switchThemeBtn = document.querySelector('.dark');
-                            const body = document.body;
-                            let isDarkMode = false;
-
-                            switchThemeBtn.addEventListener('click', () => {
-                                isDarkMode = !isDarkMode;
-                                if (isDarkMode) {
-                                    body.classList.add('dark-theme');
-                                    switchThemeBtn.innerText = 'Mode clair';
-                                } else {
-                                    body.classList.remove('dark-theme');
-                                    switchThemeBtn.innerText = 'Mode sombre';
-                                }
+                            var darkModeToggle = document.getElementById('dark');
+                            darkModeToggle.addEventListener('click', function() {
+                                document.body.classList.toggle('dark-mode');
                             });
                         </script>
                     </div>
@@ -100,12 +90,6 @@
 <footer>
     <?php include "./component/footer.php"; ?>
 </footer>
-
-<script>
-    const switchThemeBtn = document.querySelector('.changeTheme button');
-    const body = document.body;
-    let isDarkMode = false;ù
-</script>
 
 <script src="./component/avatar/avatar.js"></script>
 <script>
