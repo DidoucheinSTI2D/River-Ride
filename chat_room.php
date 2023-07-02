@@ -58,6 +58,7 @@ if (isset($_GET['chat_id'])) {
 <html>
 <head>
     <title>Chat Room</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <header>
@@ -95,6 +96,26 @@ if (isset($_GET['chat_id'])) {
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            function loadNewMessages() {
+                var chatId = "<?php echo $chat_id; ?>";
+
+                $.ajax({
+                    url: "./component/load_messages.php",
+                    type: "POST",
+                    data: { chat_id: chatId },
+                    success: function(data) {
+                        $("#messages").html(data);
+                    }
+                });
+            }
+
+            // chargement toutes les 2 secondes
+            setInterval(loadNewMessages, 2000);
+        });
+    </script>
 </main>
 <footer>
     <?php include "./component/footer.php"; ?>
