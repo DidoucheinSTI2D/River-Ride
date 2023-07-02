@@ -7,19 +7,9 @@ body{
     background-image: radial-gradient(circle, #dcdcdc, #e0e0e0, #e3e3e3, #e7e7e7, #ebebeb);
 }
 
-body.dark {
-    background-image: radial-gradient(circle, #383838, #2f2f2f, #282828, #222222, #1b1b1b);
-    color: #ffffff;
-}
-
-.dark body {
-    background-image: radial-gradient(circle, #383838, #2f2f2f, #282828, #222222, #1b1b1b);
-    color: #ffffff;
-}
-
-.dark .container {
-    background-color: #1b1b1b;
-    color: #ffffff;
+.dark-mode {
+    background-color: #272727;
+    color: #fff;
 }
 
 #bvn{
