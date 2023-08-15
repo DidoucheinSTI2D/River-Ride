@@ -30,7 +30,7 @@ if (isset($_POST['inscription'])){
             $insertmbr = $bdd->prepare("INSERT INTO utilisateurs(prenom, nom, email, mot_de_passe) VALUES(?, ?, ?, ?)");
             $insertmbr->execute(array($prenom, $nom, $mail, $mdphash));
             
-            header("Location: connexion.php");
+            header("Location: connexion.php?inscription=success");
             exit();
         }
     } else {
