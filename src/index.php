@@ -13,6 +13,7 @@
     </style>
 </head>
 <body>
+    <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
         <div class="container">
             <a class="navbar-brand" href="#">River Ride</a>
@@ -28,10 +29,11 @@
             </div>
         </div>
     </nav>
+    </header>
 
 
     <main>
-
+        <?php if (isset($_GET['disconnect']) && $_GET['disconnect'] === "success") echo 'Merci de votre visite !'; ?>
     </main>
 
 

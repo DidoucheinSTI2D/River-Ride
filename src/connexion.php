@@ -22,7 +22,7 @@ if (isset($_POST['connexion'])){
     }
 
     if (empty($erreur)){
-        $_SESSION['id'] = $userexist['id'];
+        $_SESSION['id'] = $userexist['id_utilisateur'];
         $_SESSION['prenom'] = $userexist['prenom'];
         $_SESSION['nom'] = $userexist['nom'];
         $_SESSION['email'] = $userexist['email'];

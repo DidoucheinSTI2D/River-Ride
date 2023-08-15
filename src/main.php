@@ -21,6 +21,24 @@ $prenom = $_SESSION['prenom'];
 </head>
 
 <body>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">River Ride</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="profil.php">Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="deconnexion.php">Se déconnecter</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    </header>
+
     <?php echo "<h1> Bienvenue $prenom $nom !</h1>"; ?>
 
 
