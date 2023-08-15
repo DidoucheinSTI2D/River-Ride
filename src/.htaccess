@@ -1,6 +1,3 @@
-RewriteEngine On 
-RewriteCond %{REQUEST_FILENAME} !-d 
-RewriteCond %{REQUEST_FILE NAME}.php -f 
-RewriteRule ^(.*)$ $1.php
+RewriteEngine On
 
-ErrorDocument 404 /error404.php
+    ErrorDocument 404 http://localhost/RiverRide/src/error404.php

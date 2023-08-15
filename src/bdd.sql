@@ -1,4 +1,3 @@
-
 -- BDD RiverRide --
 DROP DATABASE IF EXISTS `RiverRide`;
 CREATE DATABASE `RiverRide`;
