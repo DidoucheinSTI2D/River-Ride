@@ -9,7 +9,8 @@ CREATE TABLE Utilisateurs (
     nom VARCHAR(50),
     prenom VARCHAR(50),
     email VARCHAR(100),
-    mot_de_passe VARCHAR(255)
+    mot_de_passe VARCHAR(255),
+    admin BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE PointsArret (

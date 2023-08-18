@@ -40,6 +40,9 @@ $prenom = $_SESSION['prenom'];
     </header>
 
     <?php echo "<h1> Bienvenue $prenom $nom !</h1>"; ?>
+    <?php if (isset($_GET['error']) && $_GET['error'] == "notadmin") {
+        echo "<p style='color : red;'>Vous n'avez pas les droits pour accéder à cette page</p>";
+    } ?>
 
 
     

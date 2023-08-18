@@ -27,7 +27,9 @@ if (isset($_POST['connexion'])){
         $_SESSION['nom'] = $userexist['nom'];
         $_SESSION['email'] = $userexist['email'];
         $_SESSION['admin'] = $userexist['admin'];
-        header("Location: main.php");
+        if($_SESSION['admin'] == 1) header("Location: backoffice/backoffice.php");
+        else header("Location: main.php");
+
     }
 }
 
@@ -49,6 +51,7 @@ if (isset($_POST['connexion'])){
 
     <div>
         <form method="POST">
+            <p style="color: red;"><?php if (isset($_GET['error']) && $_GET['error'] === "notconnected") echo 'Veuillez vous connectez avant d\'effectuer cette action.'; ?></p>
             <p style="color: green;"><?php if (isset($_GET['inscription']) && $_GET['inscription'] === "success") echo 'Inscription réussie !'; ?></p>
             <div>
                 <input type="email" name="mail" placeholder="Votre email..." required="required" autocomplete="on">
