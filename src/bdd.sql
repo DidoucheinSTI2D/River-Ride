@@ -16,9 +16,7 @@ CREATE TABLE Utilisateurs (
 CREATE TABLE PointsArret (
     id_point_arret INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100),
-    description TEXT,
-    latitude DECIMAL(10, 8),
-    longitude DECIMAL(11, 8)
+    description TEXT
 );
 
 CREATE TABLE Logements (
@@ -28,7 +26,8 @@ CREATE TABLE Logements (
     type VARCHAR(50),
     capacite INT,
     disponibilite INT,
-    FOREIGN KEY (id_point_arret) REFERENCES PointsArret(id_point_arret)
+    FOREIGN KEY (id_point_arret) REFERENCES PointsArret(id_point_arret),
+    prix DECIMAL(10, 2)
 );
 
 CREATE TABLE Itineraires (
@@ -74,11 +73,12 @@ CREATE TABLE CompositionPack (
     FOREIGN KEY (id_etape) REFERENCES EtapesItineraire(id_etape)
 );
 
-CREATE TABLE OffresPromotionnelles (
-    id_offre INT AUTO_INCREMENT PRIMARY KEY,
-    id_logement INT,
+CREATE TABLE Promotion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     date_debut DATE,
     date_fin DATE,
     reduction DECIMAL(5, 2),
-    FOREIGN KEY (id_logement) REFERENCES Logements(id_logement)
+    code VARCHAR(20),
+    premier_usage BOOLEAN
 );
+

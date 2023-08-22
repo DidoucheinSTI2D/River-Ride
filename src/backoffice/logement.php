@@ -11,6 +11,64 @@ if ($_SESSION['admin'] != 1) {
 }
 
 require "../component/bdd.php";
+
+$sql = "SELECT * FROM logements";
+$stmt = $bdd->prepare($sql);
+$stmt->execute();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["submit"])) {
+        $logement_id = $_POST["logement_id"];
+        $action = $_POST["action"];
+
+        try {
+            if ($action == 'delete') {
+                $query = "DELETE FROM Logements WHERE id_logement = :logement_id";
+            } else if ($action == 'rendre_indisponible') {
+                $query = "UPDATE Logements SET disponibilite = 1 WHERE id_logement = :logement_id";
+            } else if ($action == 'rendre_disponible') {
+                $query = "UPDATE Logements SET disponibilite = 0 WHERE id_logement = :logement_id";
+            }
+
+            $stmt = $bdd->prepare($query);
+            $stmt->bindParam(":logement_id", $logement_id);
+
+            if ($stmt->execute()) {
+                header('Location: logement.php?success=updated');
+            } else {
+                echo "Une erreur s'est produite lors de la mise à jour de l'état de disponibilité du logement.";
+            }
+        } catch (PDOException $e) {
+            echo "Erreur : " . $e->getMessage();
+        } 
+
+    } else {
+        $nom = $_POST["nom"];
+        $type = $_POST["type"];
+        $capacite = $_POST["capacite"];
+        $prix = $_POST["prix"];
+        $id_point_arret = $_POST["id_point_arret"];
+
+        try {
+            $query = "INSERT INTO Logements (id_point_arret, nom, type, capacite, prix)
+                      VALUES (:id_point_arret, :nom, :type, :capacite, :prix)";
+            $stmt = $bdd->prepare($query);
+            $stmt->bindParam(":id_point_arret", $id_point_arret);
+            $stmt->bindParam(":nom", $nom);
+            $stmt->bindParam(":type", $type);
+            $stmt->bindParam(":capacite", $capacite);
+            $stmt->bindParam(":prix", $prix);
+
+            if ($stmt->execute()) {
+                header('Location: logement.php?success=added');
+            } else {
+                echo "Une erreur s'est produite lors de l'ajout du logement.";
+            }
+        } catch (PDOException $e) {
+            echo "Erreur : " . $e->getMessage();
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +143,80 @@ require "../component/bdd.php";
     </nav>
 
 
-    <h1 style="text-align: center;">Bienvenue sur le backoffice de RiverRide</h1>
+    <h1 style="text-align: center;">Gérer les Logements :</h1>
+    <p style='color: green; text-align: center;'><?php if (isset($_GET['success']) && $_GET['success'] === "added") echo "Logement ajouté avec succès !"; ?></p>
+    <p style='color: green; text-align: center;'><?php if (isset($_GET['success']) && $_GET['success'] === "updated") echo "Logement mis à jour avec succès !"; ?></p>
+
+    <table border="1" style="margin: auto; width: 70%;">
+        <tr>
+            <th>Nom</th>
+            <th>Type</th>
+            <th>Capacité</th>
+            <th>Disponibilité</th>
+            <th>Prix</th>
+            <th>Point d'arrêts</th>
+            <th>Action</th>
+        </tr>
+        <?php while ($logement = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+            <tr>
+                <td><?= $logement['nom'] ?></td>
+                <td><?= $logement['type'] ?></td>
+                <td><?= $logement['capacite'] ?></td>
+                <td><?php if ($logement['disponibilite'] == 0) echo 'disponible'; else echo 'indisponible'; ?></td>
+                <td><?= $logement['PRIX'] ?></td>
+                <td><?= $logement['id_point_arret'] ?></td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="logement_id" value="<?= $logement['id_logement'] ?>">
+                        <input type="hidden" name="action" value="<?php if ($logement['disponibilite'] == 0) echo 'rendre_indisponible'; else echo 'rendre_disponible'; ?>">
+                        <button type="submit" name="submit">
+                            <?php if ($logement['disponibilite'] == 0) echo 'Rendre Indisponible'; else echo 'Rendre Disponible'; ?>
+                        </button>
+                    </form>
+                    <form method = "post">
+                        <input type="hidden" name="logement_id" value="<?= $logement['id_logement'] ?>">
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit" name="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        <?php } ?>
+    </table>
+
+
+
+
+    <h1 style="text-align: center;">Ajouter un Logement</h1>
+        <form method="post" style="text-align: center;">
+            <label for="nom">Nom du Logement:</label>
+            <input type="text" name="nom" required><br>
+            
+            <label for="type">Type:</label>
+            <input type="text" name="type" required><br>
+            
+            <label for="capacite">Capacité:</label>
+            <input type="number" name="capacite" required><br>
+            
+            <label for="prix">Prix:</label>
+            <input type="number" step="0.01" name="prix" required><br>
+            
+            <label for="id_point_arret">Point d'Arrêt:</label>
+            <select name="id_point_arret" required>
+                <?php 
+
+                $query = "SELECT id_point_arret, nom FROM PointsArret";
+                $stmt = $bdd->prepare($query);
+                $stmt->execute();
+
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<option value='{$row['id_point_arret']}'>{$row['nom']}</option>";
+                }
+                ?>
+            </select><br>
+
+            <input type="submit" value="Ajouter">
+        </form> 
+    
 </body>
 
 </html>

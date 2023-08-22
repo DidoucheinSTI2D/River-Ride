@@ -11,6 +11,38 @@ if ($_SESSION['admin'] != 1) {
 }
 
 require "../component/bdd.php";
+
+try {
+    if (isset($_POST['ajouter'])){
+        $datedebut = $_POST['datedebut'];
+        $datefin = $_POST['datefin'];
+        $pourcentage = $_POST['pourcentage'];
+        $code = $_POST['code'];
+        $usage = $_POST['usage'];
+
+        $aujourdhui = date("Y-m-d");
+        if ($datedebut < $aujourdhui) {
+            $error = "La date de début doit être aujourd'hui ou ultérieure.";
+        } else {
+            $dateMinFin = date("Y-m-d H:i:s", strtotime($datedebut) + 24 * 60 * 60);
+            if ($datefin <= $datedebut || $datefin <= $dateMinFin) {
+                $error = "La date de fin doit être après la date de début et au moins 24 heures après.";
+            }
+
+            if (isset($error)) {
+                header('Location: promotion.php?error=' . $error);
+                exit;
+            } else {
+                $sql = "INSERT INTO promotion (date_debut, date_fin, pourcentage, code, usage_unique) VALUES ('$datedebut', '$datefin', '$pourcentage', '$code', '$usage')";
+                $bdd->exec($sql);
+                header('Location: promotion.php?success=ajout');
+                exit;
+            }
+        } 
+    }
+} catch (Exception $e) {
+    die('Erreur : ' . $e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +118,29 @@ require "../component/bdd.php";
 
 
     <h1 style="text-align: center;">Gérer les promotions :</h1>
+    <p style="color: green;"><?php if (isset($_GET['success'])) {if ($_GET['success'] == "ajout") {echo "Ajout réussi !";}} ?></p>
+    <form action="" method="post">
+        <p style="color: red;"><?php if (isset($_GET['error'])) {echo $_GET['error'];} ?></p>
+        <label for="datedebut">date de début :</label>
+        <input type="date" name="datedebut" required><br>
+
+        <label for="datefin">Date de fin :</label>
+        <input type="date" name="datefin" required><br>
+
+        <label for="pourcentage">Pourcentage :</label>
+        <input type="number" name="pourcentage" required><br>
+
+        <label for="code">Code :</label>
+        <input type="text" name="code" required><br>
+
+        <label for="usage">Première réservation?</label>
+        <input type="radio" name="usage" value="1"> Première réservation uniquement
+        <input type="radio" name="usage" value="0"> Toutes les réservations<br>
+
+        <button type="submit" name="ajouter">Ajouter ce code de réduction</button>
+    </form>
+
+    
 </body>
 
 </html>

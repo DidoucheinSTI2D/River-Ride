@@ -85,7 +85,7 @@ require "../component/bdd.php";
     </nav>
 
 
-    <h1 style="text-align: center;">Gérer les logements : </h1>
+    <h1 style="text-align: center;">Bienvenue sur le Backoffice</h1>
 </body>
 
 </html>

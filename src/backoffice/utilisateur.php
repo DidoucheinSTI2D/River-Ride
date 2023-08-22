@@ -11,6 +11,81 @@ if ($_SESSION['admin'] != 1) {
 }
 
 require "../component/bdd.php";
+
+
+$errors = array();
+
+try {
+    if (isset($_POST['ajouter'])) {
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $email = $_POST['email'];
+        $mot_de_passe = $_POST['mot_de_passe'];
+        $role = $_POST['role'];
+
+        if (empty($nom)) {
+            $errors[] = "Le nom ne peut pas être vide.";
+        }
+        if (empty($prenom)) {
+            $errors[] = "Le prénom ne peut pas être vide.";
+        }
+        if (empty($email)) {
+            $errors[] = "L'email ne peut pas être vide.";
+        }
+        if (empty($mot_de_passe)) {
+            $errors[] = "Le mot de passe ne peut pas être vide.";
+        }
+
+        if (empty($errors)) {
+            $hash_mot_de_passe = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, admin) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute([$nom, $prenom, $email, $hash_mot_de_passe, $role]);
+            echo "Utilisateur ajouté avec succès.";
+        }
+    }
+
+    if (isset($_POST['modifier'])) {
+        $id_utilisateur = $_POST['id_utilisateur'];
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $email = $_POST['email'];
+        $role = $_POST['role'];
+
+        if (empty($prenom)) {
+            $errors[] = "Le prénom ne peut pas être vide.";
+        }
+        if (empty($email)) {
+            $errors[] = "L'email ne peut pas être vide.";
+        }
+        if (empty($nom)) {
+            $errors[] = "Le nom ne peut pas être vide.";
+        }
+        
+
+        if (empty($errors)) {
+            $sql = "UPDATE Utilisateurs SET nom=?, prenom=?, email=?, admin=? WHERE id_utilisateur=?";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute([$nom, $prenom, $email, $role, $id_utilisateur]);
+            echo "Utilisateur mis à jour avec succès.";
+        }
+    }
+
+    if (isset($_GET['supprimer'])) {
+        $id_utilisateur = $_GET['supprimer'];
+        $sql = "DELETE FROM Utilisateurs WHERE id_utilisateur=?";
+        $stmt = $bdd->prepare($sql);
+        $stmt->execute([$id_utilisateur]);
+        echo "Utilisateur supprimé avec succès.";
+    }
+
+    $sql = "SELECT * FROM Utilisateurs";
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erreur : " . $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +161,56 @@ require "../component/bdd.php";
 
 
     <h1 style="text-align: center;">Gérer les utilisateurs :</h1>
+
+    <div style="text-align: center;">
+        <?php
+            if (!empty($errors)) {
+                foreach ($errors as $error) {
+                    echo "<p style='color: red;'>$error</p>";
+                }
+            }
+        ?>
+
+        <form method="post" action="">
+            <label for="nom">Nom:</label>
+            <input type="text" name="nom" required><br>
+            <label for="prenom">Prénom:</label>
+            <input type="text" name="prenom" required><br>
+            <label for="email">Email:</label>
+            <input type="email" name="email" required><br>
+            <label for="mot_de_passe">Mot de passe:</label>
+            <input type="password" name="mot_de_passe" required><br>
+            <label for="role">Rôle:</label>
+            <input type="radio" name="role" value="1" required> Admin
+            <input type="radio" name="role" value="0" required> Utilisateur<br>
+            <button type="submit" name="ajouter">Ajouter Utilisateur</button>
+        </form>
+
+        <table border="1" style="margin: auto; width: 70%;">
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Actions</th>
+            </tr>
+            <?php
+            foreach ($result as $row) {
+                echo "<tr>";
+                echo "<form method='post' action=''>";
+                echo "<td><input type='text' name='nom' value='" . $row['nom'] . "'></td>";
+                echo "<td><input type='hidden' name='id_utilisateur' value='" . $row['id_utilisateur'] . "'><input type='text' name='prenom' value='" . $row['prenom'] . "'></td>";
+                echo "<td><input type='text' name='email' value='" . $row['email'] . "'></td>";
+                echo "<td><input type='radio' name='role' value='1' " . ($row['admin'] == 1 ? 'checked' : '') . "> Admin
+                        <input type='radio' name='role' value='0' " . ($row['admin'] == 0 ? 'checked' : '') . "> Utilisateur</td>";
+                echo "<td><button type='submit' name='modifier'>Modifier</button> <a href='?supprimer=" . $row['id_utilisateur'] . "'>Supprimer</a></td>";
+                echo "</form>";
+                echo "</tr>";
+            }
+            ?>
+        </table>
+    </div>
+    
 </body>
 
 </html>
