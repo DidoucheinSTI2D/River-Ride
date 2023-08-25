@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (isset($_SESSION['id'])) {
+    header("Location: main.php");
+    exit();
+}
+
 require "component/bdd.php";
 
 if (isset($_POST['connexion'])){
@@ -27,6 +32,7 @@ if (isset($_POST['connexion'])){
         $_SESSION['nom'] = $userexist['nom'];
         $_SESSION['email'] = $userexist['email'];
         $_SESSION['admin'] = $userexist['admin'];
+        $_SESSION['client'] = $userexist['client'];
         if($_SESSION['admin'] == 1) header("Location: backoffice/backoffice.php");
         else header("Location: main.php");
 
@@ -44,7 +50,7 @@ if (isset($_POST['connexion'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RiverRide - Connexion</title>
 </head>
 <body>
     <h1>RiverRide - Connexion</h1>

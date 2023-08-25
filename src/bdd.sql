@@ -10,7 +10,8 @@ CREATE TABLE Utilisateurs (
     prenom VARCHAR(50),
     email VARCHAR(100),
     mot_de_passe VARCHAR(255),
-    admin BOOLEAN DEFAULT FALSE
+    admin BOOLEAN DEFAULT FALSE,
+    client BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE PointsArret (
@@ -25,7 +26,7 @@ CREATE TABLE Logements (
     nom VARCHAR(100),
     type VARCHAR(50),
     capacite INT,
-    disponibilite INT,
+    disponibilite BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id_point_arret) REFERENCES PointsArret(id_point_arret),
     prix DECIMAL(10, 2)
 );
@@ -52,6 +53,7 @@ CREATE TABLE Reservations (
     id_utilisateur INT,
     id_etape INT,
     id_logement INT,
+    validation BOOLEAN DEFAULT FALSE,
     date_reservation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_utilisateur) REFERENCES Utilisateurs(id_utilisateur),
     FOREIGN KEY (id_etape) REFERENCES EtapesItineraire(id_etape),

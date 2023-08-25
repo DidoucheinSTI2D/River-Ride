@@ -28,19 +28,34 @@ try {
             if ($datefin <= $datedebut || $datefin <= $dateMinFin) {
                 $error = "La date de fin doit être après la date de début et au moins 24 heures après.";
             }
+        }
 
             if (isset($error)) {
                 header('Location: promotion.php?error=' . $error);
                 exit;
             } else {
-                $sql = "INSERT INTO promotion (date_debut, date_fin, pourcentage, code, usage_unique) VALUES ('$datedebut', '$datefin', '$pourcentage', '$code', '$usage')";
-                $bdd->exec($sql);
+                $sql = "INSERT INTO promotion (date_debut, date_fin, reduction, code, premier_usage) VALUES (?, ?, ?, ?, ?)";
+                $stmt = $bdd->prepare($sql);
+                $stmt->execute([$datedebut, $datefin, $pourcentage, $code, $usage]);
                 header('Location: promotion.php?success=ajout');
                 exit;
             }
         } 
+
+    if (isset($_POST['supprimer'])) {
+        $id = $_POST['id'];
+        $sql = "DELETE FROM promotion WHERE id = ?";
+        $stmt = $bdd->prepare($sql);
+        $stmt->execute([$id]);
+        header('Location: promotion.php?success=suppression');
+        exit;
     }
-} catch (Exception $e) {
+
+        $sql = "SELECT * FROM promotion";
+        $stmt = $bdd->prepare($sql);
+        $stmt->execute();
+        $promotions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}catch (Exception $e) {
     die('Erreur : ' . $e->getMessage());
 }
 ?>
@@ -118,27 +133,47 @@ try {
 
 
     <h1 style="text-align: center;">Gérer les promotions :</h1>
+    <p style="color: red;"><?php if (isset($_GET['error'])) {echo $_GET['error'];} ?></p>
     <p style="color: green;"><?php if (isset($_GET['success'])) {if ($_GET['success'] == "ajout") {echo "Ajout réussi !";}} ?></p>
-    <form action="" method="post">
-        <p style="color: red;"><?php if (isset($_GET['error'])) {echo $_GET['error'];} ?></p>
+    <form action="" method="post">  
         <label for="datedebut">date de début :</label>
         <input type="date" name="datedebut" required><br>
-
         <label for="datefin">Date de fin :</label>
         <input type="date" name="datefin" required><br>
-
         <label for="pourcentage">Pourcentage :</label>
         <input type="number" name="pourcentage" required><br>
-
         <label for="code">Code :</label>
         <input type="text" name="code" required><br>
-
         <label for="usage">Première réservation?</label>
         <input type="radio" name="usage" value="1"> Première réservation uniquement
         <input type="radio" name="usage" value="0"> Toutes les réservations<br>
-
         <button type="submit" name="ajouter">Ajouter ce code de réduction</button>
     </form>
+
+    <table border="1" style="margin: auto; width: 70%">
+        <tr>
+            <th>date de début</th>
+            <th>date de fin</th>
+            <th>pourcentage</th>
+            <th>code</th>
+            <th>première réservation uniquement</th>
+            <th>supprimer</th>
+        </tr>
+        <?php foreach ($promotions as $promotion) { ?>
+            <tr>
+                <td><?php echo $promotion['date_debut']; ?></td>
+                <td><?php echo $promotion['date_fin']; ?></td>
+                <td><?php echo $promotion['reduction']; ?></td>
+                <td><?php echo $promotion['code']; ?></td>
+                <td><?php if ($promotion['premier_usage'] == 1) {echo "oui";} else {echo "non";} ?></td>
+                <td>
+                    <form action="" method="post">
+                        <input type="hidden" name="id" value="<?php echo $promotion['id']; ?>">
+                        <button type="submit" name="supprimer">Supprimer</button>
+                    </form>
+            </tr>
+        <?php } ?>
+    </table>
 
     
 </body>

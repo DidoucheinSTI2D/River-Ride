@@ -1,3 +1,10 @@
+<?php
+if (isset($_SESSION['id'])) {
+    header("Location: main.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr-FR">
 <head>
@@ -38,8 +45,10 @@
 
 
 
-    <footer class="bg-light container sticky-bottom">
-            <p>&copy; 2023 River Ride. Tous droits réservés.</p>  
+    <footer class="fixed-bottom bg-light py-2">
+        <div class="container text-center">
+            <p class="m-0">&copy; 2023 - River Ride</p>
+        </div>
     </footer>
 
 

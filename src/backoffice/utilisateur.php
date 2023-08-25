@@ -163,28 +163,6 @@ try {
     <h1 style="text-align: center;">Gérer les utilisateurs :</h1>
 
     <div style="text-align: center;">
-        <?php
-            if (!empty($errors)) {
-                foreach ($errors as $error) {
-                    echo "<p style='color: red;'>$error</p>";
-                }
-            }
-        ?>
-
-        <form method="post" action="">
-            <label for="nom">Nom:</label>
-            <input type="text" name="nom" required><br>
-            <label for="prenom">Prénom:</label>
-            <input type="text" name="prenom" required><br>
-            <label for="email">Email:</label>
-            <input type="email" name="email" required><br>
-            <label for="mot_de_passe">Mot de passe:</label>
-            <input type="password" name="mot_de_passe" required><br>
-            <label for="role">Rôle:</label>
-            <input type="radio" name="role" value="1" required> Admin
-            <input type="radio" name="role" value="0" required> Utilisateur<br>
-            <button type="submit" name="ajouter">Ajouter Utilisateur</button>
-        </form>
 
         <table border="1" style="margin: auto; width: 70%;">
             <tr>
@@ -209,6 +187,31 @@ try {
             }
             ?>
         </table>
+
+        <br><h1>Ajouter un utilisateur :</h1><br>
+
+        <?php
+            if (!empty($errors)) {
+                foreach ($errors as $error) {
+                    echo "<p style='color: red;'>$error</p>";
+                }
+            }
+        ?>
+
+        <form method="post" action="">
+            <label for="nom">Nom:</label>
+            <input type="text" name="nom" required><br>
+            <label for="prenom">Prénom:</label>
+            <input type="text" name="prenom" required><br>
+            <label for="email">Email:</label>
+            <input type="email" name="email" required><br>
+            <label for="mot_de_passe">Mot de passe:</label>
+            <input type="password" name="mot_de_passe" required><br>
+            <label for="role">Rôle:</label>
+            <input type="radio" name="role" value="1" required> Admin
+            <input type="radio" name="role" value="0" required> Utilisateur<br>
+            <button type="submit" name="ajouter">Ajouter Utilisateur</button>
+        </form>
     </div>
     
 </body>

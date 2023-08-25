@@ -50,8 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $id_point_arret = $_POST["id_point_arret"];
 
         try {
-            $query = "INSERT INTO Logements (id_point_arret, nom, type, capacite, prix)
-                      VALUES (:id_point_arret, :nom, :type, :capacite, :prix)";
+            $query = "INSERT INTO Logements (id_point_arret, nom, type, capacite, disponibilite, prix)
+                      VALUES (:id_point_arret, :nom, :type, :capacite, '0', :prix)";
             $stmt = $bdd->prepare($query);
             $stmt->bindParam(":id_point_arret", $id_point_arret);
             $stmt->bindParam(":nom", $nom);
@@ -163,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <td><?= $logement['type'] ?></td>
                 <td><?= $logement['capacite'] ?></td>
                 <td><?php if ($logement['disponibilite'] == 0) echo 'disponible'; else echo 'indisponible'; ?></td>
-                <td><?= $logement['PRIX'] ?></td>
+                <td><?= $logement['prix'] ?></td>
                 <td><?= $logement['id_point_arret'] ?></td>
                 <td>
                     <form method="post">
