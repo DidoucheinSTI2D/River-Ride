@@ -45,11 +45,22 @@ $prenom = $_SESSION['prenom'];
         </nav>
     </header>
 
+    <main>
+    <div class="container">
+        <div class="row justify-content-center p-3 mb-2 bg-light text-dark rounded mx-auto">
+            <div class="col-12" style="text-align: center;">
+                        <?php echo "<h1> Bienvenue $prenom $nom !</h1>"; ?>
+                <?php if (isset($_GET['error']) && $_GET['error'] == "notadmin") {
+                    echo "<p style='color : red;'>Vous n'avez pas les droits pour accéder à cette page</p>";
+                } ?>
 
-    <?php echo "<h1> Bienvenue $prenom $nom !</h1>"; ?>
-    <?php if (isset($_GET['error']) && $_GET['error'] == "notadmin") {
-        echo "<p style='color : red;'>Vous n'avez pas les droits pour accéder à cette page</p>";
-    } ?>
+                <h1 class="text-center">Bienvenue sur River Ride</h1>
+                envie d'une reservation? <br>
+                <a href="reservation.php"><button class="btn btn-primary btn-block mb-4"> Je reserve ! </button></a>
+            </div>
+    </main>
+
+
 
 
     <footer class="fixed-bottom bg-light py-2">

@@ -84,35 +84,55 @@ if (isset($_POST['inscription'])){
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
         <title>RiverRide - Inscription</title>
     </head>
 
     <body>
-        <h1>Inscription</h1>
-            <div>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+                <div class="container">
+                    <a class="navbar-brand" href="#">River Ride</a>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="connexion.php">Se Connecter</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="inscription.php">S'inscrire</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+            <div style="text-align: center;   width: 100vw; height: 100vh;">
+            <h1>Inscription</h1>
                 <form method="POST">
-                    <div>
+                    <div class="form-outline mb-4">
                         <input type="email" name="mail" placeholder="votre@email.com" required="required" autocomplete="on">
                         <p style="color : red;"><?php if (isset($erreurmail)) echo $erreurmail ?></p>
                     </div>
-                    <div>
+                    <div class="form-outline mb-4">
                         <input type="text" name="nom" placeholder="Votre Nom..." required="required" autocomplete="on">
                         <p style="color : red;"><?php if (isset($erreurnom)) echo $erreurnom ?></p>
                     </div>
-                    <div>
+                    <div class="form-outline mb-4">
                         <input type="text" name="prenom" placeholder="Votre Prenom ..." required="required" autocomplete="on">
                         <p style="color : red;"><?php if (isset($erreurprenom)) echo $erreurprenom ?></p>
                     </div>
-                    <div>
+                    <div class="form-outline mb-4">
                         <input type="password" name="mdp" placeholder="Mot de passe ..." required="required" autocomplete="on">
                         <p style="color: red;"><?php if (isset($erreurmdp)) echo $erreurmdp ?></p>
                     </div>
-                    <div>
+                    <div class="form-outline mb-4">
                         <input type="password" name="mdpconf" placeholder="Valider votre mot de passe ..." required="required" autocomplete="on">
                         <p style="color: red;"><?php if (isset($erreurmdpconf)) echo $erreurmdpconf ?></p>
                     </div>
 
-                    <button type="submit" name="inscription"> S'inscrire ! </button>
+                    <button type="submit" name="inscription" class="btn btn-primary btn-block mb-4"> S'inscrire ! </button>
                     <p> Déjà inscrit ?</p>
                     <a type="button" href="connexion.php"> Se connecter </a>
                 </form>

@@ -21,21 +21,21 @@ if (isset($_SESSION['id'])) {
 </head>
 <body>
     <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">River Ride</a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="connexion.php">Se Connecter</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="inscription.php">S'inscrire</a>
-                    </li>
-                </ul>
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#">River Ride</a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="connexion.php">Se Connecter</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="inscription.php">S'inscrire</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
     </header>
 
 
