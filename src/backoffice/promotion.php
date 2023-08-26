@@ -169,7 +169,7 @@ try {
                 <td>
                     <form action="" method="post">
                         <input type="hidden" name="id" value="<?php echo $promotion['id']; ?>">
-                        <button type="submit" name="supprimer">Supprimer</button>
+                        <button type="submit" name="supprimer" class="btn btn-danger">Supprimer</button>
                     </form>
             </tr>
         <?php } ?>

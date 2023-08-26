@@ -176,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <form method = "post">
                         <input type="hidden" name="logement_id" value="<?= $logement['id_logement'] ?>">
                         <input type="hidden" name="action" value="delete">
-                        <button type="submit" name="submit">Supprimer</button>
+                        <button type="submit" name="submit" class="btn btn-danger">Supprimer</button>
                     </form>
                 </td>
             </tr>

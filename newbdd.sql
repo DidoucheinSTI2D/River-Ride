@@ -10,7 +10,7 @@ CREATE TABLE utilisateurs (
     email VARCHAR(100),
     mot_de_passe VARCHAR(255),
     admin BOOLEAN DEFAULT FALSE,
-    client not null default 0
+    client BOOLEAN not null default 0
 );
 
 CREATE TABLE pointarret (

@@ -4,17 +4,11 @@ session_start();
 
 require "../component/bdd.php";
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $pointarretQuery = "SELECT id_point_arret FROM pointarret";
-        $pointarretResult = $bdd->query($pointarretQuery);
-
-        while ($pointArretRow = $pointarretResult->fetch(PDO::FETCH_ASSOC)) {
-            $pointArretId = $pointArretRow['id_point_arret'];
-
-            if (isset($_POST["logement_$pointArretId"])) {
-                $selectedLogementId = $_POST["logement_$pointArretId"];
-
+        foreach ($_POST['logement'] as $pointArretId => $logements) {
+            foreach ($logements as $logementId => $selectedLogementId) {
                 $insertQuery = "INSERT INTO reservations (id_utilisateur, id_logement, validation, date_debut, date_fin) 
                                 VALUES (:id_utilisateur, :id_logement, FALSE, :date_debut, :date_fin)";
                 $insertStatement = $bdd->prepare($insertQuery);
@@ -102,16 +96,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $logementCapacite = $rowLogement['capacite'];
                             $logementPrix = $rowLogement['prix'];
                             
-                            echo "<input type='checkbox' name='logement_$logementId' value='$logementId'>";
+                            echo "<input type='checkbox' name='logement[$pointArretId][$logementId]' value='$logementId'>";
                             echo "<label for='logement_$logementId'>$logementNom - Capacité: $logementCapacite - Prix: $logementPrix €</label><br>";
                         }
-                    } else {
-                        echo "<p>Aucun logement disponible pour le moment.</p>";
                     }
                 }
             }
             ?>
-            <br><button type='submit'>Payer</button>
+             <br><button type='submit'>Payer</button>
         </form>
     </main>
 

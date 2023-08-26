@@ -86,6 +86,16 @@ try {
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
 }
+
+if(isset($_GET['search'])) {
+    $search = $_GET['search'];
+    $sql = "SELECT * FROM utilisateurs WHERE nom LIKE '%$search%' OR prenom LIKE '%$search%' OR email LIKE '%$search%'";
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($result);
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -164,6 +174,8 @@ try {
 
     <div style="text-align: center;">
 
+        <input type="text" id="chercher">
+    
         <table border="1" style="margin: auto; width: 70%;">
             <tr>
                 <th>Nom</th>
@@ -181,7 +193,7 @@ try {
                 echo "<td><input type='text' name='email' value='" . $row['email'] . "'></td>";
                 echo "<td><input type='radio' name='role' value='1' " . ($row['admin'] == 1 ? 'checked' : '') . "> Admin
                         <input type='radio' name='role' value='0' " . ($row['admin'] == 0 ? 'checked' : '') . "> Utilisateur</td>";
-                echo "<td><button type='submit' name='modifier'>Modifier</button> <a href='?supprimer=" . $row['id_utilisateur'] . "'>Supprimer</a></td>";
+                echo "<td><button type='submit' name='modifier'>Modifier</button> <button class=\"btn btn-danger\"> <a href='?supprimer=" . $row['id_utilisateur'] . "'>Supprimer</a></button></td>";
                 echo "</form>";
                 echo "</tr>";
             }
@@ -214,6 +226,7 @@ try {
         </form>
     </div>
     
+    <script src="searchuser.js"></script>
 </body>
 
 </html>

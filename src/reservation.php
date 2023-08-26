@@ -74,9 +74,10 @@ if (!isset($_SESSION['id'])) {
                 Nous vous proposons des trajets pré-définis, via les expériences de nos utilisateurs. <br>
                 Plus qu'à choisir votre période !
             </h4>
+            <a href="./reservation/reservationpack1.php">
             <button>
                 Je veux un pack !
-            </button><br>
+            </button></a><br>
             </div>
         </div>
         <br>

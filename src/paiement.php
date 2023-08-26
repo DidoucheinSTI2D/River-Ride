@@ -24,6 +24,11 @@ if (isset($_POST['delete_reservation'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_reservation'])) {
     try {
+        $updatepack = "UPDATE reservation_pack SET validation = 1 WHERE id_utilisateur = :id_utilisateur AND validation = 0";
+        $updatepackStatement = $bdd->prepare($updatepack);
+        $updatepackStatement->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
+        $updatepackStatement->execute();
+        
         $updateQuery = "UPDATE reservations SET validation = 1 WHERE id_utilisateur = :id_utilisateur AND validation = 0";
         $updateStatement = $bdd->prepare($updateQuery);
         $updateStatement->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
@@ -33,9 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_reservation'
         $updateClient = $bdd->prepare($updateClientS);
         $updateClient->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
         $updateClient->execute();
-
-        // supprimer la capacité et rendre indisponible manquant
-        // à finir impérativement avant la mise en prod
 
 
         $email = $_SESSION['email'];	
@@ -145,19 +147,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_reservation'
             }
             ?>
         </div>
+
+        
+        <div>
+            <h2>Vos Packs</h2>
+            <?php
+            $queryCommandePack = "SELECT rp.id_reservation_pack, p.nom, p.prix, rp.date_reservation FROM reservation_pack rp
+                                  JOIN packs p ON rp.id_pack = p.id_pack
+                                  WHERE rp.id_utilisateur = :id_utilisateur AND rp.validation = 0";
+            $commandePackStatement = $bdd->prepare($queryCommandePack);
+            $commandePackStatement->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
+            $commandePackStatement->execute();
+
+            if ($commandePackStatement->rowCount() > 0) {
+                echo "<ul>";
+                while ($rowCommandePack = $commandePackStatement->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<li>{$rowCommandePack['nom']} - {$rowCommandePack['prix']} €</li>";
+                    echo "<p>Date de réservation : {$rowCommandePack['date_reservation']}</p>";
+                    echo "<form action='' method='POST'>";
+                    echo "<input type='hidden' name='reservation_pack_id' value='{$rowCommandePack['id_reservation_pack']}'>";
+                    echo "<button type='submit' name='delete_reservation_pack'>Supprimer ce pack</button>";
+                    echo "</form>";
+                }
+                echo "</ul>";
+            } else {
+                echo "<p>Aucun pack réservé.</p>";
+            }
+            ?>
+        </div>
         
         <div>
             <h2>Total </h2>
             <?php
-            $queryTotal = "SELECT SUM(l.prix) AS total FROM reservations r JOIN logements l ON r.id_logement = l.id_logement WHERE r.id_utilisateur = :id_utilisateur AND r.validation = 0";
-            $totalStatement = $bdd->prepare($queryTotal);
-            $totalStatement->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
-            $totalStatement->execute();
+            $queryTotalLogements = "SELECT SUM(l.prix) AS total FROM reservations r JOIN logements l ON r.id_logement = l.id_logement WHERE r.id_utilisateur = :id_utilisateur AND r.validation = 0";
+            $totalStatementLogements = $bdd->prepare($queryTotalLogements);
+            $totalStatementLogements->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
+            $totalStatementLogements->execute();
 
-            $totalPrice = 0;
-            if ($rowTotal = $totalStatement->fetch(PDO::FETCH_ASSOC)) {
-                $totalPrice = $rowTotal['total'];
+            $totalPriceLogements = 0;
+            if ($rowTotalLogements = $totalStatementLogements->fetch(PDO::FETCH_ASSOC)) {
+                $totalPriceLogements = $rowTotalLogements['total'];
             }
+
+            $queryTotalPacks = "SELECT SUM(p.prix) AS total FROM reservation_pack rp JOIN packs p ON rp.id_pack = p.id_pack WHERE rp.id_utilisateur = :id_utilisateur AND rp.validation = 0";
+            $totalStatementPacks = $bdd->prepare($queryTotalPacks);
+            $totalStatementPacks->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
+            $totalStatementPacks->execute();
+
+            $totalPricePacks = 0;
+            if ($rowTotalPacks = $totalStatementPacks->fetch(PDO::FETCH_ASSOC)) {
+                $totalPricePacks = $rowTotalPacks['total'];
+            }
+
+            $totalPrice = $totalPriceLogements + $totalPricePacks;
             
             echo "<p>Total avant Réduction : {$totalPrice} €</p>";
             ?>
@@ -169,47 +211,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_reservation'
             </form>
 
             <?php
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['code_promo'])) {
-                    $reduction = 0;
-                    $codePromo = $_POST['code_promo'];
-                
-                    if (!empty($codePromo)) {
-                        $queryPromo = "SELECT id, reduction, date_debut, date_fin, premier_usage FROM promotion WHERE code = :code";
-                        $promoStatement = $bdd->prepare($queryPromo);
-                        $promoStatement->bindParam(':code', $codePromo, PDO::PARAM_STR);
-                        $promoStatement->execute();
-                
-                        $promoRow = $promoStatement->fetch(PDO::FETCH_ASSOC);
-                
-                        if ($promoRow) {
-                            $currentDate = date('Y-m-d');
-                            $promoStartDate = $promoRow['date_debut'];
-                            $promoEndDate = $promoRow['date_fin'];
-                
-                            if ($currentDate >= $promoStartDate && $currentDate <= $promoEndDate) {
-                                $reduction = $promoRow['reduction'];
-                            }
-                        }
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['code_promo'])) {
+                $reduction = 0;
+                $codePromo = htmlspecialchars($_POST['code_promo'], ENT_QUOTES, 'UTF-8');
 
-                        if ($_SESSION['client'] !== 0 && $promoRow['premier_usage'] === 1) {
-                            $reduction = 0;
-                        }
-                
-                        $totalPriceAfterReduction = $totalPrice * ((100 - $reduction) / 100);
-                
-                        if ($reduction > 0) {
-                            echo "<p>Réduction appliquée : {$reduction}%</p>";
-                            echo "<p>Total après Réduction : {$totalPriceAfterReduction} €</p>";
+                if (!empty($codePromo)) {
+                    $queryPromo = "SELECT id, reduction, date_debut, date_fin, premier_usage FROM promotion WHERE code = :code";
+                    $promoStatement = $bdd->prepare($queryPromo);
+                    $promoStatement->bindParam(':code', $codePromo, PDO::PARAM_STR);
+                    $promoStatement->execute();
+
+                    $promoRow = $promoStatement->fetch(PDO::FETCH_ASSOC);
+
+                    if ($promoRow) {
+                        $currentDate = date('Y-m-d');
+                        $promoStartDate = $promoRow['date_debut'];
+                        $promoEndDate = $promoRow['date_fin'];
+
+                        if ($currentDate >= $promoStartDate && $currentDate <= $promoEndDate) {
+                            $reduction = $promoRow['reduction'];
                         } else {
-                            echo "<p>Aucune réduction appliquée.</p>";
+                            echo "<p>Le code promo n'est pas encore valide ou a expiré.</p>";
                         }
+                    } else {
+                        echo "<p>Le code promo saisi n'est pas valide.</p>";
+                    }
+
+                    if ($promoRow && $_SESSION['client'] !== 0 && $promoRow['premier_usage'] === 1) {
+                        $reduction = 0;
+                        echo "<p>Ce code est valable uniquement lors de la première réservation.</p>";
+                    }
+
+                    $totalPriceAfterReduction = $totalPrice * ((100 - $reduction) / 100);
+
+                    if ($reduction > 0) {
+                        echo "<p>Réduction appliquée : {$reduction}%</p>";
+                        echo "<p>Total après Réduction : {$totalPriceAfterReduction} €</p>";
+                    } else {
+                        echo "<p>Aucune réduction appliquée.</p>";
                     }
                 }
+            }
+
             ?>
         </div>
 
+
+
         <div>
-        <form action="" method="POST">
+        <form action="" method="POST" onsubmit="return confirm(\'Attention, une fois une commande valider, impossible de retourner en arrière. êtes-vous sûre?\');">
             <button type="submit" name="validate_reservation">Valider la commande</button>
         </form>
         </div>
