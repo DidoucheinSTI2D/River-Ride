@@ -75,20 +75,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </nav>
     </header>
 
-    <main>
-        <form action="" method="POST">
-            <p style="color: red;"> <?php if (isset($erreur)) {echo $erreur;} ?> </p>
-            <label for="date_debut_vacances">Date de début de vacances :</label>
-            <input type="date" id="date_debut_vacances" name="date_debut_vacances" required>
-            <br>
-            <label for="date_fin_vacances">Date de fin de vacances :</label>
-            <input type="date" id="date_fin_vacances" name="date_fin_vacances" required>
-            <br>
-            <label for="nombre_de_personnes">Nombre de personnes :</label>
-            <input type="number" id="nombre_de_personnes" name="nombre_de_personnes" min="1" max="20" required>
-            <br>
-            <button type="submit">Valider la réservation</button>
-        </form>
+    <main style="margin-top: 7rem;">
+        <div class="container">
+            <div class="row justify-content-center p-3 mb-2 bg-light text-dark rounded mx-auto" style="text-align: center;">
+                <div class="tab-content">
+                    <h1> Besoin de quelque infos ..</h1>
+                    <form action="" method="POST">
+                        <p style="color: red;"> <?php if (isset($erreur)) {echo $erreur;} ?> </p>
+                        <label for="date_debut_vacances">Date de début de vacances :</label>
+                        <input type="date" id="date_debut_vacances" name="date_debut_vacances" required>
+                        <br>
+                        <label for="date_fin_vacances">Date de fin de vacances :</label>
+                        <input type="date" id="date_fin_vacances" name="date_fin_vacances" required>
+                        <br>
+                        <label for="nombre_de_personnes">Nombre de personnes :</label>
+                        <input type="number" id="nombre_de_personnes" name="nombre_de_personnes" min="1" max="20" required>
+                        <br>
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Valider la réservation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
     <br><br><br><br>
 

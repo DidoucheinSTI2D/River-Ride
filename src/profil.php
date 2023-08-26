@@ -70,62 +70,67 @@ $packs = $resultat->fetchAll(PDO::FETCH_ASSOC);
         </nav>
     </header>
 
-    <main>
-        <div>
-        <p style="color: green;"> <?php if (isset($_GET['success']) && $_GET['success'] == 'changepw') { echo "Votre mot de passe a bien été modifié."; } ?> </p>
-        <p style="color: green;"> <?php if (isset($_GET['success']) && $_GET['success'] == 'changepn') { echo "Votre nom et prenom a bien été modifié."; } ?> </p>
-            <h1>Mon profil</h1>
-        Bienvue sur votre profil <?php echo $Prenom; ?> <?php echo $Nom; ?> ! <br>
-        votre adresse mail est : <?php echo $Email; ?> <br>
+    <main style="margin-top: 7rem;">
+    <div class="container">
+        <div class="row justify-content-center p-3 mb-2 bg-light text-dark rounded mx-auto" style="text-align: center;">
+            <div class="tab-content">
+                <p style="color: green;"> <?php if (isset($_GET['success']) && $_GET['success'] == 'changepw') { echo "Votre mot de passe a bien été modifié."; } ?> </p>
+                <p style="color: green;"> <?php if (isset($_GET['success']) && $_GET['success'] == 'changepn') { echo "Votre nom et prenom a bien été modifié."; } ?> </p>
+                    <h1>Mon profil</h1>
+                Bienvue sur votre profil <?php echo $Prenom; ?> <?php echo $Nom; ?> ! <br>
+                votre adresse mail est : <?php echo $Email; ?> <br>
 
-        <a href="./profil/password.php">Changer de mot de passe</a>
-        <a href="./profil/changement.php">Changer mes informations</a>
-        </div>
+                <a href="./profil/password.php">Changer de mot de passe</a>
+                <a href="./profil/changement.php">Changer mes informations</a>
+                </div>
 
-        <div>
-            <h1> Mes réservations </h1>
-            <?php
-            if (count($reservations) > 0) {
-                foreach ($reservations as $reservation) {
-                    echo "<div>";
-                    echo "<h3>Réservation #" . $reservation['id_reservation'] . "</h3>";
-            
-                    $logementQuery = "SELECT nom, capacite, prix FROM logements WHERE id_logement = :logementId";
-                    $logementStatement = $bdd->prepare($logementQuery);
-                    $logementStatement->bindParam(':logementId', $reservation['id_logement'], PDO::PARAM_INT);
-                    $logementStatement->execute();
-                    $logement = $logementStatement->fetch(PDO::FETCH_ASSOC);
-            
-                    echo "<p>Logement: " . $logement['nom'] . "</p>";
-                    echo "<p>Prix: " . $logement['prix'] . " €</p>";
-                    echo "<p>Date de début:" . $reservation['date_debut']. "</p>";
-                    echo "<p>Date de fin:" . $reservation['date_fin'] . "</p>";
-                    echo "</div>";
-                }
-            } else {
-                echo "<p>Vous n'avez pas de réservations.</p>";
-            } 
-            
-            if (count($packs) > 0) {
-                foreach ($packs as $pack) {
-                    echo "<div>";
-                    echo "<h3>Pack #" . $pack['id_pack'] . "</h3>";
-            
-                    $packQuery = "SELECT nom, prix FROM packs WHERE id_pack = :packId";
-                    $packStatement = $bdd->prepare($packQuery);
-                    $packStatement->bindParam(':packId', $pack['id_pack'], PDO::PARAM_INT);
-                    $packStatement->execute();
-                    $pack = $packStatement->fetch(PDO::FETCH_ASSOC);
-            
-                    echo "<p>Pack: " . $pack['nom'] . "</p>";
-                    echo "<p>Prix: " . $pack['prix'] . " €</p>";
-                    echo "</div>";
-                }
-            } else {
-                echo "<p>Vous n'avez pas de packs.</p>";
-            }	
-            ?>
+                <div>
+                    <h1> Mes réservations </h1>
+                    <?php
+                    if (count($reservations) > 0) {
+                        foreach ($reservations as $reservation) {
+                            echo "<div>";
+                            echo "<h3>Réservation #" . $reservation['id_reservation'] . "</h3>";
+                    
+                            $logementQuery = "SELECT nom, capacite, prix FROM logements WHERE id_logement = :logementId";
+                            $logementStatement = $bdd->prepare($logementQuery);
+                            $logementStatement->bindParam(':logementId', $reservation['id_logement'], PDO::PARAM_INT);
+                            $logementStatement->execute();
+                            $logement = $logementStatement->fetch(PDO::FETCH_ASSOC);
+                    
+                            echo "<p>Logement: " . $logement['nom'] . "</p>";
+                            echo "<p>Prix: " . $logement['prix'] . " €</p>";
+                            echo "<p>Date de début:" . $reservation['date_debut']. "</p>";
+                            echo "<p>Date de fin:" . $reservation['date_fin'] . "</p>";
+                            echo "</div>";
+                        }
+                    } else {
+                        echo "<p>Vous n'avez pas de réservations.</p>";
+                    } 
+                    
+                    if (count($packs) > 0) {
+                        foreach ($packs as $pack) {
+                            echo "<div>";
+                            echo "<h3>Pack #" . $pack['id_pack'] . "</h3>";
+                    
+                            $packQuery = "SELECT nom, prix FROM packs WHERE id_pack = :packId";
+                            $packStatement = $bdd->prepare($packQuery);
+                            $packStatement->bindParam(':packId', $pack['id_pack'], PDO::PARAM_INT);
+                            $packStatement->execute();
+                            $pack = $packStatement->fetch(PDO::FETCH_ASSOC);
+                    
+                            echo "<p>Pack: " . $pack['nom'] . "</p>";
+                            echo "<p>Prix: " . $pack['prix'] . " €</p>";
+                            echo "</div>";
+                        }
+                    } else {
+                        echo "<p>Vous n'avez pas de packs.</p>";
+                    }	
+                    ?>
+                </div>
+            </div>
         </div>
+    </div>
     </main>
 
     <br><br><br><br>

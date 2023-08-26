@@ -64,16 +64,16 @@ if (isset($_POST['pwchange'])){
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="reservation.php">Réserver</a>
+                            <a class="nav-link" href="../reservation.php">Réserver</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="profil.php">Profil</a>
+                            <a class="nav-link" href="../profil.php">Profil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="deconnexion.php">Se déconnecter</a>
+                            <a class="nav-link" href="../deconnexion.php">Se déconnecter</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="paiement.php">Panier</a>
+                            <a class="nav-link" href="../paiement.php">Panier</a>
                         </li>
                     </ul>
                 </div>
@@ -81,28 +81,32 @@ if (isset($_POST['pwchange'])){
         </nav>
     </header>
 
-    <main>
-        <form method="POST">
-            <div>
-                <h1> Modification du mot de passe de <?php echo $Prenom ?></h1>
-            </div>
+    <main style="margin-top: 7rem;">
+        <div class="container">
+            <div class="row justify-content-center p-3 mb-2 bg-light text-dark rounded mx-auto" style="text-align: center;">
+                <form method="POST">
+                    <div>
+                        <h1> Modification du mot de passe de <?php echo $Prenom ?></h1>
+                    </div>
 
-            <div>
-                <input type="password" name="Password" required="required" autocomplete="off" placeholder="Ancien mot de passe ...">
-            </div>
-            <div>
-                <input type="password" name="NewPassword" required="required" autocomplete="off" placeholder="Nouveau mot de passe ...">
-            </div>
-            <div>
-                <input type="password" name="Password_Validation" required="required" autocomplete="off" placeholder="Valider le nouveau mot de passe ...">
-            </div>
+                    <div>
+                        <input type="password" name="Password" required="required" autocomplete="off" placeholder="Ancien mot de passe ...">
+                    </div>
+                    <div>
+                        <input type="password" name="NewPassword" required="required" autocomplete="off" placeholder="Nouveau mot de passe ...">
+                    </div>
+                    <div>
+                        <input type="password" name="Password_Validation" required="required" autocomplete="off" placeholder="Valider le nouveau mot de passe ...">
+                    </div>
 
-            <div>
-                <button type="submit" name="pwchange">Valider le nouveau mot de passe</button>
-                <p style="color: red;"><?php if (isset($erreur)) echo $erreur ?></p>
-            </div>
+                    <div>
+                        <button type="submit" name="pwchange" class="btn btn-primary btn-block mb-4">Valider le nouveau mot de passe</button>
+                        <p style="color: red;"><?php if (isset($erreur)) echo $erreur ?></p>
+                    </div>
 
-        </form>
+                </form>
+            </div>
+        </div>
     </main>
 
     <footer class="fixed-bottom bg-light py-2">

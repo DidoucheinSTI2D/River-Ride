@@ -68,45 +68,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </header>
 
 
-    <main>
-        <form action="" method="POST">
-            <?php
-            $query = "SELECT id_point_arret, nom, description FROM pointarret";
-            $result = $bdd->query($query);
-            
-            if ($result) {
-                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                    $pointArretId = $row['id_point_arret'];
-                    $pointArretNom = $row['nom'];
-                    $pointArretDescription = $row['description'];
-                    
-                    echo "<h2>$pointArretNom</h2>";
-                    echo "<p>$pointArretDescription</p>";
-                    
-                    $querylogements = "SELECT id_logement, nom, capacite, prix FROM logements WHERE id_point_arret = :pointArretId AND (disponibilite IS NULL OR disponibilite = 0) AND capacite >= :capacite";
-                    $logementsStatement = $bdd->prepare($querylogements);
-                    $logementsStatement->bindValue(':pointArretId', $pointArretId, PDO::PARAM_INT);
-                    $logementsStatement->bindValue(':capacite', $_SESSION['nombre_de_personnes'], PDO::PARAM_INT);
-                    $logementsStatement->execute();
-                    
-                    if ($logementsStatement->rowCount() > 0) {
-                        while ($rowLogement = $logementsStatement->fetch(PDO::FETCH_ASSOC)) {
-                            $logementId = $rowLogement['id_logement'];
-                            $logementNom = $rowLogement['nom'];
-                            $logementCapacite = $rowLogement['capacite'];
-                            $logementPrix = $rowLogement['prix'];
-                            
-                            echo "<input type='checkbox' name='logement[$pointArretId][$logementId]' value='$logementId'>";
-                            echo "<label for='logement_$logementId'>$logementNom - Capacité: $logementCapacite - Prix: $logementPrix €</label><br>";
+    <main style="margin-top: 7rem;">
+        <div class="container">
+            <div class="row justify-content-center p-3 mb-2 bg-light text-dark rounded mx-auto" style="text-align: center;">
+                <div class="tab-content">
+                    <form action="" method="POST">
+                        <?php
+                        $query = "SELECT id_point_arret, nom, description FROM pointarret";
+                        $result = $bdd->query($query);
+                        
+                        if ($result) {
+                            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                                $pointArretId = $row['id_point_arret'];
+                                $pointArretNom = $row['nom'];
+                                $pointArretDescription = $row['description'];
+                                
+                                echo "<h2>$pointArretNom</h2>";
+                                echo "<p>$pointArretDescription</p>";
+                                
+                                $querylogements = "SELECT id_logement, nom, capacite, prix FROM logements WHERE id_point_arret = :pointArretId AND (disponibilite IS NULL OR disponibilite = 0) AND capacite >= :capacite";
+                                $logementsStatement = $bdd->prepare($querylogements);
+                                $logementsStatement->bindValue(':pointArretId', $pointArretId, PDO::PARAM_INT);
+                                $logementsStatement->bindValue(':capacite', $_SESSION['nombre_de_personnes'], PDO::PARAM_INT);
+                                $logementsStatement->execute();
+                                
+                                if ($logementsStatement->rowCount() > 0) {
+                                    while ($rowLogement = $logementsStatement->fetch(PDO::FETCH_ASSOC)) {
+                                        $logementId = $rowLogement['id_logement'];
+                                        $logementNom = $rowLogement['nom'];
+                                        $logementCapacite = $rowLogement['capacite'];
+                                        $logementPrix = $rowLogement['prix'];
+                                        
+                                        echo "<input type='checkbox' name='logement[$pointArretId][$logementId]' value='$logementId'>";
+                                        echo "<label for='logement_$logementId'>$logementNom - Capacité: $logementCapacite - Prix: $logementPrix €</label><br>";
+                                    }
+                                }
+                            }
                         }
-                    }
-                }
-            }
-            ?>
-             <br><button type='submit'>Payer</button>
-        </form>
+                        ?>
+                        <br><button type='submit' class="btn btn-primary btn-block mb-4">Payer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
 
+    <br><br><br><br>
 
 
 

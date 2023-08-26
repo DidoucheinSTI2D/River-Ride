@@ -68,16 +68,16 @@ if (isset($_POST['changepn'])){
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="reservation.php">Réserver</a>
+                            <a class="nav-link" href="../reservation.php">Réserver</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="profil.php">Profil</a>
+                            <a class="nav-link" href="../profil.php">Profil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="deconnexion.php">Se déconnecter</a>
+                            <a class="nav-link" href="../deconnexion.php">Se déconnecter</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="paiement.php">Panier</a>
+                            <a class="nav-link" href="../paiement.php">Panier</a>
                         </li>
                     </ul>
                 </div>
@@ -85,24 +85,29 @@ if (isset($_POST['changepn'])){
         </nav>
     </header>
 
-    <main>
-    <h1> Changement de Nom et Prenom </h1>
-    <form method="POST">
-        <div>
-            <input name="newp" required="required" autocomplete="on" placeholder="Nom ...">
-        </div>
-        <div>
-            <input name="newn" required="required" autocomplete="on" placeholder="Prenom ...">
-        </div>
+    <main style="margin-top: 7rem;">
+        <div class="container">
+            <div class="row justify-content-center p-3 mb-2 bg-light text-dark rounded mx-auto" style="text-align: center;">
+                <h1> Changement de Nom et Prenom </h1>
+                <form method="POST">
+                    <div>
+                        <input name="newp" required="required" autocomplete="on" placeholder="Nom ...">
+                    </div>
+                    <div>
+                        <input name="newn" required="required" autocomplete="on" placeholder="Prenom ...">
+                    </div>
 
-        <div>
-            <button type="submit" name="changepn">Effectuer les changements</button>
-            <br>
-            <h2 style="color: red;"><?php if (isset($erreurnom)) echo $erreurnom ?></h2>
-            <h2 style="color: red;"><?php if (isset($erreurprenom)) echo $erreurprenom ?></h2>
+                    <div>
+                        <button type="submit" name="changepn" class="btn btn-primary btn-block mb-4">Effectuer les changements</button>
+                        <br>
+                        <h2 style="color: red;"><?php if (isset($erreurnom)) echo $erreurnom ?></h2>
+                        <h2 style="color: red;"><?php if (isset($erreurprenom)) echo $erreurprenom ?></h2>
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
     </main>
+
 
     <footer class="fixed-bottom bg-light py-2">
         <div class="container text-center">

@@ -63,38 +63,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </nav>
     </header>
-    <main>
-    <form action="" method="POST">
-        <?php
-        $dateDebutVacances = $_GET['date_debut_vacances'];
-        $dateFinVacances = $_GET['date_fin_vacances'];
 
-        $query = "SELECT id_pack, nom, description, prix FROM packs WHERE date_debut <= :date_debut AND date_fin >= :date_fin";
-        $packsStatement = $bdd->prepare($query);
-        $packsStatement->bindParam(':date_debut', $dateDebutVacances, PDO::PARAM_STR);
-        $packsStatement->bindParam(':date_fin', $dateFinVacances, PDO::PARAM_STR);
-        $packsStatement->execute();
+    <main style="margin-top: 7rem;">
+        <div class="container">
+            <div class="row justify-content-center p-3 mb-2 bg-light text-dark rounded mx-auto" style="text-align: center;">
+                <div class="tab-content">
+                    <form action="" method="POST">
+                        <?php
+                        $dateDebutVacances = $_GET['date_debut_vacances'];
+                        $dateFinVacances = $_GET['date_fin_vacances'];
 
-        if ($packsStatement->rowCount() > 0) {
-            while ($row = $packsStatement->fetch(PDO::FETCH_ASSOC)) {
-                $packId = $row['id_pack'];
-                $packNom = $row['nom'];
-                $packDescription = $row['description'];
-                $packPrix = $row['prix'];
-        
-                echo "<h2>$packNom</h2>";
-                echo "<p>$packDescription</p>";
-        
-                echo "<p>Prix: $packPrix €</p>";
-                echo "<input type='radio' name='selected_pack' value='$packId'>";
-            }
-        } else {
-            echo "Aucun pack disponible sur cette période.";
-        }
-        ?>
-        <br><button type='submit'>Payer</button>
-    </form>
+                        $query = "SELECT id_pack, nom, description, prix FROM packs WHERE date_debut <= :date_debut AND date_fin >= :date_fin";
+                        $packsStatement = $bdd->prepare($query);
+                        $packsStatement->bindParam(':date_debut', $dateDebutVacances, PDO::PARAM_STR);
+                        $packsStatement->bindParam(':date_fin', $dateFinVacances, PDO::PARAM_STR);
+                        $packsStatement->execute();
+
+                        if ($packsStatement->rowCount() > 0) {
+                            while ($row = $packsStatement->fetch(PDO::FETCH_ASSOC)) {
+                                $packId = $row['id_pack'];
+                                $packNom = $row['nom'];
+                                $packDescription = $row['description'];
+                                $packPrix = $row['prix'];
+                        
+                                echo "<h2>$packNom</h2>";
+                                echo "<p>$packDescription</p>";
+                        
+                                echo "<p>Prix: $packPrix €</p>";
+                                echo "<input type='radio' name='selected_pack' value='$packId'>";
+                            }
+                        } else {
+                            echo "Aucun pack disponible sur cette période.";
+                        }
+                        ?>
+                        <br><button type='submit'>Payer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
+    
     <footer class="fixed-bottom bg-light py-2">
     </footer>
 </body>
