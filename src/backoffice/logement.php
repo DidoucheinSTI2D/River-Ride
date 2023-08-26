@@ -23,11 +23,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         try {
             if ($action == 'delete') {
-                $query = "DELETE FROM Logements WHERE id_logement = :logement_id";
+                $query = "DELETE FROM logements WHERE id_logement = :logement_id";
             } else if ($action == 'rendre_indisponible') {
-                $query = "UPDATE Logements SET disponibilite = 1 WHERE id_logement = :logement_id";
+                $query = "UPDATE logements SET disponibilite = 1 WHERE id_logement = :logement_id";
             } else if ($action == 'rendre_disponible') {
-                $query = "UPDATE Logements SET disponibilite = 0 WHERE id_logement = :logement_id";
+                $query = "UPDATE logements SET disponibilite = 0 WHERE id_logement = :logement_id";
             }
 
             $stmt = $bdd->prepare($query);
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $id_point_arret = $_POST["id_point_arret"];
 
         try {
-            $query = "INSERT INTO Logements (id_point_arret, nom, type, capacite, disponibilite, prix)
+            $query = "INSERT INTO logements (id_point_arret, nom, type, capacite, disponibilite, prix)
                       VALUES (:id_point_arret, :nom, :type, :capacite, '0', :prix)";
             $stmt = $bdd->prepare($query);
             $stmt->bindParam(":id_point_arret", $id_point_arret);
@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-percent" viewBox="0 0 16 16">
                                 <path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0zM4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
                             </svg>
-                            Promotion
+                            promotion
                         </a>
                     </li>
                     <li class="nav-item">
@@ -143,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </nav>
 
 
-    <h1 style="text-align: center;">Gérer les Logements :</h1>
+    <h1 style="text-align: center;">Gérer les logements :</h1>
     <p style='color: green; text-align: center;'><?php if (isset($_GET['success']) && $_GET['success'] === "added") echo "Logement ajouté avec succès !"; ?></p>
     <p style='color: green; text-align: center;'><?php if (isset($_GET['success']) && $_GET['success'] === "updated") echo "Logement mis à jour avec succès !"; ?></p>
 
@@ -204,7 +204,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <select name="id_point_arret" required>
                 <?php 
 
-                $query = "SELECT id_point_arret, nom FROM PointsArret";
+                $query = "SELECT id_point_arret, nom FROM pointarret";
                 $stmt = $bdd->prepare($query);
                 $stmt->execute();
 

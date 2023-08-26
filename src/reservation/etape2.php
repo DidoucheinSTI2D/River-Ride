@@ -6,16 +6,16 @@ require "../component/bdd.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $pointsArretQuery = "SELECT id_point_arret FROM PointsArret";
-        $pointsArretResult = $bdd->query($pointsArretQuery);
+        $pointarretQuery = "SELECT id_point_arret FROM pointarret";
+        $pointarretResult = $bdd->query($pointarretQuery);
 
-        while ($pointArretRow = $pointsArretResult->fetch(PDO::FETCH_ASSOC)) {
+        while ($pointArretRow = $pointarretResult->fetch(PDO::FETCH_ASSOC)) {
             $pointArretId = $pointArretRow['id_point_arret'];
 
             if (isset($_POST["logement_$pointArretId"])) {
                 $selectedLogementId = $_POST["logement_$pointArretId"];
 
-                $insertQuery = "INSERT INTO Reservations (id_utilisateur, id_logement, validation, date_debut, date_fin) 
+                $insertQuery = "INSERT INTO reservations (id_utilisateur, id_logement, validation, date_debut, date_fin) 
                                 VALUES (:id_utilisateur, :id_logement, FALSE, :date_debut, :date_fin)";
                 $insertStatement = $bdd->prepare($insertQuery);
                 $insertStatement->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main>
         <form action="" method="POST">
             <?php
-            $query = "SELECT id_point_arret, nom, description FROM PointsArret";
+            $query = "SELECT id_point_arret, nom, description FROM pointarret";
             $result = $bdd->query($query);
             
             if ($result) {
@@ -89,8 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo "<h2>$pointArretNom</h2>";
                     echo "<p>$pointArretDescription</p>";
                     
-                    $queryLogements = "SELECT id_logement, nom, capacite, prix FROM Logements WHERE id_point_arret = :pointArretId AND (disponibilite IS NULL OR disponibilite = 0) AND capacite >= :capacite";
-                    $logementsStatement = $bdd->prepare($queryLogements);
+                    $querylogements = "SELECT id_logement, nom, capacite, prix FROM logements WHERE id_point_arret = :pointArretId AND (disponibilite IS NULL OR disponibilite = 0) AND capacite >= :capacite";
+                    $logementsStatement = $bdd->prepare($querylogements);
                     $logementsStatement->bindValue(':pointArretId', $pointArretId, PDO::PARAM_INT);
                     $logementsStatement->bindValue(':capacite', $_SESSION['nombre_de_personnes'], PDO::PARAM_INT);
                     $logementsStatement->execute();

@@ -38,7 +38,7 @@ try {
 
         if (empty($errors)) {
             $hash_mot_de_passe = password_hash($mot_de_passe, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO Utilisateurs (nom, prenom, email, mot_de_passe, admin) VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, admin) VALUES (?, ?, ?, ?, ?)";
             $stmt = $bdd->prepare($sql);
             $stmt->execute([$nom, $prenom, $email, $hash_mot_de_passe, $role]);
             echo "Utilisateur ajouté avec succès.";
@@ -64,7 +64,7 @@ try {
         
 
         if (empty($errors)) {
-            $sql = "UPDATE Utilisateurs SET nom=?, prenom=?, email=?, admin=? WHERE id_utilisateur=?";
+            $sql = "UPDATE utilisateurs SET nom=?, prenom=?, email=?, admin=? WHERE id_utilisateur=?";
             $stmt = $bdd->prepare($sql);
             $stmt->execute([$nom, $prenom, $email, $role, $id_utilisateur]);
             echo "Utilisateur mis à jour avec succès.";
@@ -73,13 +73,13 @@ try {
 
     if (isset($_GET['supprimer'])) {
         $id_utilisateur = $_GET['supprimer'];
-        $sql = "DELETE FROM Utilisateurs WHERE id_utilisateur=?";
+        $sql = "DELETE FROM utilisateurs WHERE id_utilisateur=?";
         $stmt = $bdd->prepare($sql);
         $stmt->execute([$id_utilisateur]);
         echo "Utilisateur supprimé avec succès.";
     }
 
-    $sql = "SELECT * FROM Utilisateurs";
+    $sql = "SELECT * FROM utilisateurs";
     $stmt = $bdd->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -133,15 +133,15 @@ try {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-percent" viewBox="0 0 16 16">
                                 <path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0zM4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
                             </svg>
-                            Promotion
+                            promotion
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="graphique.php">
+                        <a class="nav-link active" href="pack.php">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-bar-graph-fill" viewBox="0 0 16 16">
                                 <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-2 11.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
                             </svg>
-                            Graphique
+                            Pack
                         </a>
                     </li>
                 </ul>

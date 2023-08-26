@@ -9,7 +9,7 @@ if (isset($_POST['delete_reservation'])) {
     try {
         $reservationId = $_POST['reservation_id'];
 
-        $deleteQuery = "DELETE FROM Reservations WHERE id_reservation = :reservation_id AND id_utilisateur = :id_utilisateur";
+        $deleteQuery = "DELETE FROM reservations WHERE id_reservation = :reservation_id AND id_utilisateur = :id_utilisateur";
         $deleteStatement = $bdd->prepare($deleteQuery);
         $deleteStatement->bindParam(':reservation_id', $reservationId, PDO::PARAM_INT);
         $deleteStatement->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
@@ -24,12 +24,12 @@ if (isset($_POST['delete_reservation'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_reservation'])) {
     try {
-        $updateQuery = "UPDATE Reservations SET validation = 1 WHERE id_utilisateur = :id_utilisateur AND validation = 0";
+        $updateQuery = "UPDATE reservations SET validation = 1 WHERE id_utilisateur = :id_utilisateur AND validation = 0";
         $updateStatement = $bdd->prepare($updateQuery);
         $updateStatement->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
         $updateStatement->execute();
 
-        $updateClientS = "UPDATE Utilisateurs SET client = 1 WHERE id_utilisateur = :id_utilisateur";
+        $updateClientS = "UPDATE utilisateurs SET client = 1 WHERE id_utilisateur = :id_utilisateur";
         $updateClient = $bdd->prepare($updateClientS);
         $updateClient->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
         $updateClient->execute();
@@ -120,8 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_reservation'
         <div>
             <h2>Votre Commande</h2>
             <?php
-            $queryCommande = "SELECT r.id_reservation, l.nom, l.prix, r.date_debut, r.date_fin FROM Reservations r
-                            JOIN Logements l ON r.id_logement = l.id_logement
+            $queryCommande = "SELECT r.id_reservation, l.nom, l.prix, r.date_debut, r.date_fin FROM reservations r
+                            JOIN logements l ON r.id_logement = l.id_logement
                             WHERE r.id_utilisateur = :id_utilisateur AND r.validation = 0";
             $commandeStatement = $bdd->prepare($queryCommande);
             $commandeStatement->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_reservation'
         <div>
             <h2>Total </h2>
             <?php
-            $queryTotal = "SELECT SUM(l.prix) AS total FROM Reservations r JOIN Logements l ON r.id_logement = l.id_logement WHERE r.id_utilisateur = :id_utilisateur AND r.validation = 0";
+            $queryTotal = "SELECT SUM(l.prix) AS total FROM reservations r JOIN logements l ON r.id_logement = l.id_logement WHERE r.id_utilisateur = :id_utilisateur AND r.validation = 0";
             $totalStatement = $bdd->prepare($queryTotal);
             $totalStatement->bindParam(':id_utilisateur', $_SESSION['id'], PDO::PARAM_INT);
             $totalStatement->execute();
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate_reservation'
                     $codePromo = $_POST['code_promo'];
                 
                     if (!empty($codePromo)) {
-                        $queryPromo = "SELECT id, reduction, date_debut, date_fin, premier_usage FROM Promotion WHERE code = :code";
+                        $queryPromo = "SELECT id, reduction, date_debut, date_fin, premier_usage FROM promotion WHERE code = :code";
                         $promoStatement = $bdd->prepare($queryPromo);
                         $promoStatement->bindParam(':code', $codePromo, PDO::PARAM_STR);
                         $promoStatement->execute();
